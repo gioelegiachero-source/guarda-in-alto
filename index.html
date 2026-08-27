@@ -4318,6 +4318,7 @@ function refineMax(altAt, ta, tb){
    ===================================================================== */
 
 let _illusCache = {};      // sigla -> {img, M, ready}
+let _illusBuf = null;      // tela di appoggio su cui comporre le figure
 const ART_OPACITY = 0.5;   // tenui ma leggibili sopra il cielo
 /* Finezza della griglia. In prima persona la prospettiva è marcata e
    serve una suddivisione fitta; nel planisfero le figure sono piccole e
@@ -4462,13 +4463,31 @@ function illusBounds(sig, e){
 }
 
 /* Disegna tutte le figure visibili */
-function drawConstellationArt(ctx, P, minAlt, starFade){
+function drawConstellationArt(ctxFinale, P, minAlt, starFade){
   const cons = new Set();
   STARS.forEach(s=>{ if (CONSTELLATION_ART[s.con]) cons.add(s.con); });
 
-  ctx.save();
-  ctx.globalAlpha = ART_OPACITY * Math.max(0.3, starFade);
-  ctx.globalCompositeOperation = 'lighter';
+  /* I triangoli vengono dilatati di un soffio per non lasciare fessure
+     lungo le giunzioni. Disegnandoli direttamente in fusione additiva le
+     sovrapposizioni si sommavano due volte, e la trama dei triangoli
+     diventava visibile come una griglia. Li componiamo quindi su una
+     tela separata in fusione normale — dove sovrapporsi non produce
+     alcun effetto — e solo il risultato finito viene fuso sul cielo. */
+  const W = (state.mode === 'fp') ? fpW : size;
+  const H = (state.mode === 'fp') ? fpH : size;
+  if (!W || !H) return;
+  if (!_illusBuf) _illusBuf = document.createElement('canvas');
+  const px = Math.max(1, Math.round(W*dpr)), py = Math.max(1, Math.round(H*dpr));
+  if (_illusBuf.width !== px || _illusBuf.height !== py){
+    _illusBuf.width = px; _illusBuf.height = py;
+  }
+  const ctx = _illusBuf.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  ctx.clearRect(0,0,W,H);
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.globalAlpha = 1;
+
+  let disegnato = false;
 
   cons.forEach(sig=>{
     const e = getIllus(sig);
@@ -4480,7 +4499,6 @@ function drawConstellationArt(ctx, P, minAlt, starFade){
     const hzc = equatorialToHorizontal(pc.raHours, pc.decDeg, state.date, state.lat, state.lon);
     if (hzc.alt < minAlt - b.radius) return;                  // tutta sotto l'orizzonte
     if (state.mode === 'fp'){
-      // distanza angolare fra il centro della figura e la direzione dello sguardo
       const d2r = D2R;
       const cosSep = Math.sin(hzc.alt*d2r)*Math.sin(state.viewAlt*d2r)
                    + Math.cos(hzc.alt*d2r)*Math.cos(state.viewAlt*d2r)
@@ -4488,6 +4506,7 @@ function drawConstellationArt(ctx, P, minAlt, starFade){
       const sep = Math.acos(Math.max(-1,Math.min(1,cosSep)))*R2D;
       if (sep > state.fov*0.9 + b.radius + 10) return;        // fuori campo
     }
+    disegnato = true;
 
     const N = illusGrid();
     const W = e.img.width, H = e.img.height;
@@ -4533,7 +4552,13 @@ function drawConstellationArt(ctx, P, minAlt, starFade){
     }
   });
 
-  ctx.restore();
+  if (disegnato){
+    ctxFinale.save();
+    ctxFinale.globalAlpha = ART_OPACITY * Math.max(0.3, starFade);
+    ctxFinale.globalCompositeOperation = 'lighter';
+    ctxFinale.drawImage(_illusBuf, 0, 0, W, H);
+    ctxFinale.restore();
+  }
 }
 
 
@@ -5946,10 +5971,19 @@ function deepReachable(o){
   return o.mag <= lim;
 }
 
-/* La Via Lattea si vede solo se il fondo cielo è abbastanza scuro */
-function milkyWayVisible(){
-  return skyQ().limite >= 5.4;
+/* La Via Lattea non è una cosa che c'è o non c'è: dalla periferia è un
+   accenno appena sospettabile, dalla campagna una banda evidente, da un
+   cielo di montagna una nube strutturata che proietta ombra. Qui se ne
+   gradua l'intensità invece di accenderla o spegnerla. */
+function milkyWayIntensity(){
+  switch (state.skyQuality){
+    case 'buio':      return 1.00;
+    case 'campagna':  return 0.45;
+    case 'periferia': return 0.12;
+    default:          return 0;      // in città non si vede affatto
+  }
 }
+function milkyWayVisible(){ return milkyWayIntensity() > 0.02; }
 
 /* Alone luminoso sopra l'orizzonte: l'inquinamento visto dal basso.
    È il segno più riconoscibile di un cielo cittadino. */
@@ -6012,7 +6046,12 @@ function syncSkyQuality(){
   document.querySelectorAll('.sq-btn').forEach(b=>
     b.classList.toggle('active', b.getAttribute('data-q') === state.skyQuality));
   const n = document.getElementById('skyQualityNote');
-  if (n) n.innerHTML = `${q.desc}<br><span class="sq-lim">Stelle fino alla magnitudine ${q.limite.toFixed(1).replace('.',',')}${milkyWayVisible()?'':' \u00B7 Via Lattea non visibile'}.</span>`;
+  const mw = milkyWayIntensity();
+  const vl = mw >= 0.9 ? 'Via Lattea evidente'
+           : mw >= 0.4 ? 'Via Lattea ben visibile'
+           : mw > 0.02 ? 'Via Lattea appena accennata'
+                       : 'Via Lattea non visibile';
+  if (n) n.innerHTML = `${q.desc}<br><span class="sq-lim">Stelle fino alla magnitudine ${q.limite.toFixed(1).replace('.',',')} \u00B7 ${vl}.</span>`;
   const g = document.getElementById('quantoNota');
   if (g) g.textContent = q.nome.toLowerCase();
 }
@@ -7955,8 +7994,8 @@ function drawDisc(){
       if (alt < -1) return;
       const p = P(alt, az);
       ctx.beginPath();
-      ctx.arc(p.x, p.y, mp.r, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(200,210,235,${mp.o*starFade})`;
+      ctx.arc(p.x, p.y, mp.r*(0.75 + 0.45*milkyWayIntensity()), 0, Math.PI*2);
+      ctx.fillStyle = `rgba(200,210,235,${(mp.o*starFade*milkyWayIntensity()).toFixed(3)})`;
       ctx.fill();
     });
   }
@@ -8051,8 +8090,8 @@ function drawFp(){
       const p = P(alt, az);
       if (!p) return;
       ctx.beginPath();
-      ctx.arc(p.x, p.y, mp.r*zoomScale, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(200,210,235,${mp.o*starFade})`;
+      ctx.arc(p.x, p.y, mp.r*zoomScale*(0.75 + 0.45*milkyWayIntensity()), 0, Math.PI*2);
+      ctx.fillStyle = `rgba(200,210,235,${(mp.o*starFade*milkyWayIntensity()).toFixed(3)})`;
       ctx.fill();
     });
   }
@@ -8905,6 +8944,43 @@ function hideFpHint(){
 }
 
 /* ============================= GIROSCOPIO ============================= */
+/* Dove sta puntando il telefono.
+   ---------------------------------------------------------------------
+   Non basta l'angolo di inclinazione: preso da solo e in valore assoluto
+   confonde il telefono inclinato in avanti con quello inclinato
+   all'indietro, e la vista finisce sottoterra quando la si alza al cielo.
+   Serve la terna completa (alpha, beta, gamma), da cui si ricava la
+   matrice di rotazione del dispositivo. La direzione che ci interessa è
+   quella verso cui guarda il DORSO del telefono, cioè l'opposto della
+   normale allo schermo: è dove lo stai puntando.
+   Riferimento del mondo: x verso Est, y verso Nord, z verso l'alto. */
+function direzionePuntata(e){
+  if (e.beta == null || e.gamma == null) return null;
+
+  // Su iPhone alpha non è riferito al Nord: lo si ricava dalla bussola.
+  let alpha = e.alpha;
+  if (typeof e.webkitCompassHeading === 'number') alpha = 360 - e.webkitCompassHeading;
+  if (alpha == null) return null;
+
+  const A = alpha*D2R, B = e.beta*D2R, G = e.gamma*D2R;
+  const cA = Math.cos(A), sA = Math.sin(A);
+  const cB = Math.cos(B), sB = Math.sin(B);
+  const cG = Math.cos(G), sG = Math.sin(G);
+
+  // Terza colonna di R = Rz(alpha)·Rx(beta)·Ry(gamma): la normale allo schermo
+  const zx = cG*sA*sB + cA*sG;
+  const zy = sA*sG - cA*cG*sB;
+  const zz = cB*cG;
+
+  // il dorso guarda dalla parte opposta
+  const vx = -zx, vy = -zy, vz = -zz;
+  const n = Math.hypot(vx, vy, vz) || 1;
+
+  const alt = Math.asin(Math.max(-1, Math.min(1, vz/n)))*R2D;
+  const az = norm360(Math.atan2(vx, vy)*R2D);   // da Nord verso Est
+  return { alt, az };
+}
+
 let gyroHandler = null;
 
 /* Perché il giroscopio non risponde. La causa più comune non è il
@@ -8959,20 +9035,10 @@ function setGyro(on){
   gyroHandler = (e)=>{
     if (!state.gyro) return;
     if (e.alpha != null || e.beta != null || typeof e.webkitCompassHeading === 'number') gotReading = true;
-    // alpha = bussola, beta = inclinazione avanti/indietro
-    let heading = (typeof e.webkitCompassHeading === 'number')
-      ? e.webkitCompassHeading
-      : (e.alpha != null ? norm360(360 - e.alpha) : null);
-    if (heading == null) return;
-    const beta = e.beta != null ? e.beta : 0;
-    // telefono verticale davanti a sé (beta≈90) => sguardo all'orizzonte;
-    // telefono rivolto al cielo (beta≈0) => sguardo allo zenit
-    let alt = 90 - Math.abs(beta);
-    alt = Math.max(ALT_MIN, Math.min(ALT_MAX, alt));
-    // correzione per l'orientamento dello schermo
-    const so = (screen.orientation && screen.orientation.angle) || window.orientation || 0;
-    state.viewAz = norm360(heading + (typeof so === 'number' ? so : 0));
-    state.viewAlt = alt;
+    const d = direzionePuntata(e);
+    if (!d) return;
+    state.viewAz = d.az;
+    state.viewAlt = Math.max(ALT_MIN, Math.min(ALT_MAX, d.alt));
     requestDraw();
   };
   window.addEventListener('deviceorientationabsolute', gyroHandler, true);
