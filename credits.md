@@ -1,6 +1,6 @@
 # Crediti e attribuzioni dati
 
-"Cielo dal vivo" utilizza le seguenti fonti di dati astronomici e artistici,
+"Guarda in alto" utilizza le seguenti fonti di dati astronomici e artistici,
 ciascuna distribuita secondo la propria licenza originale.
 
 ## Dati stellari
@@ -22,6 +22,6 @@ Dati costellazioni (modern_st) e illustrazioni artistiche.
 Licenza: Free Art License (illustrazioni), GNU GPL (codice/dati linee)
 
 ## Note
-Il codice originale dell'applicazione "Cielo dal vivo" è sviluppato da
+Il codice originale dell'applicazione "Guarda in alto" è sviluppato da
 Gruppo Astrofili Casalese "Giovanni Celoria" a fini di divulgazione
 astronomica. Per informazioni sul riutilizzo del codice, contattare il club.
