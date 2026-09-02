@@ -27,7 +27,7 @@
     --star: #f4f6ff;
     --cyan: #8ad7ff;
     --text: #d7dced;
-    --text-dim: #6b7690;
+    --text-dim: #76829f;
     --display-font: Georgia, 'Iowan Old Style', 'Palatino Linotype', 'Times New Roman', serif;
     --mono-font: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
   }
@@ -1841,6 +1841,50 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
   background: rgba(201,162,39,0.12);
 }
 .gr-a-forte b{ color: var(--brass-bright); }
+
+/* Richiamo alla donazione: non una voce in mezzo alle altre, ma un
+   blocco a se' con una ragione esplicita e un invito all'azione. Il
+   colore e' quello istituzionale degli Astrofili Celoria, non l'oro
+   cosi' si legge come una richiesta del Gruppo e non come un comando
+   dell'app. */
+.gr-dona{
+  display:block;
+  margin: 14px 0 4px;
+  padding: 14px 15px;
+  border: 1px solid rgba(219,128,54,0.55);
+  border-left: 3px solid #db8036;
+  border-radius: 8px;
+  background: rgba(219,128,54,0.10);
+  text-decoration: none;
+  color: var(--text);
+  transition: background .15s, border-color .15s;
+}
+.gr-dona:hover{ background: rgba(219,128,54,0.16); border-color:#db8036; }
+.gr-dona > svg{ width:19px; height:19px; color:#db8036; display:block; margin-bottom:8px; }
+.gr-dona-testo b{
+  display:block;
+  color:#e8a061;
+  font-weight:400;
+  font-size:13.5px;
+  line-height:1.4;
+  margin-bottom:5px;
+}
+.gr-dona-testo > span{
+  display:block;
+  color: var(--text);
+  font-size:12px;
+  line-height:1.5;
+}
+.gr-dona-cta{
+  display:inline-block;
+  margin-top:11px;
+  padding: 8px 15px;
+  border-radius: 7px;
+  background:#db8036;
+  color:#141a20;
+  font-size:12.5px;
+  letter-spacing:0.02em;
+}
 .gr-cit{
   margin: 14px 0 4px;
   padding: 13px 14px;
@@ -2235,7 +2279,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
           <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
           </button>
           <div class="group-body">
-          <p class="group-intro">Cosa succede in cielo nei prossimi giorni: fasi lunari, congiunzioni, opposizioni, sciami meteorici, equinozi e solstizi.</p>
+          <p class="group-intro">Cosa succede in cielo nei prossimi sette giorni: fasi lunari, passaggi della Luna accanto a pianeti e stelle brillanti, congiunzioni, opposizioni, massime elongazioni, sciami meteorici, equinozi e solstizi.</p>
           <div class="event-list" id="eventList"></div>
           </div>
           </div>
@@ -2561,7 +2605,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 <div class="menu-chisiamo">
       <div class="menu-group" data-group="gruppo">
         <button class="group-head" type="button">
-          <span class="group-title">Gruppo Astrofili Casalese</span>
+          <span class="group-title">Astrofili Celoria</span>
           <span class="group-note">dal 1974</span>
           <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
@@ -2581,6 +2625,15 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
           </blockquote>
 
           <div class="gr-link" id="gruppoLink"></div>
+
+          <a class="gr-dona" href="https://www.paypal.com/donate/?hosted_button_id=MEKA65JC7K3UQ" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20.4s-7.8-4.6-7.8-9.7A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.8 3.1c0 5.1-7.8 9.7-7.8 9.7Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            <span class="gr-dona-testo">
+              <b>Questo planetario &egrave; gratuito. Tenerlo vivo no.</b>
+              <span>Le serate pubbliche, i telescopi e il lavoro dietro questa app li sostiene il Gruppo Astrofili Casalese &laquo;Giovanni Celoria&raquo;, con le proprie forze. Se ti &egrave; stato utile, dacci una mano.</span>
+            </span>
+            <span class="gr-dona-cta">Sostieni gli Astrofili Celoria</span>
+          </a>
 
           <div class="gr-sez">Seguici</div>
           <div class="gr-link" id="gruppoSocial"></div>
@@ -2638,12 +2691,11 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
             <li><b>Pizzica con due dita</b> per avvicinare; due tocchi rapidi tornano alla vista normale.</li>
             <li><b>Tocca un astro</b> per sapere cos'è, quanto è alto, quando culmina e come osservarlo.</li>
             <li><b>Cerca</b> in alto per farti portare su un oggetto: se è fuori inquadratura una freccia ti dice da che parte girarti.</li>
-            <li><b>Bussola</b> fa seguire alla vista il movimento del telefono. Richiede che la pagina sia aperta da un sito in https.</li>
+            <li><b>Bussola</b> fa seguire alla vista il movimento del telefono.</li>
             <li>La striscia in basso è l'orizzonte, con le tacche ogni 15&deg;; la scala a destra indica l'altezza, da 0&deg; allo zenit a 90&deg;.</li>
           </ul>
 
           <button class="act-btn wide" id="onbRestart" style="margin-bottom:10px">Rivedi la presentazione iniziale</button>
-          <p class="help-note">Posizioni di Sole, Luna e pianeti calcolate con precessione, parallasse e rifrazione: l'errore resta entro pochi primi d'arco.</p>
         </div>
       </div>
 
@@ -2730,6 +2782,36 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
    "Giovanni Celoria", Casale Monferrato
    =====================================================================
 
+   v2.8  Denominazione dell'associazione uniformata in tutta l'app: il
+         nome e' "Gruppo Astrofili Casalese 'Giovanni Celoria'", con
+         "G.A.C." e "Astrofili Celoria" ammessi dove lo spazio e'
+         stretto. Eliminate le forme troncate ("il Gruppo", "del
+         Gruppo") dal blocco donazione, dall'elenco dei collegamenti e
+         dalle voci del changelog interno.
+   v2.7  Eventi in arrivo, sezione "Come si usa", storico versioni e
+         richiamo alla donazione. Le congiunzioni fra Luna e pianeti
+         erano promesse dal commento ma mai calcolate: il ciclo girava
+         solo sui pianeti. Aggiunte, insieme ai passaggi della Luna
+         accanto ad Aldebaran, Regolo, Spica e Antares. Misurato su 24
+         date sparse nell'anno, cio' porta la media da 1,6 a 3,3 eventi
+         nei sette giorni e azzera le settimane vuote: solo a quel punto
+         e' stato possibile togliere l'elenco "Piu' avanti" senza
+         lasciare la sezione spoglia. Tolto dalla sezione "Come si usa"
+         il riferimento al sito in https (resta come avviso a runtime,
+         dove serve davvero) e la nota sulla posizione di Luna e pianeti.
+         Storico versioni ridotto alle ultime quattro. La donazione non
+         e' piu' una voce fra le altre ma un blocco con una ragione
+         esplicita, nel colore istituzionale degli Astrofili Celoria.
+   v2.6  Corretti quattro difetti bloccanti in vista dell'evento del 18
+         settembre: il tasto "Salta" in "Mettiti alla prova" non aveva
+         alcun gestore di click collegato; il testo "Dentro la tolleranza:
+         consideralo centrato" compariva ad ogni risposta esatta invece
+         che essere solo implicito nell'esito gia' mostrato, ora rimosso;
+         --text-dim (#6b7690) era sotto la soglia WCAG AA per testo
+         normale sia in modalita' standard che con il filtro luce rossa,
+         schiarito a #76829f; i menu non chiudevano i fratelli gia'
+         aperti allo stesso livello, allungando lo scorrimento ad ogni
+         apertura successiva.
    v2.5  Nuova identita' visiva: icona dell'app (collina del Monferrato e
          stella scintilla) usata come favicon, icona di installazione e
          marchio nel men\u00f9; logo a colori del Gruppo Astrofili Casalese
@@ -2798,16 +2880,20 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 /* Numero di versione leggibile dal programma: compare nel menù e serve
    a capire con certezza quale versione sta girando su un dispositivo,
    cosa impossibile quando il browser tiene in cache un file vecchio. */
-const APP_VERSIONE = '2.5';
+const APP_VERSIONE = '2.8';
 const APP_NOVITA = [
-  { t:'Nuova icona e schermata di caricamento' },
-  { t:'Men\u00f9 riordinato: imparare il cielo \u00e8 ora un unico blocco' },
+  { t:'Eventi in arrivo: ora anche i passaggi della Luna accanto a pianeti e stelle' },
+  { t:'Elenco degli eventi limitato ai prossimi sette giorni' },
+  { t:'Nome dell\'associazione uniformato in tutta l\'app' },
 ];
 
 /* Registro completo delle versioni pubblicate, per il changelog esteso.
    Ogni voce riprende, riassunto in una riga, cio' che compare per esteso
    nel blocco di cronologia in cima a questo file. */
 const APP_STORICO = [
+  { v:'2.8', d:'Denominazione dell\u2019associazione uniformata: nessuna forma troncata in nessuna schermata.' },
+  { v:'2.7', d:'Eventi in arrivo pi\u00f9 ricchi (Luna accanto a pianeti e stelle) e limitati ai sette giorni; storico versioni pi\u00f9 breve; richiamo al sostegno degli Astrofili Celoria.' },
+  { v:'2.6', d:'Quattro difetti corretti: tasto "Salta", testo di esito fisso, contrasto di --text-dim, menu che restavano tutti aperti.' },
   { v:'2.5', d:'Icona dell\u2019app, schermata di caricamento e logo a colori del Gruppo Astrofili Casalese.' },
   { v:'2.4', d:'Riordino del men\u00f9: apprendimento riunito in un blocco solo, informazioni sul Gruppo in fondo.' },
   { v:'2.3', d:'Aggiunti Urano e Nettuno; legende dei pianeti e del cielo profondo riunite in una sottosezione.' },
@@ -6835,6 +6921,12 @@ function prossimaDomanda(){
   requestDraw();
 }
 
+/* Salta la domanda corrente senza rispondere: passa oltre senza contarla
+   come tentativo, perche' non e' stata data alcuna risposta da valutare. */
+function saltaDomanda(){
+  prossimaDomanda();
+}
+
 /* Dove si trova ora il bersaglio, in coordinate orizzontali */
 function quizTargetAltAz(){
   const c = state.quiz && state.quiz.corrente;
@@ -6974,6 +7066,8 @@ function showQuizCard(){
       </div>`;
     const hb = document.getElementById('quizHint');
     if (hb) hb.addEventListener('click', ()=>{ q.indizioVisibile = true; showQuizCard(); });
+    const sb = document.getElementById('quizSkip');
+    if (sb) sb.addEventListener('click', saltaDomanda);
   } else {
     const e = q.esito;
     const t = quizTargetAltAz();
@@ -7001,7 +7095,7 @@ function showQuizCard(){
 /* Il riferimento a braccio teso: tre dita affiancate coprono circa
    cinque gradi, un pugno chiuso dieci, una spanna venti. */
 function scartoInParole(sep, toll){
-  if (sep <= toll) return 'Dentro la tolleranza: consideralo centrato.';
+  if (sep <= toll) return '';
   if (sep <= 12) return 'Poco più di un pugno chiuso a braccio teso.';
   if (sep <= 25) return 'Circa una spanna a braccio teso.';
   return 'Aiutati con le costellazioni vicine per orientarti.';
@@ -7601,6 +7695,18 @@ const SCIAMI = [
 
 const PIANETI_IT = { mercury:'Mercurio', venus:'Venere', mars:'Marte', jupiter:'Giove', saturn:'Saturno' };
 
+/* Le quattro stelle di prima grandezza che stanno sulla fascia percorsa
+   dalla Luna: ogni mese la Luna passa accanto a ciascuna, ed e' uno degli
+   accostamenti piu' facili da mostrare a occhio nudo. Le coordinate sono
+   quelle del catalogo interno (HYG), non ricopiate a parte, cosi' non
+   possono divergere da quelle usate per disegnare il cielo. */
+const STELLE_ZODIACALI = [
+  { id:'aldebaran', nome:'Aldebaran', nota:'l\u2019occhio arancione del Toro' },
+  { id:'regulus',   nome:'Regolo',    nota:'il cuore del Leone' },
+  { id:'spica',     nome:'Spica',     nota:'la spiga della Vergine' },
+  { id:'antares',   nome:'Antares',   nota:'il cuore rosso dello Scorpione' },
+];
+
 /* Separazione angolare fra due direzioni equatoriali, in gradi */
 function sepEq(ra1, dec1, ra2, dec2){
   const d = D2R;
@@ -7637,6 +7743,10 @@ function prossimiEventi(giorni){
       let e = ((p.ra - s.sun.ra)*15 + 540) % 360 - 180;
       cur.pl[k] = { ra:p.ra, dec:p.dec, el:e };
     });
+    // La Luna entra nello stesso elenco: i suoi passaggi ravvicinati ai
+    // pianeti sono gli incontri piu' frequenti e piu' facili da vedere a
+    // occhio nudo, ed erano gli unici a non essere mai calcolati.
+    cur.pl.moon = { ra:s.moon.ra, dec:s.moon.dec, el:((s.moon.ra - s.sun.ra)*15 + 540) % 360 - 180 };
 
     if (prec){
       // --- fasi lunari: passaggi per 0, 90, 180, 270 gradi
@@ -7695,23 +7805,69 @@ function prossimiEventi(giorni){
         }
       });
 
+  // --- passaggi della Luna accanto alle stelle zodiacali brillanti
+  // La Luna torna vicino a ciascuna una volta al mese: sono gli incontri
+  // piu' frequenti del cielo e non richiedono alcuno strumento. Come per
+  // le congiunzioni, serve il minimo della distanza, non un momento
+  // qualsiasi in cui si stanno separando.
+  if (prec2){
+    STELLE_ZODIACALI.forEach(sz=>{
+      const st = STARS.find(s=> s.id === sz.id);
+      if (!st) return;
+      const p0 = precessedFixed(st.id, st.ra, st.dec, prec2.t);
+      const p1 = precessedFixed(st.id, st.ra, st.dec, prec.t);
+      const p2 = precessedFixed(st.id, st.ra, st.dec, cur.t);
+      const d0 = sepEq(prec2.pl.moon.ra, prec2.pl.moon.dec, p0.raHours, p0.decDeg);
+      const d1 = sepEq(prec.pl.moon.ra,  prec.pl.moon.dec,  p1.raHours, p1.decDeg);
+      const d2 = sepEq(cur.pl.moon.ra,   cur.pl.moon.dec,   p2.raHours, p2.decDeg);
+      if (d1 < d0 && d1 <= d2 && d1 < 5){
+        ev.push({ data: prec.t, tipo:'congiunzione',
+          nome:`La Luna accanto a ${sz.nome}`,
+          nota:'La Luna passa a ' + d1.toFixed(1).replace('.',',') + '\u00B0 da ' +
+               sz.nome + ', ' + sz.nota + '. Un accostamento da guardare a occhio nudo: il contrasto fra la luce diffusa della Luna e il punto fermo della stella si coglie subito.',
+          pri:1 });
+      }
+    });
+  }
+
       // --- congiunzioni fra pianeti, e fra Luna e pianeti
       // Congiunzioni: serve il MINIMO della distanza, non un momento
       // qualsiasi in cui si stanno allontanando, altrimenti l'evento si
       // ripete a ogni passo della scansione.
+      // La Luna e' trattata come gli altri corpi, ma con soglia piu'
+      // larga (il suo disco e' mezzo grado e la si vede a occhio nudo
+      // anche a distanza) e con un testo diverso, perche' e' il passaggio
+      // ravvicinato piu' comune e piu' facile da mostrare a chi comincia.
       if (prec2){
-        const nomi = Object.keys(PIANETI_IT);
+        const nomi = Object.keys(PIANETI_IT).concat(['moon']);
         for (let x=0; x<nomi.length; x++){
           for (let y=x+1; y<nomi.length; y++){
             const A = nomi[x], B = nomi[y];
+            const conLuna = (A === 'moon' || B === 'moon');
             const d0 = sepEq(prec2.pl[A].ra, prec2.pl[A].dec, prec2.pl[B].ra, prec2.pl[B].dec);
             const d1 = sepEq(prec.pl[A].ra,  prec.pl[A].dec,  prec.pl[B].ra,  prec.pl[B].dec);
             const d2 = sepEq(cur.pl[A].ra,   cur.pl[A].dec,   cur.pl[B].ra,   cur.pl[B].dec);
-            if (d1 < d0 && d1 <= d2 && d1 < 4 && Math.abs(cur.pl[A].el) > 15){
-              ev.push({ data: prec.t, tipo:'congiunzione',
-                nome:`${PIANETI_IT[A]} e ${PIANETI_IT[B]} vicini`,
-                nota:'Si avvicinano fino a ' + d1.toFixed(1).replace('.',',') +
-                     '\u00B0: entrano insieme nel campo di un binocolo.', pri:0 });
+            const soglia = conLuna ? 6 : 4;
+            // il corpo di riferimento per l'elongazione dev'essere un
+            // pianeta: chiedere alla Luna di stare lontana dal Sole la
+            // escluderebbe proprio nei giorni di falce sottile, che sono
+            // fra gli accostamenti piu' belli da vedere.
+            const rif = (A === 'moon') ? B : A;
+            if (d1 < d0 && d1 <= d2 && d1 < soglia && Math.abs(cur.pl[rif].el) > 15){
+              const gradi = d1.toFixed(1).replace('.',',');
+              if (conLuna){
+                const pianeta = PIANETI_IT[rif];
+                ev.push({ data: prec.t, tipo:'congiunzione',
+                  nome:`La Luna accanto a ${pianeta}`,
+                  nota:'La Luna passa a ' + gradi + '\u00B0 da ' + pianeta +
+                       ': si riconoscono insieme a occhio nudo, senza strumenti. \u00C8 il modo pi\u00F9 semplice per imparare a individuare un pianeta.',
+                  pri:0 });
+              } else {
+                ev.push({ data: prec.t, tipo:'congiunzione',
+                  nome:`${PIANETI_IT[A]} e ${PIANETI_IT[B]} vicini`,
+                  nota:'Si avvicinano fino a ' + gradi +
+                       '\u00B0: entrano insieme nel campo di un binocolo.', pri:0 });
+              }
             }
           }
         }
@@ -7772,34 +7928,26 @@ function buildEventi(){
   const box = document.getElementById('eventList');
   if (!box) return;
   let ev;
-  try{ ev = prossimiEventi(160); }
+  try{ ev = prossimiEventi(20); }
   catch(e){ box.innerHTML = '<div class="sr-empty">Non è stato possibile calcolare gli eventi.</div>'; return; }
 
+  // Solo la settimana che viene: piu' in la' non serve a chi sta
+  // decidendo se uscire stasera, e allungava l'elenco senza aggiungere
+  // nulla di utile. La finestra regge perche' gli eventi calcolati
+  // adesso comprendono anche i passaggi della Luna accanto ai pianeti e
+  // alle stelle zodiacali brillanti, che ricorrono ogni mese.
   const oggi = state.date;
   const limite = oggi.getTime() + 7*86400000;
   const settimana = ev.filter(e=> e.data.getTime() <= limite);
-  // se la settimana è povera, mostriamo comunque qualcosa più avanti:
-  // un riquadro vuoto non dice nulla e scoraggia dal riaprirlo
-  const dopo = ev.filter(e=> e.data.getTime() > limite)
-                 .sort((a,b)=> (a.pri - b.pri) || (a.data - b.data))
-                 .slice(0, settimana.length >= 3 ? 2 : 4)
-                 .sort((a,b)=> a.data - b.data);
 
   const nota = document.getElementById('eventiNota');
   if (nota) nota.textContent = settimana.length
     ? `${settimana.length} nei prossimi 7 giorni`
     : 'nulla nei prossimi 7 giorni';
 
-  let html = '';
-  if (settimana.length){
-    html += '<div class="sr-header">Nei prossimi sette giorni</div>' + settimana.map(voceEvento(oggi)).join('');
-  } else {
-    html += '<div class="sr-empty">Niente di particolare nei prossimi sette giorni. Ecco cosa arriva dopo.</div>';
-  }
-  if (dopo.length){
-    html += '<div class="sr-header">Più avanti</div>' + dopo.map(voceEvento(oggi)).join('');
-  }
-  box.innerHTML = html;
+  box.innerHTML = settimana.length
+    ? '<div class="sr-header">Nei prossimi sette giorni</div>' + settimana.map(voceEvento(oggi)).join('')
+    : '<div class="sr-empty">Niente di particolare nei prossimi sette giorni: una settimana buona per dedicarsi con calma alle costellazioni e al cielo profondo.</div>';
 }
 
 function voceEvento(oggi){
@@ -8242,8 +8390,20 @@ function initMenuUI(){
   document.querySelectorAll('.menu-group .group-head').forEach(h=>{
     h.addEventListener('click', (e)=>{
       e.stopPropagation();
-      h.parentElement.classList.toggle('open');
-      if (typeof onGroupToggle === 'function') onGroupToggle(h.parentElement);
+      const grp = h.parentElement;
+      const apro = !grp.classList.contains('open');
+      // chiudo gli eventuali fratelli allo stesso livello gia' aperti,
+      // per non allungare troppo lo scorrimento del menu'
+      if (apro && grp.parentElement){
+        Array.from(grp.parentElement.children).forEach(fratello=>{
+          if (fratello !== grp && fratello.classList && fratello.classList.contains('menu-group') && fratello.classList.contains('open')){
+            fratello.classList.remove('open');
+            if (typeof onGroupToggle === 'function') onGroupToggle(fratello);
+          }
+        });
+      }
+      grp.classList.toggle('open', apro);
+      if (typeof onGroupToggle === 'function') onGroupToggle(grp);
     });
   });
 
@@ -10130,21 +10290,18 @@ document.getElementById('lonInput').addEventListener('change', setCustomOnEdit);
 function skyCtxTest(){ return fpCtx; }
 
 /* ---------------------------------------------------------------------
-   Collegamenti del Gruppo. Raccolti qui in un punto solo così che
+   Collegamenti degli Astrofili Celoria. Raccolti qui in un punto solo così che
    aggiornarli non richieda di cercarli dentro la pagina.
    ------------------------------------------------------------------ */
 const GRUPPO_LINK = [
   { url:'https://gruppoastrofilicas.wixsite.com/astrofiliceloria/associarsi',
-    nome:'Diventa socio', sotto:'come associarsi al Gruppo Astrofili Casalese', forte:true,
+    nome:'Diventa socio', sotto:'come associarsi agli Astrofili Celoria', forte:true,
     icona:'<path d="M16 20v-1.6a3.4 3.4 0 0 0-3.4-3.4H6.4A3.4 3.4 0 0 0 3 18.4V20" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><circle cx="9.5" cy="7.6" r="3.4" stroke="currentColor" stroke-width="1.4"/><path d="M18.5 8v5M21 10.5h-5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>' },
   { url:'https://gruppoastrofilicas.wixsite.com/astrofiliceloria/eventi',
     nome:'Eventi in programma', sotto:'le prossime serate aperte al pubblico',
     icona:'<rect x="3.4" y="5" width="17.2" height="15.6" rx="2.6" stroke="currentColor" stroke-width="1.4"/><path d="M3.4 9.6h17.2M8 3.4v3.2M16 3.4v3.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>' },
-  { url:'https://www.paypal.com/donate/?hosted_button_id=MEKA65JC7K3UQ',
-    nome:'Sostienici', sotto:'una donazione per le attivit\u00e0 e gli strumenti',
-    icona:'<path d="M12 20.4s-7.8-4.6-7.8-9.7A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.8 3.1c0 5.1-7.8 9.7-7.8 9.7Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>' },
   { url:'https://gruppoastrofilicas.wixsite.com/astrofiliceloria',
-    nome:'Sito del Gruppo', sotto:'attivit\u00e0, fotografie, contatti',
+    nome:'Sito degli Astrofili Celoria', sotto:'attivit\u00e0, fotografie, contatti',
     icona:'<circle cx="12" cy="12" r="8.6" stroke="currentColor" stroke-width="1.4"/><path d="M3.4 12h17.2M12 3.4c2.4 2.4 2.4 14.4 0 17.2M12 3.4c-2.4 2.4-2.4 14.4 0 17.2" stroke="currentColor" stroke-width="1.2"/>' },
 ];
 
@@ -10193,11 +10350,18 @@ function buildNovita(){
     btn._agganciato = true;
     btn.addEventListener('click', ()=>{
       const list = document.getElementById('changelogList');
-      if (list) list.innerHTML = APP_STORICO.map(x=>
+      // Solo la versione in uso e le tre che la precedono: l'elenco
+      // completo diventava una parete di testo che nessuno leggeva, e
+      // le versioni molto vecchie non dicono nulla a chi usa l'app oggi.
+      // Lo storico integrale resta nel commento in cima al file e nel
+      // changelog del progetto.
+      if (list) list.innerHTML = APP_STORICO.slice(0, 4).map(x=>
         `<div class="cl-item${x.v === APP_VERSIONE ? ' cl-ora' : ''}">
            <div class="cl-v">versione ${x.v}</div>
            <div class="cl-d">${x.d}</div>
-         </div>`).join('');
+         </div>`).join('')
+        + '<div class="cl-item"><div class="cl-d" style="opacity:.75">Le versioni precedenti alla '
+        + APP_STORICO[3].v + ' non sono elencate qui: riguardano correzioni ormai superate.</div></div>';
       ov.classList.add('open');
     });
     if (chiudi) chiudi.addEventListener('click', ()=> ov.classList.remove('open'));
