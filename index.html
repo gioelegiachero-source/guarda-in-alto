@@ -347,6 +347,70 @@ html, body{ overscroll-behavior: none; }
 }
 .stage-fp canvas:active{ cursor: grabbing; }
 
+/* ---------- realtà aumentata (beta) ---------- */
+/* Il video sta DIETRO al canvas, che in modalità AR non disegna più il
+   proprio sfondo. object-fit:cover riempie il riquadro senza deformare
+   l'immagine: deformarla sfalserebbe la corrispondenza fra cielo
+   disegnato e cielo reale, che è tutto il punto della funzione. */
+#arVideo{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  background: #000;
+}
+body.ar-on #arVideo{ display: block; }
+body.ar-on .stage-fp canvas{ position: relative; z-index: 1; }
+
+.ar-badge{
+  position: absolute;
+  top: 8px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: none;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(5,7,13,0.72);
+  border: 1px solid var(--panel-border);
+  font-size: 11px;
+  color: var(--text);
+  white-space: nowrap;
+}
+body.ar-on .ar-badge{ display: flex; }
+.ar-beta{
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brass-bright);
+  border: 1px solid var(--brass-dim);
+  border-radius: 4px;
+  padding: 1px 4px;
+}
+.ar-stato{ color: var(--text-dim); }
+.ar-stato.ok{ color: #7fd48b; }
+.ar-stato.no{ color: #e8a44c; }
+
+.ar-pannello{
+  position: absolute;
+  left: 10px; right: 10px; bottom: 10px;
+  z-index: 3;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  background: rgba(5,7,13,0.86);
+  border: 1px solid var(--panel-border);
+}
+body.ar-on .ar-pannello.aperto{ display: flex; }
+.ar-pannello .ar-titolo{ font-size: 12px; color: var(--brass-bright); }
+.ar-pannello .ar-testo{ font-size: 11px; color: var(--text-dim); line-height: 1.45; }
+.ar-pannello input[type="range"]{ width: 100%; }
+
 .fp-hint{
   position:absolute;
   left:50%; top: 14px;
@@ -890,6 +954,77 @@ body.redlight{
   appearance: none;
 }
 .input-row input:focus, .input-row select:focus{ border-color: var(--brass-dim); }
+
+/* ---------- strumenti salvati ---------- */
+.strum-lista{ display:flex; flex-direction:column; gap:6px; margin: 4px 0 10px; }
+.strum-vuoto{ font-size:11px; color: var(--text-dim); padding: 6px 2px; line-height:1.45; }
+.strum-item{
+  display:flex; align-items:center; gap:8px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(165deg, var(--panel-2) 0%, var(--panel) 100%);
+  cursor:pointer;
+}
+.strum-item.active{
+  border-color: var(--brass);
+  box-shadow: 0 0 0 1px rgba(201,162,39,0.3) inset;
+}
+.strum-item-testo{ flex:1 1 auto; min-width:0; text-align:left; }
+.strum-item-nome{ font-size:13px; color: var(--text); }
+.strum-item.active .strum-item-nome{ color: var(--brass-bright); }
+.strum-item-dati{ font-size:11px; color: var(--text-dim); margin-top:2px; line-height:1.4; }
+.strum-elimina{
+  flex:0 0 auto;
+  background:none; border:none; padding:4px 6px;
+  color: var(--text-dim); font-family:inherit; font-size:15px;
+  cursor:pointer; line-height:1;
+}
+.strum-add{
+  width:100%;
+  padding: 9px 4px;
+  border-radius: 8px;
+  border: 1px dashed var(--panel-border);
+  background: none;
+  color: var(--text-dim);
+  font-family: inherit; font-size: 12px; cursor: pointer;
+}
+.strum-form{
+  margin-top: 12px;
+  padding: 4px 0 2px;
+  border-top: 1px solid var(--panel-border);
+}
+.strum-anteprima{
+  margin-top: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  background: rgba(201,162,39,0.07);
+  border: 1px solid rgba(201,162,39,0.25);
+  font-size: 11.5px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.strum-anteprima .stima{ color: var(--text-dim); }
+/* pulsanti propri del form: NON riusano .level-btn, che e' agganciata
+   ad applyLevel() e verrebbe interpretata come scelta di livello */
+.strum-row{ display:flex; gap:6px; }
+.strum-btn{
+  flex:1 1 0;
+  padding: 9px 4px;
+  border-radius: 8px;
+  border: 1px solid var(--panel-border);
+  background: linear-gradient(165deg, var(--panel-2) 0%, var(--panel) 100%);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: border-color .15s, color .15s;
+}
+.strum-btn.active, .strum-btn.primario{
+  border-color: var(--brass);
+  color: var(--brass-bright);
+  box-shadow: 0 0 0 1px rgba(201,162,39,0.3) inset;
+}
 .input-row select{
   background-image: linear-gradient(45deg, transparent 50%, var(--brass-dim) 50%),
                     linear-gradient(135deg, var(--brass-dim) 50%, transparent 50%);
@@ -2574,6 +2709,123 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
         </div>
       </div>
 
+      <!-- ===== IL TUO STRUMENTO ===== -->
+      <div class="menu-group" data-group="strumenti">
+        <button class="group-head" type="button">
+          <span class="group-title">Il tuo strumento</span>
+          <span class="group-note" id="strumentiNota">nessuno</span>
+          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <div class="group-body">
+          <p class="group-intro">Registra il tuo binocolo o telescopio e l'app disegna il campo che inquadra davvero, così sai in anticipo che cosa ci entra dentro.</p>
+
+          <div class="strum-lista" id="strumentiLista"></div>
+
+          <button class="strum-add" type="button" id="strumAddBtn">+ Aggiungi uno strumento</button>
+
+          <div class="strum-form" id="strumForm" style="display:none;">
+            <div class="menu-section-title">Nuovo strumento</div>
+
+            <div class="opt-row stacked">
+              <div class="opt-text"><div class="opt-name">Come lo chiami</div>
+                <div class="opt-desc">Un nome che riconosci, es. «Binocolo 10x50» o «Newton 150»</div></div>
+              <label class="input-row"><input id="strumNome" type="text" maxlength="30" placeholder="Il mio strumento"></label>
+            </div>
+
+            <div class="opt-row stacked">
+              <div class="opt-text"><div class="opt-name">Tipo</div></div>
+              <div class="strum-row">
+                <button class="strum-btn active" type="button" id="strumTipoBino" data-tipo="bino">Binocolo</button>
+                <button class="strum-btn" type="button" id="strumTipoTele" data-tipo="tele">Telescopio</button>
+              </div>
+            </div>
+
+            <!-- binocolo -->
+            <div id="strumCampiBino">
+              <div class="opt-row stacked">
+                <div class="opt-text"><div class="opt-name">Ingrandimento e apertura</div>
+                  <div class="opt-desc">I due numeri stampati sul binocolo: «10x50» vuol dire 10 ingrandimenti e 50 mm di apertura</div></div>
+                <div class="input-row two">
+                  <input id="strumBinoIngr" type="number" step="1" min="1" max="200" placeholder="10 ×">
+                  <input id="strumBinoApert" type="number" step="1" min="5" max="1000" placeholder="50 mm">
+                </div>
+              </div>
+            </div>
+
+            <!-- telescopio -->
+            <div id="strumCampiTele" style="display:none;">
+              <div class="opt-row stacked">
+                <div class="opt-text"><div class="opt-name">Focale del telescopio</div>
+                  <div class="opt-desc">In millimetri, di solito scritta sul tubo (es. 900)</div></div>
+                <label class="input-row"><input id="strumTeleFoc" type="number" step="1" min="50" max="10000" placeholder="900 mm"></label>
+              </div>
+              <div class="opt-row stacked">
+                <div class="opt-text"><div class="opt-name">Focale dell'oculare</div>
+                  <div class="opt-desc">In millimetri, scritta sull'oculare che stai usando (es. 25)</div></div>
+                <label class="input-row"><input id="strumOcFoc" type="number" step="0.5" min="1" max="80" placeholder="25 mm"></label>
+              </div>
+              <div class="opt-row stacked">
+                <div class="opt-text"><div class="opt-name">Apertura del telescopio</div>
+                  <div class="opt-desc">In millimetri. Facoltativa: non cambia il campo, serve solo a calcolare la pupilla d'uscita</div></div>
+                <label class="input-row"><input id="strumTeleApert" type="number" step="1" min="20" max="2000" placeholder="150 mm"></label>
+              </div>
+            </div>
+
+            <div class="opt-row stacked">
+              <div class="opt-text"><div class="opt-name">Campo apparente dell'oculare</div>
+                <div class="opt-desc">In gradi. È il dato che decide l'ampiezza del campo. Se non lo conosci lascia vuoto: verrà usato 50°, il valore tipico di un oculare semplice, e il campo sarà segnalato come stima</div></div>
+              <label class="input-row"><input id="strumCampoApp" type="number" step="1" min="20" max="120" placeholder="50° (se lo conosci)"></label>
+            </div>
+
+            <div class="strum-anteprima" id="strumAnteprima">Inserisci i dati per vedere il campo.</div>
+
+            <div class="strum-row" style="margin-top:10px;">
+              <button class="strum-btn" type="button" id="strumAnnulla">Annulla</button>
+              <button class="strum-btn primario" type="button" id="strumSalva">Salva strumento</button>
+            </div>
+          </div>
+
+          <div class="menu-section-title" style="margin-top:14px;">Come mostrarlo nel cielo</div>
+          <div class="opt-row">
+            <div class="opt-text"><div class="opt-name">Cerchio del campo inquadrato</div>
+              <div class="opt-desc">Disegna nel cielo il bordo di quanto il tuo strumento inquadra davvero. Solo in prima persona</div></div>
+            <button class="switch" id="toggleFieldCircle" role="switch" aria-checked="false"><span></span></button>
+          </div>
+          <div class="opt-row">
+            <div class="opt-text"><div class="opt-name">Simulazione del campo inquadrato</div>
+              <div class="opt-desc">Restringe la vista a quanto il tuo strumento inquadra, per sapere in anticipo se l'oggetto vi sarà contenuto. Riproduce l'ampiezza dell'inquadratura, non l'aspetto all'oculare: dal vivo gli oggetti deboli sono molto più tenui e senza contorni netti</div></div>
+            <button class="switch" id="toggleFieldZoom" role="switch" aria-checked="false"><span></span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== REALTÀ AUMENTATA (beta) ===== -->
+      <div class="menu-group" data-group="ar">
+        <button class="group-head" type="button">
+          <span class="group-title">Realtà aumentata</span>
+          <span class="group-note"><span class="ar-beta">beta</span></span>
+          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <div class="group-body">
+          <p class="group-intro">Il cielo calcolato sopra l'immagine della fotocamera, per legarlo al paesaggio che hai davanti: campanili, alberi, profilo delle colline.</p>
+          <p class="group-intro" style="border-left:2px solid var(--brass-dim);padding-left:9px;">
+            <b>Funzione in prova.</b> Due cose da sapere prima di usarla in serata.
+            <b>La fotocamera non riprende le stelle</b>: in video l'esposizione è di pochi centesimi di secondo, quindi si vedono la Luna e i pianeti più brillanti, e nient'altro. E la bussola del telefono sbaglia facilmente di diversi gradi: <b>va calibrata</b>, altrimenti il cielo disegnato non combacia con quello vero.
+          </p>
+          <div class="opt-row">
+            <div class="opt-text"><div class="opt-name">Attiva la realtà aumentata</div>
+              <div class="opt-desc">Chiede il permesso per la fotocamera e accende la bussola. Solo in prima persona</div></div>
+            <button class="switch" id="toggleAR" role="switch" aria-checked="false"><span></span></button>
+          </div>
+          <div class="opt-row">
+            <div class="opt-text"><div class="opt-name">Calibrazione della bussola</div>
+              <div class="opt-desc" id="arMenuStato">Non ancora calibrata</div></div>
+            <button class="strum-btn" type="button" id="arMenuCalibra" style="flex:0 0 auto;padding:7px 12px;">Calibra</button>
+          </div>
+          <p class="group-intro" style="margin-top:8px;">La calibrazione corregge la bussola anche fuori dalla realtà aumentata: migliora il puntamento normale e i percorsi guidati.</p>
+        </div>
+      </div>
+
       <!-- ===== TIPI DI OGGETTO (avanzato) ===== -->
       <div class="menu-group" data-group="tipi">
         <button class="group-head" type="button">
@@ -2728,7 +2980,26 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 
     <!-- vista in prima persona -->
     <div class="stage-fp" id="stageFp">
+      <video id="arVideo" playsinline muted autoplay></video>
       <canvas id="skyFp"></canvas>
+
+      <!-- realtà aumentata: stato sempre visibile, perché chi la usa in
+           piazza non ha il menù davanti e deve sapere se può fidarsi -->
+      <div class="ar-badge" id="arBadge">
+        <span class="ar-beta">beta</span>
+        <span class="ar-stato no" id="arStato">bussola da calibrare</span>
+        <button type="button" id="arCalibraBtn" style="background:none;border:none;color:var(--brass-bright);font-family:inherit;font-size:11px;cursor:pointer;padding:0 0 0 4px;">calibra</button>
+      </div>
+
+      <div class="ar-pannello" id="arPannello">
+        <div class="ar-titolo" id="arPannelloTitolo">Calibrazione</div>
+        <div class="ar-testo" id="arPannelloTesto"></div>
+        <div id="arPannelloCorpo"></div>
+        <div class="strum-row">
+          <button class="strum-btn" type="button" id="arPannelloChiudi">Chiudi</button>
+          <button class="strum-btn primario" type="button" id="arPannelloAzione">Fatto</button>
+        </div>
+      </div>
       <div class="fp-hint" id="fpHint">Scorri con un dito per guardarti intorno &middot; pizzica per lo zoom</div>
       <div class="tap-info-card" id="tapCard"></div>
       <div class="altitude-scale" id="altScale"></div>
@@ -2782,6 +3053,110 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
    "Giovanni Celoria", Casale Monferrato
    =====================================================================
 
+   v4.0  Realta' aumentata (beta): il cielo calcolato sopra l'immagine
+         della fotocamera, con calibrazione della bussola.
+         Tre limiti dichiarati apertamente, in app e non solo qui. Di
+         notte la fotocamera NON riprende le stelle: in video l'esposizione
+         e' di pochi centesimi di secondo, quindi passano solo Luna e
+         pianeti brillanti. La AR non serve percio' a identificare stelle
+         nell'immagine, ma a legare il cielo al paesaggio reale. Il campo
+         inquadrato dalla fotocamera non e' esposto da nessuna API del
+         browser e varia molto fra modelli: si parte da 65 gradi e si
+         lascia correggere a mano. La bussola sbaglia di diversi gradi,
+         cosa che su fondo nero non si nota e col paesaggio dietro si
+         nota subito.
+         La calibrazione risolve in un colpo errore del magnetometro e
+         declinazione magnetica, che l'app non aveva MAI corretto: si
+         punta un astro di posizione nota e si misura lo scarto, invece
+         di stimare la declinazione da un modello geomagnetico. In
+         alternativa si regola a mano, sempre disponibile quando non ci
+         sono ne' Luna ne' pianeti. La correzione agisce dentro
+         direzionePuntata(), quindi migliora anche la bussola normale e
+         i percorsi guidati, non solo la realta' aumentata.
+         Errore di segno trovato e corretto in verifica: alpha cresce in
+         senso opposto all'azimut, quindi l'offset va sottratto. Sommarlo
+         raddoppiava l'errore invece di annullarlo. Verificata la
+         convergenza: 14 gradi di errore iniziale portati a zero.
+         In AR la vista non si anima e non si trascina, e il pizzico non
+         cambia il campo: deve restare agganciata a dove punta il
+         telefono, altrimenti il cielo disegnato scivola via
+         dall'immagine. I percorsi guidati funzionano quindi indicando
+         la direzione con freccia ed evidenziazione, mentre a girarsi e'
+         l'osservatore: showRouteStep chiamava animateViewTo per conto
+         suo, senza passare da goToTarget, e andava corretta a parte.
+         Rinominate le due righe del menu strumenti: "campo" da solo era
+         gergo. Ora "Cerchio del campo inquadrato" e "Simulazione del
+         campo inquadrato", con l'avvertenza esplicita che si riproduce
+         l'ampiezza dell'inquadratura e non l'aspetto all'oculare.
+   v3.2  Aggiunti gli strumenti dell'osservatore. Si registrano il
+         proprio binocolo o telescopio (menu "Il tuo strumento"), si
+         richiamano con un tocco e l'app disegna il campo che
+         inquadrano davvero, con la possibilita' di stringere la vista
+         fino a quel campo per vedere gli oggetti alla scala a cui
+         l'oculare li mostra.
+         Il campo NON si ricava dall'apertura, che non compare in
+         nessuna formula del campo: si ricava da campo apparente
+         dell'oculare diviso ingrandimento. L'ingrandimento e' il primo
+         numero della sigla per il binocolo (10 in "10x50") e il
+         rapporto fra le due focali per il telescopio. L'apertura resta
+         facoltativa e serve solo alla pupilla d'uscita. Quando il
+         campo apparente non e' noto si usano 50 gradi, tipici di un
+         oculare semplice, ma il risultato viene marcato come stima nel
+         menu e sull'etichetta a schermo: un valore assunto non deve
+         sembrare misurato.
+         Il raggio del cerchio usa la formula esatta della proiezione
+         gnomonica (focal*tan(campo/2)), corretta a qualunque ampiezza.
+         Lo zoom inscrive il cerchio nel lato corto dello schermo, non
+         in altezza, altrimenti su un telefono verticale uscirebbe dai
+         lati.
+         Due correzioni emerse provandolo a forte ingrandimento:
+         pxPerDegAt sondava un punto a un grado di distanza, che con un
+         campo sotto il grado cade fuori dall'inquadratura e faceva
+         fallire la misura proprio dove la scala reale serve; e il
+         limite al raggio degli oggetti, fisso a 420 px, faceva sembrare
+         che M31 entrasse comodamente in un oculare che invece non la
+         contiene. Il limite ora segue la vista. FOV_MIN non e' stato
+         abbassato perche' compare nel denominatore di skyStarLimit():
+         toccarlo avrebbe spostato la magnitudine limite anche per chi
+         non usa nessuno strumento.
+   v3.1  L'area di tocco per selezionare un oggetto ora tiene conto della
+         sua dimensione reale a schermo (rPx), non solo della vicinanza
+         al dito. Prima nearestObject() confrontava sempre e solo la
+         distanza entro un raggio fisso: un oggetto esteso disegnato in
+         scala reale (M31 puo' arrivare a 221px) catturava qualsiasi
+         tocco al suo interno, rendendo impossibile selezionare M32 o
+         M110 quando ci ricadono dentro. Ricostruita da zero: ogni
+         candidato ha ora un'area di tocco pari al massimo fra il suo
+         rPx e una soglia minima di 20px (cosi' i simboli piccoli
+         restano toccabili anche senza scala reale attiva); fra i
+         candidati che contengono il tocco vince quello con l'area piu'
+         piccola, cioe' il piu' specifico (le stelle, che non hanno
+         rPx, vincono sempre su un oggetto esteso che le contenga); a
+         parita' di dimensione vince il piu' vicino al dito.
+   v3.0  Gli oggetti del profondo cielo sono disegnati nella loro forma e
+         dimensione vere quando si ingrandisce. Importati MinAx e PosAng
+         da OpenNGC, cosi' M31 e' un ovale inclinato di 35 gradi e non
+         un simbolo tondo. Il simbolo cresce fino alla scala reale solo
+         quando supera il segnaposto minimo: disegnare tutto in scala
+         renderebbe M57 largo 0,23 px al campo di 70 gradi, cioe'
+         invisibile. Aspetto per tipo: alone e bracci per le galassie,
+         nucleo granulato per i globulari, anello vuoto al centro per le
+         planetarie, contorno sfumato per le nebulose diffuse. Gli
+         ammassi aperti hanno il solo contorno, perche' le loro stelle
+         sono gia' quelle vere del catalogo. Il blocco di disegno dei
+         Messier, che duplicava drawDeepSymbol, ora la richiama.
+   v2.9  Dimensioni angolari reali per tutti i 110 oggetti di Messier,
+         che finora ne erano del tutto privi (i 265 NGC/IC le avevano
+         gia'). Valori da OpenNGC, la stessa fonte gia' usata per il
+         resto del catalogo, quindi coerenti fra loro. Quattro oggetti
+         non sono in OpenNGC o vi figurano senza MajAx e sono stati
+         verificati uno per uno su fonti esterne: M45 (110', non ha
+         designazione NGC), M40 (0,8', separazione della doppia ottica
+         misurata da Hipparcos), M73 (2,8', asterismo) e M102 (6,3',
+         assunta l'identificazione con NGC 5866 gia' adottata dalle
+         coordinate in uso). La scheda mostra ora la dimensione anche
+         per i Messier, con il decimale sotto i 10' (senza, M57 e M76
+         risultavano entrambi "1'") e un paragone con la Luna piena.
    v2.8  Denominazione dell'associazione uniformata in tutta l'app: il
          nome e' "Gruppo Astrofili Casalese 'Giovanni Celoria'", con
          "G.A.C." e "Astrofili Celoria" ammessi dove lo spazio e'
@@ -2880,17 +3255,23 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 /* Numero di versione leggibile dal programma: compare nel menù e serve
    a capire con certezza quale versione sta girando su un dispositivo,
    cosa impossibile quando il browser tiene in cache un file vecchio. */
-const APP_VERSIONE = '2.8';
+const APP_VERSIONE = '4.0';
 const APP_NOVITA = [
-  { t:'Eventi in arrivo: ora anche i passaggi della Luna accanto a pianeti e stelle' },
-  { t:'Elenco degli eventi limitato ai prossimi sette giorni' },
-  { t:'Nome dell\'associazione uniformato in tutta l\'app' },
+  { t:'Realt\u00e0 aumentata (beta): il cielo sopra l\u2019immagine della fotocamera' },
+  { t:'Calibrazione della bussola, che migliora anche il puntamento normale' },
+  { t:'Registra il tuo binocolo o telescopio e richiamalo con un tocco' },
+  { t:'Simulazione del campo inquadrato dal tuo strumento' },
 ];
 
 /* Registro completo delle versioni pubblicate, per il changelog esteso.
    Ogni voce riprende, riassunto in una riga, cio' che compare per esteso
    nel blocco di cronologia in cima a questo file. */
 const APP_STORICO = [
+  { v:'4.0', d:'Realt\u00e0 aumentata in prova: il cielo sovrapposto alla fotocamera, con calibrazione della bussola che corregge anche il puntamento normale e i percorsi guidati.' },
+  { v:'3.2', d:'I tuoi strumenti: registri binocolo e telescopio, l\'app calcola e disegna il campo che inquadrano e pu\u00f2 stringere la vista fino a quel campo.' },
+  { v:'3.1', d:'Selezione al tocco proporzionata alla dimensione dell\'oggetto: gli oggetti piccoli dentro a uno grande restano raggiungibili.' },
+  { v:'3.0', d:'Gli oggetti del profondo cielo assumono forma e dimensione reali quando si ingrandisce.' },
+  { v:'2.9', d:'Dimensioni angolari reali per tutti i 110 oggetti di Messier, con paragone alla Luna piena.' },
   { v:'2.8', d:'Denominazione dell\u2019associazione uniformata: nessuna forma troncata in nessuna schermata.' },
   { v:'2.7', d:'Eventi in arrivo pi\u00f9 ricchi (Luna accanto a pianeti e stelle) e limitati ai sette giorni; storico versioni pi\u00f9 breve; richiamo al sostegno degli Astrofili Celoria.' },
   { v:'2.6', d:'Quattro difetti corretti: tasto "Salta", testo di esito fisso, contrasto di --text-dim, menu che restavano tutti aperti.' },
@@ -3654,116 +4035,116 @@ const MESSIER_TYPE_LABELS = {
   snr: 'resto di supernova',
 };
 const MESSIER = [
-  {id:'M1',  name:'M1 - Nebulosa del Granchio', ra:5.575,  dec:22.017, type:'snr', mag:8.4},
-  {id:'M13', name:'M13 - Ammasso di Ercole',    ra:16.695, dec:36.460, type:'gc', mag:5.8},
-  {id:'M31', name:'M31 - Galassia di Andromeda',ra:0.712,  dec:41.269, type:'gx', mag:3.44},
-  {id:'M32', name:'M32',                        ra:0.712,  dec:40.865, type:'gx', mag:8.13},
-  {id:'M42', name:'M42 - Nebulosa di Orione',   ra:5.591,  dec:-5.391, type:'neb', mag:4.0},
-  {id:'M43', name:'M43',                        ra:5.593,  dec:-5.267, type:'neb', mag:9.0},
-  {id:'M45', name:'M45 - Pleiadi',              ra:3.791,  dec:24.117, type:'oc', mag:1.6},
-  {id:'M44', name:'M44 - Presepe',              ra:8.673,  dec:19.621, type:'oc', mag:3.1},
-  {id:'M57', name:'M57 - Nebulosa Anello',      ra:18.893, dec:33.029, type:'pneb', mag:8.8},
-  {id:'M27', name:'M27 - Manubrio',             ra:19.994, dec:22.721, type:'pneb', mag:7.4},
-  {id:'M51', name:'M51 - Galassia Vortice',     ra:13.498, dec:47.195, type:'gx', mag:8.36},
-  {id:'M81', name:'M81 - Galassia di Bode',     ra:9.926,  dec:69.065, type:'gx', mag:6.92},
-  {id:'M82', name:'M82 - Galassia Sigaro',      ra:9.931,  dec:69.679, type:'gx', mag:8.3},
-  {id:'M101',name:'M101 - Girandola',           ra:14.053, dec:54.349, type:'gx', mag:7.9},
-  {id:'M104',name:'M104 - Sombrero',            ra:12.667, dec:-11.623,type:'gx', mag:8.59},
-  {id:'M20', name:'M20 - Trifida',              ra:18.045, dec:-23.030,type:'neb', mag:8.5},
-  {id:'M8',  name:'M8 - Laguna',                ra:18.061, dec:-24.383,type:'neb', mag:5.8},
-  {id:'M17', name:'M17 - Omega',                ra:18.346, dec:-16.172,type:'neb', mag:7.0},
-  {id:'M16', name:'M16 - Aquila',               ra:18.313, dec:-13.807,type:'neb', mag:6.0},
-  {id:'M11', name:'M11 - Anatra Selvatica',     ra:18.851, dec:-6.272, type:'oc', mag:5.8},
-  {id:'M15', name:'M15',                        ra:21.500, dec:12.167, type:'gc', mag:6.3},
-  {id:'M2',  name:'M2',                         ra:21.558, dec:-0.823, type:'gc', mag:6.25},
-  {id:'M92', name:'M92',                        ra:17.285, dec:43.136, type:'gc', mag:6.52},
-  {id:'M3',  name:'M3',                         ra:13.703, dec:28.377, type:'gc', mag:6.39},
-  {id:'M5',  name:'M5',                         ra:15.309, dec:2.081,  type:'gc', mag:5.95},
-  {id:'M4',  name:'M4',                         ra:16.393, dec:-26.526,type:'gc', mag:5.4},
-  {id:'M22', name:'M22',                        ra:18.607, dec:-23.904,type:'gc', mag:6.17},
-  {id:'M55', name:'M55',                        ra:19.667, dec:-30.964,type:'gc', mag:6.49},
-  {id:'M35', name:'M35',                        ra:6.148,  dec:24.337, type:'oc', mag:5.1},
-  {id:'M36', name:'M36',                        ra:5.603,  dec:34.140, type:'oc', mag:6.0},
-  {id:'M37', name:'M37',                        ra:5.873,  dec:32.545, type:'oc', mag:5.6},
-  {id:'M38', name:'M38',                        ra:5.478,  dec:35.855, type:'oc', mag:6.4},
-  {id:'M41', name:'M41',                        ra:6.783,  dec:-20.759,type:'oc', mag:4.5},
-  {id:'M46', name:'M46',                        ra:7.696,  dec:-14.816,type:'oc', mag:6.1},
-  {id:'M47', name:'M47',                        ra:7.611,  dec:-14.487,type:'oc', mag:4.4},
-  {id:'M67', name:'M67',                        ra:8.856,  dec:11.812, type:'oc', mag:6.9},
-  {id:'M6',  name:'M6 - Farfalla',              ra:17.674, dec:-32.217,type:'oc', mag:4.2},
-  {id:'M7',  name:'M7',                         ra:17.898, dec:-34.793,type:'oc', mag:3.3},
-  {id:'M39', name:'M39',                        ra:21.533, dec:48.433, type:'oc', mag:4.6},
-  {id:'M52', name:'M52',                        ra:23.408, dec:61.593, type:'oc', mag:6.9},
-  {id:'M103',name:'M103',                       ra:1.558,  dec:60.700, type:'oc', mag:7.4},
-  {id:'M34', name:'M34',                        ra:2.702,  dec:42.762, type:'oc', mag:5.2},
-  {id:'M50', name:'M50',                        ra:7.032,  dec:-8.338, type:'oc', mag:5.9},
-  {id:'M48', name:'M48',                        ra:8.228,  dec:-5.75,  type:'oc', mag:5.8},
-  {id:'M65', name:'M65',                        ra:11.315, dec:13.092, type:'gx', mag:9.32},
-  {id:'M66', name:'M66',                        ra:11.337, dec:12.991, type:'gx', mag:8.92},
-  {id:'M95', name:'M95',                        ra:10.733, dec:11.703, type:'gx', mag:9.77},
-  {id:'M96', name:'M96',                        ra:10.780, dec:11.820, type:'gx', mag:9.21},
-  {id:'M105',name:'M105',                       ra:10.797, dec:12.582, type:'gx', mag:9.27},
-  {id:'M63', name:'M63 - Girasole',             ra:13.263, dec:42.029, type:'gx', mag:8.61},
-  {id:'M94', name:'M94',                        ra:12.848, dec:41.120, type:'gx', mag:8.24},
-  {id:'M106',name:'M106',                       ra:12.317, dec:47.304, type:'gx', mag:9.29},
-  {id:'M64', name:'M64 - Occhio Nero',          ra:12.945, dec:21.683, type:'gx', mag:8.52},
-  {id:'M87', name:'M87',                        ra:12.514, dec:12.391, type:'gx', mag:9.0},
-  {id:'M49', name:'M49',                        ra:12.497, dec:8.000,  type:'gx', mag:8.28},
-  {id:'M84', name:'M84',                        ra:12.417, dec:12.887, type:'gx', mag:9.79},
-  {id:'M86', name:'M86',                        ra:12.437, dec:12.946, type:'gx', mag:8.86},
-  {id:'M110',name:'M110',                       ra:0.673,  dec:41.685, type:'gx', mag:8.15},
-  {id:'M33', name:'M33 - Triangolo',            ra:1.564,  dec:30.660, type:'gx', mag:5.79},
-  {id:'M77', name:'M77',                        ra:2.711,  dec:-0.013, type:'gx', mag:9.29},
-  {id:'M74', name:'M74',                        ra:1.612,  dec:15.783, type:'gx', mag:9.31},
-  {id:'M78', name:'M78',                        ra:5.780,  dec:0.078,  type:'neb', mag:8.0},
-  {id:'M76', name:'M76 - Manubrio Piccola',     ra:1.706,  dec:51.575, type:'pneb', mag:10.1},
-  {id:'M97', name:'M97 - Gufo',                 ra:11.248, dec:55.019, type:'pneb', mag:9.9},
-  {id:'M108',name:'M108',                       ra:11.192, dec:55.674, type:'gx', mag:10.05},
-  {id:'M109',name:'M109',                       ra:11.960, dec:53.375, type:'gx', mag:9.88},
-  {id:'M83', name:'M83 - Girandola Meridionale',ra:13.617, dec:-29.867,type:'gx', mag:7.21},
-  {id:'M9',  name:'M9',                         ra:17.320, dec:-18.516,type:'gc', mag:8.42},
-  {id:'M10', name:'M10',                        ra:16.951, dec:-4.100, type:'gc', mag:4.98},
-  {id:'M12', name:'M12',                        ra:16.787, dec:-1.949, type:'gc', mag:6.07},
-  {id:'M14', name:'M14',                        ra:17.613, dec:-3.246, type:'gc', mag:5.73},
-  {id:'M19', name:'M19',                        ra:17.045, dec:-26.267,type:'gc', mag:5.57},
-  {id:'M62', name:'M62',                        ra:17.020, dec:-30.113,type:'gc', mag:7.39},
-  {id:'M28', name:'M28',                        ra:18.408, dec:-24.870,type:'gc', mag:6.9},
-  {id:'M69', name:'M69',                        ra:18.523, dec:-32.348,type:'gc', mag:8.31},
-  {id:'M70', name:'M70',                        ra:18.719, dec:-32.292,type:'gc', mag:9.06},
-  {id:'M54', name:'M54',                        ra:18.918, dec:-30.480,type:'gc', mag:7.7},
-  {id:'M56', name:'M56',                        ra:19.276, dec:30.184, type:'gc', mag:8.4},
-  {id:'M71', name:'M71',                        ra:19.897, dec:18.779, type:'gc', mag:6.1},
-  {id:'M72', name:'M72',                        ra:20.891, dec:-12.537,type:'gc', mag:8.96},
-  {id:'M30', name:'M30',                        ra:21.673, dec:-23.180,type:'gc', mag:7.1},
-  {id:'M75', name:'M75',                        ra:20.101, dec:-21.922,type:'gc', mag:8.26},
-  {id:'M107',name:'M107',                       ra:16.542, dec:-13.054,type:'gc', mag:8.85},
-  {id:'M18', name:'M18',                        ra:18.335, dec:-17.133,type:'oc', mag:6.9},
-  {id:'M21', name:'M21',                        ra:18.070, dec:-22.505,type:'oc', mag:5.9},
-  {id:'M23', name:'M23',                        ra:17.947, dec:-19.017,type:'oc', mag:5.5},
-  {id:'M24', name:'M24 - Nube Stellare',        ra:18.283, dec:-18.550,type:'oc', mag:4.5},
-  {id:'M25', name:'M25',                        ra:18.527, dec:-19.250,type:'oc', mag:4.6},
-  {id:'M26', name:'M26',                        ra:18.751, dec:-9.383, type:'oc', mag:8.87},
-  {id:'M29', name:'M29',                        ra:20.399, dec:38.487, type:'oc', mag:6.6},
-  {id:'M40', name:'M40 - Winnecke 4',           ra:12.372, dec:58.083, type:'oc'},
-  {id:'M53', name:'M53',                        ra:13.213, dec:18.168, type:'gc', mag:7.79},
-  {id:'M58', name:'M58',                        ra:12.609, dec:11.818, type:'gx', mag:10.3},
-  {id:'M59', name:'M59',                        ra:12.698, dec:11.647, type:'gx', mag:9.56},
-  {id:'M60', name:'M60',                        ra:12.727, dec:11.552, type:'gx', mag:8.79},
-  {id:'M61', name:'M61',                        ra:12.364, dec:4.474,  type:'gx', mag:10.25},
-  {id:'M68', name:'M68',                        ra:12.652, dec:-26.744,type:'gc', mag:7.96},
-  {id:'M73', name:'M73',                        ra:20.983, dec:-12.633,type:'oc', mag:8.9},
-  {id:'M79', name:'M79',                        ra:5.403,  dec:-24.524,type:'gc', mag:8.16},
-  {id:'M80', name:'M80',                        ra:16.284, dec:-22.976,type:'gc', mag:7.3},
-  {id:'M85', name:'M85',                        ra:12.425, dec:18.191, type:'gx', mag:9.05},
-  {id:'M88', name:'M88',                        ra:12.533, dec:14.420, type:'gx', mag:10.33},
-  {id:'M89', name:'M89',                        ra:12.598, dec:12.556, type:'gx', mag:10.08},
-  {id:'M90', name:'M90',                        ra:12.613, dec:13.163, type:'gx', mag:9.54},
-  {id:'M91', name:'M91',                        ra:12.591, dec:14.496, type:'gx', mag:10.96},
-  {id:'M93', name:'M93',                        ra:7.744,  dec:-23.858,type:'oc', mag:6.2},
-  {id:'M98', name:'M98',                        ra:12.230, dec:14.900, type:'gx', mag:10.84},
-  {id:'M99', name:'M99',                        ra:12.313, dec:14.416, type:'gx', mag:9.84},
-  {id:'M100',name:'M100',                       ra:12.383, dec:15.822, type:'gx', mag:9.47},
-  {id:'M102',name:'M102',                       ra:15.082, dec:55.763, type:'gx'},
+  {id:'M1',  name:'M1 - Nebulosa del Granchio', ra:5.575,  dec:22.017, type:'snr', mag:8.4, size:8.0, min:4.0},
+  {id:'M13', name:'M13 - Ammasso di Ercole',    ra:16.695, dec:36.460, type:'gc', mag:5.8, size:16.5},
+  {id:'M31', name:'M31 - Galassia di Andromeda',ra:0.712,  dec:41.269, type:'gx', mag:3.44, size:177.8, min:69.7, pa:35},
+  {id:'M32', name:'M32',                        ra:0.712,  dec:40.865, type:'gx', mag:8.13, size:7.7, min:4.9, pa:170},
+  {id:'M42', name:'M42 - Nebulosa di Orione',   ra:5.591,  dec:-5.391, type:'neb', mag:4.0, size:90.0, min:60.0},
+  {id:'M43', name:'M43',                        ra:5.593,  dec:-5.267, type:'neb', mag:9.0, size:20.0, min:15.0},
+  {id:'M45', name:'M45 - Pleiadi',              ra:3.791,  dec:24.117, type:'oc', mag:1.6, size:110.0},
+  {id:'M44', name:'M44 - Presepe',              ra:8.673,  dec:19.621, type:'oc', mag:3.1, size:108.6},
+  {id:'M57', name:'M57 - Nebulosa Anello',      ra:18.893, dec:33.029, type:'pneb', mag:8.8, size:1.3},
+  {id:'M27', name:'M27 - Manubrio',             ra:19.994, dec:22.721, type:'pneb', mag:7.4, size:6.7},
+  {id:'M51', name:'M51 - Galassia Vortice',     ra:13.498, dec:47.195, type:'gx', mag:8.36, size:13.7, min:11.7, pa:163},
+  {id:'M81', name:'M81 - Galassia di Bode',     ra:9.926,  dec:69.065, type:'gx', mag:6.92, size:21.6, min:11.2, pa:157},
+  {id:'M82', name:'M82 - Galassia Sigaro',      ra:9.931,  dec:69.679, type:'gx', mag:8.3, size:11.0, min:5.1, pa:66},
+  {id:'M101',name:'M101 - Girandola',           ra:14.053, dec:54.349, type:'gx', mag:7.9, size:24.0, min:23.1, pa:28},
+  {id:'M104',name:'M104 - Sombrero',            ra:12.667, dec:-11.623,type:'gx', mag:8.59, size:8.4, min:4.9, pa:90},
+  {id:'M20', name:'M20 - Trifida',              ra:18.045, dec:-23.030,type:'neb', mag:8.5, size:28.0, min:28.0},
+  {id:'M8',  name:'M8 - Laguna',                ra:18.061, dec:-24.383,type:'neb', mag:5.8, size:45.0, min:30.0},
+  {id:'M17', name:'M17 - Omega',                ra:18.346, dec:-16.172,type:'neb', mag:7.0, size:12.6},
+  {id:'M16', name:'M16 - Aquila',               ra:18.313, dec:-13.807,type:'neb', mag:6.0, size:120.0, min:25.0},
+  {id:'M11', name:'M11 - Anatra Selvatica',     ra:18.851, dec:-6.272, type:'oc', mag:5.8, size:9.0},
+  {id:'M15', name:'M15',                        ra:21.500, dec:12.167, type:'gc', mag:6.3, size:11.1},
+  {id:'M2',  name:'M2',                         ra:21.558, dec:-0.823, type:'gc', mag:6.25, size:8.4},
+  {id:'M92', name:'M92',                        ra:17.285, dec:43.136, type:'gc', mag:6.52, size:14.4},
+  {id:'M3',  name:'M3',                         ra:13.703, dec:28.377, type:'gc', mag:6.39, size:16.2},
+  {id:'M5',  name:'M5',                         ra:15.309, dec:2.081,  type:'gc', mag:5.95, size:15.0},
+  {id:'M4',  name:'M4',                         ra:16.393, dec:-26.526,type:'gc', mag:5.4, size:28.2},
+  {id:'M22', name:'M22',                        ra:18.607, dec:-23.904,type:'gc', mag:6.17, size:12.6},
+  {id:'M55', name:'M55',                        ra:19.667, dec:-30.964,type:'gc', mag:6.49, size:12.0},
+  {id:'M35', name:'M35',                        ra:6.148,  dec:24.337, type:'oc', mag:5.1, size:24.0},
+  {id:'M36', name:'M36',                        ra:5.603,  dec:34.140, type:'oc', mag:6.0, size:7.2},
+  {id:'M37', name:'M37',                        ra:5.873,  dec:32.545, type:'oc', mag:5.6, size:11.4},
+  {id:'M38', name:'M38',                        ra:5.478,  dec:35.855, type:'oc', mag:6.4, size:9.6},
+  {id:'M41', name:'M41',                        ra:6.783,  dec:-20.759,type:'oc', mag:4.5, size:12.0},
+  {id:'M46', name:'M46',                        ra:7.696,  dec:-14.816,type:'oc', mag:6.1, size:21.0},
+  {id:'M47', name:'M47',                        ra:7.611,  dec:-14.487,type:'oc', mag:4.4, size:19.8},
+  {id:'M67', name:'M67',                        ra:8.856,  dec:11.812, type:'oc', mag:6.9, size:33.0},
+  {id:'M6',  name:'M6 - Farfalla',              ra:17.674, dec:-32.217,type:'oc', mag:4.2, size:15.6},
+  {id:'M7',  name:'M7',                         ra:17.898, dec:-34.793,type:'oc', mag:3.3, size:22.2},
+  {id:'M39', name:'M39',                        ra:21.533, dec:48.433, type:'oc', mag:4.6, size:19.5},
+  {id:'M52', name:'M52',                        ra:23.408, dec:61.593, type:'oc', mag:6.9, size:9.9},
+  {id:'M103',name:'M103',                       ra:1.558,  dec:60.700, type:'oc', mag:7.4, size:4.5},
+  {id:'M34', name:'M34',                        ra:2.702,  dec:42.762, type:'oc', mag:5.2, size:22.5},
+  {id:'M50', name:'M50',                        ra:7.032,  dec:-8.338, type:'oc', mag:5.9, size:14.1},
+  {id:'M48', name:'M48',                        ra:8.228,  dec:-5.75,  type:'oc', mag:5.8, size:28.2},
+  {id:'M65', name:'M65',                        ra:11.315, dec:13.092, type:'gx', mag:9.32, size:7.6, min:2.0, pa:173},
+  {id:'M66', name:'M66',                        ra:11.337, dec:12.991, type:'gx', mag:8.92, size:10.3, min:4.6, pa:168},
+  {id:'M95', name:'M95',                        ra:10.733, dec:11.703, type:'gx', mag:9.77, size:7.2, min:4.5, pa:11},
+  {id:'M96', name:'M96',                        ra:10.780, dec:11.820, type:'gx', mag:9.21, size:8.3, min:5.5, pa:5},
+  {id:'M105',name:'M105',                       ra:10.797, dec:12.582, type:'gx', mag:9.27, size:4.9, min:4.2, pa:71},
+  {id:'M63', name:'M63 - Girasole',             ra:13.263, dec:42.029, type:'gx', mag:8.61, size:11.8, min:7.2, pa:103},
+  {id:'M94', name:'M94',                        ra:12.848, dec:41.120, type:'gx', mag:8.24, size:7.7, min:6.7, pa:105},
+  {id:'M106',name:'M106',                       ra:12.317, dec:47.304, type:'gx', mag:9.29, size:17.0, min:7.2, pa:150},
+  {id:'M64', name:'M64 - Occhio Nero',          ra:12.945, dec:21.683, type:'gx', mag:8.52, size:10.5, min:5.3, pa:114},
+  {id:'M87', name:'M87',                        ra:12.514, dec:12.391, type:'gx', mag:9.0, size:7.1, min:6.7, pa:153},
+  {id:'M49', name:'M49',                        ra:12.497, dec:8.000,  type:'gx', mag:8.28, size:10.2, min:8.4, pa:156},
+  {id:'M84', name:'M84',                        ra:12.417, dec:12.887, type:'gx', mag:9.79, size:7.4, min:6.4, pa:133},
+  {id:'M86', name:'M86',                        ra:12.437, dec:12.946, type:'gx', mag:8.86, size:11.5, min:8.4, pa:128},
+  {id:'M110',name:'M110',                       ra:0.673,  dec:41.685, type:'gx', mag:8.15, size:16.2, min:9.6, pa:170},
+  {id:'M33', name:'M33 - Triangolo',            ra:1.564,  dec:30.660, type:'gx', mag:5.79, size:62.1, min:36.7, pa:23},
+  {id:'M77', name:'M77',                        ra:2.711,  dec:-0.013, type:'gx', mag:9.29, size:6.1, min:5.6, pa:12},
+  {id:'M74', name:'M74',                        ra:1.612,  dec:15.783, type:'gx', mag:9.31, size:9.9, min:9.3, pa:87},
+  {id:'M78', name:'M78',                        ra:5.780,  dec:0.078,  type:'neb', mag:8.0, size:4.5},
+  {id:'M76', name:'M76 - Manubrio Piccola',     ra:1.706,  dec:51.575, type:'pneb', mag:10.1, size:1.1},
+  {id:'M97', name:'M97 - Gufo',                 ra:11.248, dec:55.019, type:'pneb', mag:9.9, size:3.6},
+  {id:'M108',name:'M108',                       ra:11.192, dec:55.674, type:'gx', mag:10.05, size:4.0, min:1.7, pa:79},
+  {id:'M109',name:'M109',                       ra:11.960, dec:53.375, type:'gx', mag:9.88, size:8.1, min:5.6, pa:78},
+  {id:'M83', name:'M83 - Girandola Meridionale',ra:13.617, dec:-29.867,type:'gx', mag:7.21, size:13.6, min:13.2, pa:45},
+  {id:'M9',  name:'M9',                         ra:17.320, dec:-18.516,type:'gc', mag:8.42, size:6.9},
+  {id:'M10', name:'M10',                        ra:16.951, dec:-4.100, type:'gc', mag:4.98, size:9.3},
+  {id:'M12', name:'M12',                        ra:16.787, dec:-1.949, type:'gc', mag:6.07, size:11.1},
+  {id:'M14', name:'M14',                        ra:17.613, dec:-3.246, type:'gc', mag:5.73, size:9.9},
+  {id:'M19', name:'M19',                        ra:17.045, dec:-26.267,type:'gc', mag:5.57, size:7.5},
+  {id:'M62', name:'M62',                        ra:17.020, dec:-30.113,type:'gc', mag:7.39, size:7.8},
+  {id:'M28', name:'M28',                        ra:18.408, dec:-24.870,type:'gc', mag:6.9, size:5.1},
+  {id:'M69', name:'M69',                        ra:18.523, dec:-32.348,type:'gc', mag:8.31, size:5.7},
+  {id:'M70', name:'M70',                        ra:18.719, dec:-32.292,type:'gc', mag:9.06, size:6.6},
+  {id:'M54', name:'M54',                        ra:18.918, dec:-30.480,type:'gc', mag:7.7, size:5.1},
+  {id:'M56', name:'M56',                        ra:19.276, dec:30.184, type:'gc', mag:8.4, size:5.8},
+  {id:'M71', name:'M71',                        ra:19.897, dec:18.779, type:'gc', mag:6.1, size:6.9},
+  {id:'M72', name:'M72',                        ra:20.891, dec:-12.537,type:'gc', mag:8.96, size:4.5},
+  {id:'M30', name:'M30',                        ra:21.673, dec:-23.180,type:'gc', mag:7.1, size:9.0},
+  {id:'M75', name:'M75',                        ra:20.101, dec:-21.922,type:'gc', mag:8.26, size:3.6},
+  {id:'M107',name:'M107',                       ra:16.542, dec:-13.054,type:'gc', mag:8.85, size:7.8},
+  {id:'M18', name:'M18',                        ra:18.335, dec:-17.133,type:'oc', mag:6.9, size:6.0},
+  {id:'M21', name:'M21',                        ra:18.070, dec:-22.505,type:'oc', mag:5.9, size:6.0},
+  {id:'M23', name:'M23',                        ra:17.947, dec:-19.017,type:'oc', mag:5.5, size:16.8},
+  {id:'M24', name:'M24 - Nube Stellare',        ra:18.283, dec:-18.550,type:'oc', mag:4.5, size:120.0, min:60.0, pa:90},
+  {id:'M25', name:'M25',                        ra:18.527, dec:-19.250,type:'oc', mag:4.6, size:14.1},
+  {id:'M26', name:'M26',                        ra:18.751, dec:-9.383, type:'oc', mag:8.87, size:6.0},
+  {id:'M29', name:'M29',                        ra:20.399, dec:38.487, type:'oc', mag:6.6, size:3.6},
+  {id:'M40', name:'M40 - Winnecke 4',           ra:12.372, dec:58.083, type:'oc', size:0.8},
+  {id:'M53', name:'M53',                        ra:13.213, dec:18.168, type:'gc', mag:7.79, size:9.0},
+  {id:'M58', name:'M58',                        ra:12.609, dec:11.818, type:'gx', mag:10.3, size:5.0, min:3.8, pa:90},
+  {id:'M59', name:'M59',                        ra:12.698, dec:11.647, type:'gx', mag:9.56, size:4.5, min:3.2, pa:165},
+  {id:'M60', name:'M60',                        ra:12.727, dec:11.552, type:'gx', mag:8.79, size:6.8, min:5.5, pa:105},
+  {id:'M61', name:'M61',                        ra:12.364, dec:4.474,  type:'gx', mag:10.25, size:6.9, min:6.6, pa:20},
+  {id:'M68', name:'M68',                        ra:12.652, dec:-26.744,type:'gc', mag:7.96, size:6.6},
+  {id:'M73', name:'M73',                        ra:20.983, dec:-12.633,type:'oc', mag:8.9, size:2.8},
+  {id:'M79', name:'M79',                        ra:5.403,  dec:-24.524,type:'gc', mag:8.16, size:7.2},
+  {id:'M80', name:'M80',                        ra:16.284, dec:-22.976,type:'gc', mag:7.3, size:5.7},
+  {id:'M85', name:'M85',                        ra:12.425, dec:18.191, type:'gx', mag:9.05, size:7.0, min:5.3, pa:12},
+  {id:'M88', name:'M88',                        ra:12.533, dec:14.420, type:'gx', mag:10.33, size:8.7, min:4.4, pa:138},
+  {id:'M89', name:'M89',                        ra:12.598, dec:12.556, type:'gx', mag:10.08, size:8.1, min:8.0, pa:150},
+  {id:'M90', name:'M90',                        ra:12.613, dec:13.163, type:'gx', mag:9.54, size:9.1, min:3.8, pa:22},
+  {id:'M91', name:'M91',                        ra:12.591, dec:14.496, type:'gx', mag:10.96, size:5.5, min:4.5, pa:150},
+  {id:'M93', name:'M93',                        ra:7.744,  dec:-23.858,type:'oc', mag:6.2, size:15.0},
+  {id:'M98', name:'M98',                        ra:12.230, dec:14.900, type:'gx', mag:10.84, size:11.0, min:2.7, pa:152},
+  {id:'M99', name:'M99',                        ra:12.313, dec:14.416, type:'gx', mag:9.84, size:5.0, min:4.7, pa:23},
+  {id:'M100',name:'M100',                       ra:12.383, dec:15.822, type:'gx', mag:9.47, size:6.1, min:5.6, pa:108},
+  {id:'M102',name:'M102',                       ra:15.082, dec:55.763, type:'gx', size:6.3},
 ];
 
 const PRESETS = {
@@ -3855,36 +4236,36 @@ const DEEPSKY = [
   {id:"Cl399",name:"Cl399 \u2013 Ammasso della Gruccia",ra:19.42333,dec:20.1833,mag:3.6,type:'ass',con:"Vul",size:70.0},
   {id:"NGC0869",name:"NGC 869 \u2013 Doppio Ammasso (h Persei)",ra:2.31627,dec:57.1172,mag:3.7,type:'oc',con:"Per",size:14.4},
   {id:"NGC0884",name:"NGC 884 \u2013 Doppio Ammasso (chi Persei)",ra:2.37558,dec:57.1441,mag:3.8,type:'oc',con:"Per",size:10.5},
-  {id:"IC4592",name:"IC 4592",ra:16.19963,dec:-19.4547,mag:3.9,type:'neb',con:"Sco",size:60.0},
+  {id:"IC4592",name:"IC 4592",ra:16.19963,dec:-19.4547,mag:3.9,type:'neb',con:"Sco",size:60.0, min:40.0},
   {id:"NGC2232",name:"NGC 2232",ra:6.46698,dec:-4.8474,mag:3.9,type:'oc',con:"Mon",size:9.9},
   {id:"NGC2264",name:"NGC 2264 \u2013 Ammasso Albero di Natale",ra:6.68285,dec:9.8955,mag:3.9,type:'ocn',con:"Mon",size:11.4},
-  {id:"NGC7000",name:"NGC 7000 \u2013 Nebulosa Nord America",ra:20.98809,dec:44.5288,mag:4.0,type:'neb',con:"Cyg",size:120.0},
+  {id:"NGC7000",name:"NGC 7000 \u2013 Nebulosa Nord America",ra:20.98809,dec:44.5288,mag:4.0,type:'neb',con:"Cyg",size:120.0, min:30.0},
   {id:"NGC2362",name:"NGC 2362",ra:7.31152,dec:-24.9542,mag:4.1,type:'oc',con:"CMa",size:7.2},
   {id:"IC4665",name:"IC 4665",ra:17.77422,dec:5.6487,mag:4.2,type:'oc',con:"Oph",size:24.6},
   {id:"NGC1981",name:"NGC 1981 \u2013 Upper Sword",ra:5.58600,dec:-4.4251,mag:4.2,type:'ocn',con:"Ori",size:9.0},
   {id:"IC4756",name:"IC 4756",ra:18.64764,dec:5.4622,mag:4.6,type:'oc',con:"Se2",size:24.0},
   {id:"NGC6530",name:"NGC 6530",ra:18.07529,dec:-24.3581,mag:4.6,type:'ocn',con:"Sgr",size:6.0},
   {id:"NGC6633",name:"NGC 6633",ra:18.45423,dec:6.5082,mag:4.6,type:'oc',con:"Oph",size:12.0},
-  {id:"IC4605",name:"IC 4605",ra:16.50347,dec:-25.1152,mag:4.7,type:'neb',con:"Sco",size:30.0},
+  {id:"IC4605",name:"IC 4605",ra:16.50347,dec:-25.1152,mag:4.7,type:'neb',con:"Sco",size:30.0, min:15.0},
   {id:"NGC2239",name:"NGC 2239",ra:6.53210,dec:4.9429,mag:4.8,type:'ocn',con:"Mon",size:9.3},
-  {id:"NGC1499",name:"NGC 1499 \u2013 Nebulosa California",ra:4.05401,dec:36.3675,mag:5.0,type:'neb',con:"Per",size:160.0},
-  {id:"IC4604",name:"IC 4604 \u2013 rho Oph Nebula",ra:16.42533,dec:-23.4366,mag:5.1,type:'neb',con:"Oph",size:60.0},
+  {id:"NGC1499",name:"NGC 1499 \u2013 Nebulosa California",ra:4.05401,dec:36.3675,mag:5.0,type:'neb',con:"Per",size:160.0, min:40.0},
+  {id:"IC4604",name:"IC 4604 \u2013 rho Oph Nebula",ra:16.42533,dec:-23.4366,mag:5.1,type:'neb',con:"Oph",size:60.0, min:25.0},
   {id:"NGC6871",name:"NGC 6871",ra:20.09984,dec:35.7773,mag:5.2,type:'oc',con:"Cyg",size:9.3},
   {id:"NGC2281",name:"NGC 2281",ra:6.80496,dec:41.0789,mag:5.4,type:'oc',con:"Aur",size:10.8},
   {id:"NGC6281",name:"NGC 6281",ra:17.07814,dec:-37.9852,mag:5.4,type:'oc',con:"Sco",size:10.2},
   {id:"NGC6374",name:"NGC 6374",ra:17.57848,dec:-32.5814,mag:5.5,type:'oc',con:"Sco",size:6.9},
   {id:"NGC7686",name:"NGC 7686",ra:23.50205,dec:49.1341,mag:5.6,type:'oc',con:"And",size:3.6},
   {id:"NGC0752",name:"NGC 752",ra:1.95967,dec:37.8334,mag:5.7,type:'oc',con:"And",size:39.0},
-  {id:"NGC1788",name:"NGC 1788",ra:5.11478,dec:-3.3410,mag:5.8,type:'neb',con:"Ori",size:2.0},
+  {id:"NGC1788",name:"NGC 1788",ra:5.11478,dec:-3.3410,mag:5.8,type:'neb',con:"Ori",size:2.0, min:2.0},
   {id:"NGC2477",name:"NGC 2477",ra:7.86938,dec:-38.5333,mag:5.8,type:'oc',con:"Pup",size:18.6},
   {id:"NGC6124",name:"NGC 6124",ra:16.42224,dec:-40.6537,mag:5.8,type:'oc',con:"Sco",size:13.5},
   {id:"NGC2169",name:"NGC 2169",ra:6.14010,dec:13.9649,mag:5.9,type:'oc',con:"Ori",size:7.2},
-  {id:"IC4703",name:"IC 4703 \u2013 Nebulosa Aquila",ra:18.31562,dec:-13.8454,mag:6.0,type:'neb',con:"Se2",size:5.05},
-  {id:"NGC2238",name:"NGC 2238 \u2013 Nebulosa Rosetta",ra:6.51121,dec:5.0131,mag:6.0,type:'neb',con:"Mon",size:80.0},
+  {id:"IC4703",name:"IC 4703 \u2013 Nebulosa Aquila",ra:18.31562,dec:-13.8454,mag:6.0,type:'neb',con:"Se2",size:5.05, min:5.0, pa:90},
+  {id:"NGC2238",name:"NGC 2238 \u2013 Nebulosa Rosetta",ra:6.51121,dec:5.0131,mag:6.0,type:'neb',con:"Mon",size:80.0, min:60.0},
   {id:"NGC2301",name:"NGC 2301 \u2013 Great Bird Cluster",ra:6.86258,dec:0.4592,mag:6.0,type:'oc',con:"Mon",size:10.2},
   {id:"NGC6322",name:"NGC 6322",ra:17.30716,dec:-42.9340,mag:6.0,type:'oc',con:"Sco",size:6.3},
   {id:"NGC6605",name:"NGC 6605",ra:18.27269,dec:-15.0152,mag:6.0,type:'oc',con:"Se2",size:6.3},
-  {id:"IC1287",name:"IC 1287",ra:18.52380,dec:-10.7958,mag:6.1,type:'neb',con:"Sct",size:20.0},
+  {id:"IC1287",name:"IC 1287",ra:18.52380,dec:-10.7958,mag:6.1,type:'neb',con:"Sct",size:20.0, min:10.0},
   {id:"NGC1746",name:"NGC 1746",ra:5.06394,dec:23.7676,mag:6.1,type:'oc',con:"Tau",size:18.0},
   {id:"NGC7160",name:"NGC 7160",ra:21.89452,dec:62.6033,mag:6.1,type:'oc',con:"Cep",size:4.2},
   {id:"NGC1545",name:"NGC 1545",ra:4.34896,dec:50.2553,mag:6.2,type:'oc',con:"Per",size:4.2},
@@ -3896,8 +4277,8 @@ const DEEPSKY = [
   {id:"NGC1662",name:"NGC 1662",ra:4.80804,dec:10.9304,mag:6.4,type:'oc',con:"Ori",size:13.8},
   {id:"NGC6242",name:"NGC 6242",ra:16.92596,dec:-39.4609,mag:6.4,type:'oc',con:"Sco",size:6.6},
   {id:"NGC7243",name:"NGC 7243",ra:22.25238,dec:49.8975,mag:6.4,type:'oc',con:"Lac",size:15.0},
-  {id:"IC1805",name:"IC 1805",ra:2.54486,dec:61.4569,mag:6.5,type:'ocn',con:"Cas",size:60.0},
-  {id:"IC1848",name:"IC 1848",ra:2.85294,dec:60.4025,mag:6.5,type:'ocn',con:"Cas",size:40.0},
+  {id:"IC1805",name:"IC 1805",ra:2.54486,dec:61.4569,mag:6.5,type:'ocn',con:"Cas",size:60.0, min:60.0},
+  {id:"IC1848",name:"IC 1848",ra:2.85294,dec:60.4025,mag:6.5,type:'ocn',con:"Cas",size:40.0, min:10.0},
   {id:"NGC0129",name:"NGC 129",ra:0.49950,dec:60.2112,mag:6.5,type:'oc',con:"Cas",size:5.4},
   {id:"NGC0654",name:"NGC 654",ra:1.73318,dec:61.8827,mag:6.5,type:'oc',con:"Cas",size:6.3},
   {id:"NGC2354",name:"NGC 2354",ra:7.23480,dec:-25.6889,mag:6.5,type:'oc',con:"CMa",size:4.8},
@@ -3918,32 +4299,32 @@ const DEEPSKY = [
   {id:"NGC1502",name:"NGC 1502",ra:4.13036,dec:62.3315,mag:6.9,type:'oc',con:"Cam",size:10.2},
   {id:"NGC2439",name:"NGC 2439",ra:7.67928,dec:-31.6924,mag:6.9,type:'oc',con:"Pup",size:8.7},
   {id:"NGC5986",name:"NGC 5986",ra:15.76762,dec:-37.7861,mag:6.9,type:'gc',con:"Lup",size:5.4},
-  {id:"IC0444",name:"IC 444",ra:6.30944,dec:23.3133,mag:7.0,type:'neb',con:"Gem",size:8.0},
+  {id:"IC0444",name:"IC 444",ra:6.30944,dec:23.3133,mag:7.0,type:'neb',con:"Gem",size:8.0, min:4.0},
   {id:"NGC0225",name:"NGC 225",ra:0.72677,dec:61.7669,mag:7.0,type:'oc',con:"Cas",size:4.2},
   {id:"NGC1582",name:"NGC 1582",ra:4.52966,dec:43.7848,mag:7.0,type:'oc',con:"Per",size:7.8},
   {id:"NGC1807",name:"NGC 1807",ra:5.17917,dec:16.5128,mag:7.0,type:'oc',con:"Tau",size:5.4},
   {id:"NGC1857",name:"NGC 1857",ra:5.33488,dec:39.3436,mag:7.0,type:'oc',con:"Aur",size:4.5},
-  {id:"NGC1973",name:"NGC 1973",ra:5.58466,dec:-4.7318,mag:7.0,type:'neb',con:"Ori",size:5.0},
-  {id:"NGC1975",name:"NGC 1975",ra:5.58830,dec:-4.6852,mag:7.0,type:'neb',con:"Ori",size:10.0},
+  {id:"NGC1973",name:"NGC 1973",ra:5.58466,dec:-4.7318,mag:7.0,type:'neb',con:"Ori",size:5.0, min:5.0},
+  {id:"NGC1975",name:"NGC 1975",ra:5.58830,dec:-4.6852,mag:7.0,type:'neb',con:"Ori",size:10.0, min:5.0},
   {id:"NGC2571",name:"NGC 2571",ra:8.31565,dec:-29.7493,mag:7.0,type:'oc',con:"Pup",size:7.2},
-  {id:"NGC6960",name:"NGC 6960 \u2013 Nebulosa Velo",ra:20.76616,dec:30.5951,mag:7.0,type:'snr',con:"Cyg",size:210.0},
-  {id:"NGC6992",name:"NGC 6992 \u2013 Eastern Veil",ra:20.93863,dec:31.7428,mag:7.0,type:'snr',con:"Cyg",size:60.0},
-  {id:"NGC6995",name:"NGC 6995 \u2013 Eastern Veil",ra:20.95299,dec:31.2352,mag:7.0,type:'snr',con:"Cyg",size:12.0},
+  {id:"NGC6960",name:"NGC 6960 \u2013 Nebulosa Velo",ra:20.76616,dec:30.5951,mag:7.0,type:'snr',con:"Cyg",size:210.0, min:160.0},
+  {id:"NGC6992",name:"NGC 6992 \u2013 Eastern Veil",ra:20.93863,dec:31.7428,mag:7.0,type:'snr',con:"Cyg",size:60.0, min:8.0},
+  {id:"NGC6995",name:"NGC 6995 \u2013 Eastern Veil",ra:20.95299,dec:31.2352,mag:7.0,type:'snr',con:"Cyg",size:12.0, min:12.0},
   {id:"NGC7063",name:"NGC 7063",ra:21.40603,dec:36.4875,mag:7.0,type:'oc',con:"Cyg",size:6.3},
   {id:"NGC0663",name:"NGC 663",ra:1.77112,dec:61.2182,mag:7.1,type:'oc',con:"Cas",size:6.0},
   {id:"NGC2353",name:"NGC 2353",ra:7.24175,dec:-10.2659,mag:7.1,type:'oc',con:"Mon",size:6.6},
   {id:"NGC6823",name:"NGC 6823",ra:19.71941,dec:23.2999,mag:7.1,type:'ocn',con:"Vul",size:6.0},
   {id:"Mel071",name:"Mel071",ra:7.62600,dec:-12.0550,mag:7.1,type:'oc',con:"Pup",size:14.4},
-  {id:"IC5146",name:"IC 5146 \u2013 Cocoon Nebula",ra:21.89132,dec:47.2669,mag:7.2,type:'ocn',con:"Cyg",size:10.0},
+  {id:"IC5146",name:"IC 5146 \u2013 Cocoon Nebula",ra:21.89132,dec:47.2669,mag:7.2,type:'ocn',con:"Cyg",size:10.0, min:10.0},
   {id:"NGC1851",name:"NGC 1851",ra:5.23520,dec:-40.0466,mag:7.2,type:'gc',con:"Col",size:9.0},
   {id:"NGC2335",name:"NGC 2335",ra:7.11374,dec:-10.0286,mag:7.2,type:'oc',con:"Mon",size:8.7},
   {id:"NGC2360",name:"NGC 2360 \u2013 Caroline's Cluster",ra:7.29531,dec:-15.6413,mag:7.2,type:'oc',con:"CMa",size:9.0},
-  {id:"NGC5128",name:"NGC 5128 \u2013 Centaurus A",ra:13.42434,dec:-43.0191,mag:7.2,type:'gx',con:"Cen",size:25.88},
+  {id:"NGC5128",name:"NGC 5128 \u2013 Centaurus A",ra:13.42434,dec:-43.0191,mag:7.2,type:'gx',con:"Cen",size:25.88, min:19.8, pa:33},
   {id:"NGC6235",name:"NGC 6235",ra:16.89038,dec:-22.1774,mag:7.2,type:'gc',con:"Oph",size:4.2},
   {id:"NGC6425",name:"NGC 6425",ra:17.78380,dec:-31.5294,mag:7.2,type:'oc',con:"Sco",size:4.8},
-  {id:"NGC7023",name:"NGC 7023 \u2013 Iris Nebula",ra:21.02656,dec:68.1696,mag:7.2,type:'neb',con:"Cep",size:10.0},
+  {id:"NGC7023",name:"NGC 7023 \u2013 Iris Nebula",ra:21.02656,dec:68.1696,mag:7.2,type:'neb',con:"Cep",size:10.0, min:8.0},
   {id:"NGC7082",name:"NGC 7082",ra:21.48826,dec:47.1263,mag:7.2,type:'oc',con:"Cyg",size:9.0},
-  {id:"NGC7380",name:"NGC 7380",ra:22.78917,dec:58.1324,mag:7.2,type:'ocn',con:"Cep",size:25.0},
+  {id:"NGC7380",name:"NGC 7380",ra:22.78917,dec:58.1324,mag:7.2,type:'ocn',con:"Cep",size:25.0, min:20.0},
   {id:"IC4996",name:"IC 4996",ra:20.27591,dec:37.5553,mag:7.3,type:'oc',con:"Cyg",size:6.0},
   {id:"NGC2251",name:"NGC 2251",ra:6.57736,dec:8.3664,mag:7.3,type:'oc',con:"Mon",size:5.7},
   {id:"NGC2409",name:"NGC 2409",ra:7.52687,dec:-17.1904,mag:7.3,type:'oc',con:"Pup",size:0.11},
@@ -3957,7 +4338,7 @@ const DEEPSKY = [
   {id:"NGC6284",name:"NGC 6284",ra:17.07465,dec:-24.7643,mag:7.4,type:'gc',con:"Oph",size:6.6},
   {id:"NGC6356",name:"NGC 6356",ra:17.39305,dec:-17.8130,mag:7.4,type:'gc',con:"Oph",size:5.4},
   {id:"NGC6388",name:"NGC 6388",ra:17.60484,dec:-44.7356,mag:7.4,type:'gc',con:"Sco",size:8.4},
-  {id:"NGC6888",name:"NGC 6888 \u2013 Crescent Nebula",ra:20.20182,dec:38.3549,mag:7.4,type:'neb',con:"Cyg",size:20.0},
+  {id:"NGC6888",name:"NGC 6888 \u2013 Crescent Nebula",ra:20.20182,dec:38.3549,mag:7.4,type:'neb',con:"Cyg",size:20.0, min:10.0},
   {id:"NGC6910",name:"NGC 6910",ra:20.38668,dec:40.7786,mag:7.4,type:'oc',con:"Cyg",size:6.3},
   {id:"ESO356-004",name:"ESO356-004 \u2013 Fornax Dwarf Spheroidal",ra:2.66648,dec:-34.4492,mag:7.4,type:'gx',con:"For",size:12.88},
   {id:"NGC1893",name:"NGC 1893",ra:5.37893,dec:33.4120,mag:7.5,type:'oc',con:"Aur",size:6.0},
@@ -3974,8 +4355,8 @@ const DEEPSKY = [
   {id:"NGC6520",name:"NGC 6520",ra:18.05671,dec:-27.8861,mag:7.6,type:'oc',con:"Sgr",size:5.4},
   {id:"NGC6866",name:"NGC 6866",ra:20.06533,dec:44.1591,mag:7.6,type:'oc',con:"Cyg",size:5.1},
   {id:"NGC7039",name:"NGC 7039",ra:21.17994,dec:45.6218,mag:7.6,type:'oc',con:"Cyg",size:7.8},
-  {id:"IC0447",name:"IC 447",ra:6.51676,dec:9.8974,mag:7.7,type:'neb',con:"Mon",size:25.0},
-  {id:"IC1284",name:"IC 1284",ra:18.29434,dec:-19.6720,mag:7.7,type:'neb',con:"Sgr",size:16.98},
+  {id:"IC0447",name:"IC 447",ra:6.51676,dec:9.8974,mag:7.7,type:'neb',con:"Mon",size:25.0, min:20.0},
+  {id:"IC1284",name:"IC 1284",ra:18.29434,dec:-19.6720,mag:7.7,type:'neb',con:"Sgr",size:16.98, min:15.1},
   {id:"NGC1778",name:"NGC 1778",ra:5.13492,dec:37.0228,mag:7.7,type:'oc',con:"Aur",size:4.5},
   {id:"NGC1817",name:"NGC 1817",ra:5.20730,dec:16.6841,mag:7.7,type:'oc',con:"Tau",size:9.3},
   {id:"NGC2252",name:"NGC 2252",ra:6.57860,dec:5.3662,mag:7.7,type:'oc',con:"Mon",size:6.6},
@@ -3994,8 +4375,8 @@ const DEEPSKY = [
   {id:"NGC2489",name:"NGC 2489",ra:7.93748,dec:-30.0608,mag:7.9,type:'oc',con:"Pup",size:4.2},
   {id:"NGC6830",name:"NGC 6830",ra:19.84988,dec:23.1001,mag:7.9,type:'oc',con:"Vul",size:4.2},
   {id:"NGC7510",name:"NGC 7510",ra:23.18438,dec:60.5709,mag:7.9,type:'oc',con:"Cep",size:3.9},
-  {id:"IC5070",name:"IC 5070 \u2013 Pelican Nebula",ra:20.85020,dec:44.4015,mag:8.0,type:'neb',con:"Cyg",size:60.0},
-  {id:"NGC2071",name:"NGC 2071",ra:5.78535,dec:0.2943,mag:8.0,type:'ocn',con:"Ori",size:7.0},
+  {id:"IC5070",name:"IC 5070 \u2013 Pelican Nebula",ra:20.85020,dec:44.4015,mag:8.0,type:'neb',con:"Cyg",size:60.0, min:50.0},
+  {id:"NGC2071",name:"NGC 2071",ra:5.78535,dec:0.2943,mag:8.0,type:'ocn',con:"Ori",size:7.0, min:5.0},
   {id:"NGC2374",name:"NGC 2374",ra:7.39891,dec:-13.2634,mag:8.0,type:'oc',con:"CMa",size:9.0},
   {id:"NGC2395",name:"NGC 2395",ra:7.45357,dec:13.6082,mag:8.0,type:'oc',con:"Gem",size:4.62},
   {id:"NGC6259",name:"NGC 6259",ra:17.01261,dec:-44.6550,mag:8.0,type:'oc',con:"Sco",size:6.0},
@@ -4003,7 +4384,7 @@ const DEEPSKY = [
   {id:"NGC6546",name:"NGC 6546",ra:18.12293,dec:-23.2962,mag:8.0,type:'oc',con:"Sgr",size:6.9},
   {id:"NGC6647",name:"NGC 6647",ra:18.54704,dec:-17.2287,mag:8.0,type:'oc',con:"Sgr",size:3.6},
   {id:"NGC6883",name:"NGC 6883",ra:20.18882,dec:35.8322,mag:8.0,type:'oc',con:"Cyg",size:4.5},
-  {id:"NGC7009",name:"NGC 7009 \u2013 Saturn Nebula",ra:21.06966,dec:-11.3632,mag:8.0,type:'pneb',con:"Aqr",size:0.7},
+  {id:"NGC7009",name:"NGC 7009 \u2013 Saturn Nebula",ra:21.06966,dec:-11.3632,mag:8.0,type:'pneb',con:"Aqr",size:0.7, min:0.5, pa:70},
   {id:"NGC0188",name:"NGC 188",ra:0.79098,dec:85.2696,mag:8.1,type:'oc',con:"Cep",size:17.7},
   {id:"NGC0288",name:"NGC 288",ra:0.87985,dec:-26.5899,mag:8.1,type:'gc',con:"Scl",size:9.6},
   {id:"NGC6572",name:"NGC 6572",ra:18.20172,dec:6.8537,mag:8.1,type:'pneb',con:"Oph",size:0.18},
@@ -4025,15 +4406,15 @@ const DEEPSKY = [
   {id:"NGC2215",name:"NGC 2215",ra:6.34701,dec:-7.2838,mag:8.4,type:'oc',con:"Mon",size:8.4},
   {id:"NGC2324",name:"NGC 2324",ra:7.06888,dec:1.0446,mag:8.4,type:'oc',con:"Mon",size:8.7},
   {id:"NGC2383",name:"NGC 2383",ra:7.41108,dec:-20.9476,mag:8.4,type:'oc',con:"CMa",size:4.2},
-  {id:"NGC2403",name:"NGC 2403",ra:7.61428,dec:65.6026,mag:8.4,type:'gx',con:"Cam",size:19.95},
+  {id:"NGC2403",name:"NGC 2403",ra:7.61428,dec:65.6026,mag:8.4,type:'gx',con:"Cam",size:19.95, min:10.1, pa:126},
   {id:"NGC2627",name:"NGC 2627",ra:8.62082,dec:-29.9504,mag:8.4,type:'oc',con:"Pyx",size:5.4},
   {id:"NGC7086",name:"NGC 7086",ra:21.50765,dec:51.6005,mag:8.4,type:'oc',con:"Cyg",size:4.8},
   {id:"NGC7261",name:"NGC 7261",ra:22.33511,dec:58.0518,mag:8.4,type:'oc',con:"Cep",size:6.9},
-  {id:"NGC0055",name:"NGC 055",ra:0.24822,dec:-39.1966,mag:8.5,type:'gx',con:"Scl",size:29.85},
-  {id:"NGC1316",name:"NGC 1316 \u2013 Fornax A",ra:3.37826,dec:-37.2082,mag:8.5,type:'gx',con:"For",size:13.46},
+  {id:"NGC0055",name:"NGC 055",ra:0.24822,dec:-39.1966,mag:8.5,type:'gx',con:"Scl",size:29.85, min:3.0, pa:101},
+  {id:"NGC1316",name:"NGC 1316 \u2013 Fornax A",ra:3.37826,dec:-37.2082,mag:8.5,type:'gx',con:"For",size:13.46, min:7.7, pa:50},
   {id:"NGC2194",name:"NGC 2194",ra:6.22942,dec:12.8067,mag:8.5,type:'oc',con:"Ori",size:8.7},
   {id:"NGC2236",name:"NGC 2236",ra:6.49436,dec:6.8307,mag:8.5,type:'oc',con:"Mon",size:5.4},
-  {id:"NGC2247",name:"NGC 2247",ra:6.55144,dec:10.3223,mag:8.5,type:'neb',con:"Mon",size:2.0},
+  {id:"NGC2247",name:"NGC 2247",ra:6.55144,dec:10.3223,mag:8.5,type:'neb',con:"Mon",size:2.0, min:2.0},
   {id:"NGC2331",name:"NGC 2331",ra:7.11662,dec:27.2616,mag:8.5,type:'oc',con:"Gem",size:4.8},
   {id:"NGC5897",name:"NGC 5897",ra:15.29011,dec:-21.0101,mag:8.5,type:'gc',con:"Lib",size:9.9},
   {id:"NGC6192",name:"NGC 6192",ra:16.67330,dec:-43.3668,mag:8.5,type:'oc',con:"Sco",size:7.5},
@@ -4045,8 +4426,8 @@ const DEEPSKY = [
   {id:"NGC2204",name:"NGC 2204",ra:6.25895,dec:-18.6659,mag:8.6,type:'oc',con:"CMa",size:6.3},
   {id:"NGC6568",name:"NGC 6568",ra:18.21229,dec:-21.6280,mag:8.6,type:'oc',con:"Sgr",size:7.8},
   {id:"ESO351-030",name:"ESO351-030 \u2013 Sculptor Dwarf Elliptical",ra:1.00260,dec:-33.7090,mag:8.6,type:'gx',con:"Scl",size:15.26},
-  {id:"NGC0300",name:"NGC 300",ra:0.91486,dec:-37.6844,mag:8.7,type:'gx',con:"Scl",size:19.41},
-  {id:"NGC1269",name:"NGC 1269",ra:3.28850,dec:-41.1081,mag:8.7,type:'gx',con:"Eri",size:11.17},
+  {id:"NGC0300",name:"NGC 300",ra:0.91486,dec:-37.6844,mag:8.7,type:'gx',con:"Scl",size:19.41, min:13.1, pa:114},
+  {id:"NGC1269",name:"NGC 1269",ra:3.28850,dec:-41.1081,mag:8.7,type:'gx',con:"Eri",size:11.17, min:9.9, pa:156},
   {id:"NGC2186",name:"NGC 2186",ra:6.20198,dec:5.4586,mag:8.7,type:'oc',con:"Ori",size:4.2},
   {id:"NGC6712",name:"NGC 6712",ra:18.88469,dec:-8.7055,mag:8.7,type:'gc',con:"Sct",size:5.7},
   {id:"NGC0189",name:"NGC 189",ra:0.65992,dec:61.0945,mag:8.8,type:'oc',con:"Cas",size:2.7},
@@ -4057,10 +4438,10 @@ const DEEPSKY = [
   {id:"NGC2250",name:"NGC 2250",ra:6.56386,dec:-5.0844,mag:8.9,type:'oc',con:"Mon",size:5.1},
   {id:"NGC2298",name:"NGC 2298",ra:6.81644,dec:-36.0053,mag:8.9,type:'gc',con:"Pup",size:4.8},
   {id:"NGC2299",name:"NGC 2299",ra:6.86491,dec:-7.0827,mag:8.9,type:'oc',con:"Mon",size:4.8},
-  {id:"NGC2903",name:"NGC 2903",ra:9.53614,dec:21.5008,mag:8.9,type:'gx',con:"Leo",size:11.94},
+  {id:"NGC2903",name:"NGC 2903",ra:9.53614,dec:21.5008,mag:8.9,type:'gx',con:"Leo",size:11.94, min:5.3, pa:22},
   {id:"NGC6649",name:"NGC 6649",ra:18.55777,dec:-10.4028,mag:8.9,type:'oc',con:"Sct",size:5.58},
   {id:"NGC2180",name:"NGC 2180",ra:6.16007,dec:4.7116,mag:9.0,type:'oc',con:"Ori",size:4.2},
-  {id:"NGC2182",name:"NGC 2182",ra:6.15860,dec:-6.3264,mag:9.0,type:'neb',con:"Mon",size:3.0},
+  {id:"NGC2182",name:"NGC 2182",ra:6.15860,dec:-6.3264,mag:9.0,type:'neb',con:"Mon",size:3.0, min:2.0},
   {id:"NGC6293",name:"NGC 6293",ra:17.16956,dec:-26.5817,mag:9.0,type:'gc',con:"Oph",size:4.5},
   {id:"NGC6304",name:"NGC 6304",ra:17.24236,dec:-29.4623,mag:9.0,type:'gc',con:"Oph",size:3.6},
   {id:"NGC6316",name:"NGC 6316",ra:17.27706,dec:-28.1400,mag:9.0,type:'gc',con:"Oph",size:4.8},
@@ -4071,44 +4452,44 @@ const DEEPSKY = [
   {id:"NGC0146",name:"NGC 146",ra:0.55109,dec:63.3090,mag:9.1,type:'oc',con:"Cas",size:3.6},
   {id:"NGC2112",name:"NGC 2112",ra:5.89589,dec:0.4108,mag:9.1,type:'oc',con:"Ori",size:21.0},
   {id:"NGC2254",name:"NGC 2254",ra:6.59713,dec:7.6733,mag:9.1,type:'oc',con:"Mon",size:4.2},
-  {id:"NGC3115",name:"NGC 3115 \u2013 Spindle Galaxy",ra:10.08722,dec:-7.7186,mag:9.1,type:'gx',con:"Sex",size:7.1},
-  {id:"NGC3521",name:"NGC 3521",ra:11.09683,dec:-0.0359,mag:9.1,type:'gx',con:"Leo",size:8.32},
+  {id:"NGC3115",name:"NGC 3115 \u2013 Spindle Galaxy",ra:10.08722,dec:-7.7186,mag:9.1,type:'gx',con:"Sex",size:7.1, min:3.0, pa:43},
+  {id:"NGC3521",name:"NGC 3521",ra:11.09683,dec:-0.0359,mag:9.1,type:'gx',con:"Leo",size:8.32, min:4.5, pa:162},
   {id:"NGC6553",name:"NGC 6553",ra:18.15486,dec:-25.9079,mag:9.1,type:'gc',con:"Sgr",size:5.4},
-  {id:"NGC6946",name:"NGC 6946 \u2013 Fireworks Galaxy",ra:20.58120,dec:60.1539,mag:9.1,type:'gx',con:"Cyg",size:11.4},
+  {id:"NGC6946",name:"NGC 6946 \u2013 Fireworks Galaxy",ra:20.58120,dec:60.1539,mag:9.1,type:'gx',con:"Cyg",size:11.4, min:10.8, pa:52},
   {id:"NGC7031",name:"NGC 7031",ra:21.12015,dec:50.8756,mag:9.1,type:'oc',con:"Cyg",size:3.9},
-  {id:"IC0127",name:"IC 127",ra:1.49656,dec:-6.9801,mag:9.2,type:'gx',con:"Cet",size:1.69},
-  {id:"NGC0185",name:"NGC 185",ra:0.64944,dec:48.3374,mag:9.2,type:'gx',con:"Cas",size:12.94},
-  {id:"NGC0247",name:"NGC 247",ra:0.78571,dec:-20.7604,mag:9.2,type:'gx',con:"Cet",size:19.68},
+  {id:"IC0127",name:"IC 127",ra:1.49656,dec:-6.9801,mag:9.2,type:'gx',con:"Cet",size:1.69, min:0.5, pa:110},
+  {id:"NGC0185",name:"NGC 185",ra:0.64944,dec:48.3374,mag:9.2,type:'gx',con:"Cas",size:12.94, min:10.8, pa:38},
+  {id:"NGC0247",name:"NGC 247",ra:0.78571,dec:-20.7604,mag:9.2,type:'gx',con:"Cet",size:19.68, min:5.5, pa:167},
   {id:"NGC2587",name:"NGC 2587",ra:8.39002,dec:-29.5087,mag:9.2,type:'oc',con:"Pup",size:6.0},
   {id:"NGC2658",name:"NGC 2658",ra:8.72426,dec:-32.6562,mag:9.2,type:'oc',con:"Pyx",size:7.2},
   {id:"NGC3132",name:"NGC 3132 \u2013 Eight-Burst Nebula",ra:10.11715,dec:-40.4366,mag:9.2,type:'pneb',con:"Vel",size:0.5},
-  {id:"NGC4631",name:"NGC 4631 \u2013 Whale Galaxy",ra:12.70222,dec:32.5415,mag:9.2,type:'gx',con:"CVn",size:14.45},
+  {id:"NGC4631",name:"NGC 4631 \u2013 Whale Galaxy",ra:12.70222,dec:32.5415,mag:9.2,type:'gx',con:"CVn",size:14.45, min:2.2, pa:86},
   {id:"NGC6704",name:"NGC 6704",ra:18.84605,dec:-5.2054,mag:9.2,type:'oc',con:"Sct",size:3.3},
   {id:"NGC7245",name:"NGC 7245",ra:22.25320,dec:54.3426,mag:9.2,type:'oc',con:"Lac",size:3.9},
   {id:"NGC0381",name:"NGC 381",ra:1.13834,dec:61.5833,mag:9.3,type:'oc',con:"Cas",size:6.0},
   {id:"NGC2509",name:"NGC 2509",ra:8.01328,dec:-19.0505,mag:9.3,type:'oc',con:"Pup",size:4.8},
   {id:"NGC6818",name:"NGC 6818 \u2013 Little Gem Nebula",ra:19.73270,dec:-14.1532,mag:9.3,type:'pneb',con:"Sgr",size:0.77},
   {id:"NGC7142",name:"NGC 7142",ra:21.75264,dec:65.7744,mag:9.3,type:'oc',con:"Cep",size:9.6},
-  {id:"NGC7793",name:"NGC 7793",ra:23.96384,dec:-32.5910,mag:9.3,type:'gx',con:"Scl",size:10.42},
+  {id:"NGC7793",name:"NGC 7793",ra:23.96384,dec:-32.5910,mag:9.3,type:'gx',con:"Scl",size:10.42, min:6.0, pa:89},
   {id:"IC0418",name:"IC 418",ra:5.45783,dec:-12.6973,mag:9.4,type:'pneb',con:"Lep",size:0.2},
   {id:"NGC0133",name:"NGC 133",ra:0.52138,dec:63.3526,mag:9.4,type:'oc',con:"Cas",size:2.1},
   {id:"NGC1360",name:"NGC 1360",ra:3.55407,dec:-25.8717,mag:9.4,type:'pneb',con:"For",size:6.42},
-  {id:"NGC1399",name:"NGC 1399",ra:3.64140,dec:-35.4507,mag:9.4,type:'gx',con:"For",size:8.51},
+  {id:"NGC1399",name:"NGC 1399",ra:3.64140,dec:-35.4507,mag:9.4,type:'gx',con:"For",size:8.51, min:7.7, pa:150},
   {id:"NGC2141",name:"NGC 2141",ra:6.04863,dec:10.4465,mag:9.4,type:'oc',con:"Ori",size:5.4},
   {id:"NGC2243",name:"NGC 2243",ra:6.49291,dec:-31.2813,mag:9.4,type:'oc',con:"CMa",size:5.1},
   {id:"NGC2440",name:"NGC 2440",ra:7.69871,dec:-18.2085,mag:9.4,type:'pneb',con:"Pup",size:0.27},
-  {id:"NGC2997",name:"NGC 2997",ra:9.76078,dec:-31.1911,mag:9.4,type:'gx',con:"Ant",size:10.26},
-  {id:"NGC3628",name:"NGC 3628",ra:11.33805,dec:13.5897,mag:9.4,type:'gx',con:"Leo",size:11.04},
-  {id:"NGC4365",name:"NGC 4365",ra:12.40786,dec:7.3177,mag:9.4,type:'gx',con:"Vir",size:5.12},
-  {id:"NGC4697",name:"NGC 4697",ra:12.80997,dec:-5.8007,mag:9.4,type:'gx',con:"Vir",size:7.14},
-  {id:"NGC4725",name:"NGC 4725",ra:12.84072,dec:25.5008,mag:9.4,type:'gx',con:"Com",size:9.71},
+  {id:"NGC2997",name:"NGC 2997",ra:9.76078,dec:-31.1911,mag:9.4,type:'gx',con:"Ant",size:10.26, min:6.2, pa:97},
+  {id:"NGC3628",name:"NGC 3628",ra:11.33805,dec:13.5897,mag:9.4,type:'gx',con:"Leo",size:11.04, min:3.4, pa:104},
+  {id:"NGC4365",name:"NGC 4365",ra:12.40786,dec:7.3177,mag:9.4,type:'gx',con:"Vir",size:5.12, min:3.7, pa:40},
+  {id:"NGC4697",name:"NGC 4697",ra:12.80997,dec:-5.8007,mag:9.4,type:'gx',con:"Vir",size:7.14, min:4.2, pa:83},
+  {id:"NGC4725",name:"NGC 4725",ra:12.84072,dec:25.5008,mag:9.4,type:'gx',con:"Com",size:9.71, min:7.1, pa:36},
   {id:"NGC6683",name:"NGC 6683",ra:18.70388,dec:-6.2123,mag:9.4,type:'oc',con:"Sct",size:3.0},
   {id:"NGC6826",name:"NGC 6826 \u2013 Blinking Planetary",ra:19.74670,dec:50.5250,mag:9.4,type:'pneb',con:"Cyg",size:0.42},
-  {id:"NGC7331",name:"NGC 7331",ra:22.61778,dec:34.4155,mag:9.4,type:'gx',con:"Peg",size:9.27},
+  {id:"NGC7331",name:"NGC 7331",ra:22.61778,dec:34.4155,mag:9.4,type:'gx',con:"Peg",size:9.27, min:3.8, pa:170},
   {id:"NGC7788",name:"NGC 7788",ra:23.94599,dec:61.3999,mag:9.4,type:'oc',con:"Cas",size:2.4},
   {id:"NGC0559",name:"NGC 559",ra:1.49255,dec:63.3014,mag:9.5,type:'oc',con:"Cas",size:9.0},
-  {id:"NGC1023",name:"NGC 1023",ra:2.67334,dec:39.0633,mag:9.5,type:'gx',con:"Per",size:7.4},
-  {id:"NGC1999",name:"NGC 1999",ra:5.60704,dec:-6.7159,mag:9.5,type:'neb',con:"Ori",size:2.0},
+  {id:"NGC1023",name:"NGC 1023",ra:2.67334,dec:39.0633,mag:9.5,type:'gx',con:"Per",size:7.4, min:3.1, pa:87},
+  {id:"NGC1999",name:"NGC 1999",ra:5.60704,dec:-6.7159,mag:9.5,type:'neb',con:"Ori",size:2.0, min:2.0},
   {id:"NGC2266",name:"NGC 2266",ra:6.72200,dec:26.9696,mag:9.5,type:'oc',con:"Gem",size:4.2},
   {id:"NGC2451",name:"NGC 2451",ra:7.75417,dec:-37.9674,mag:9.5,type:'oc',con:"Pup",size:37.5},
   {id:"NGC6268",name:"NGC 6268",ra:17.03622,dec:-39.7282,mag:9.5,type:'oc',con:"Sco",size:6.0},
@@ -5256,9 +5637,30 @@ function renderInfoPanel(){
     rows.push(`<div class="obj-line">Componenti di magnitudine ${sel.mag.toFixed(1).replace('.',',')} e ${sel.mag2.toFixed(1).replace('.',',')}, separate di <b>${sepTxt} d'arco</b></div>`);
     rows.push(`<div class="obj-line">Si separa con: <b>${sel.strum}</b></div>`);
   }
-  if (sel.kind === 'deepsky' && sel.size){
-    const l = sel.size >= 60 ? (sel.size/60).toFixed(1).replace('.',',')+'°' : sel.size.toFixed(0)+"'";
-    rows.push(`<div class="obj-line">Dimensione apparente ${l}${sel.size>30?' — più largo della Luna piena':''}</div>`);
+  if ((sel.kind === 'deepsky' || sel.kind === 'messier') && sel.size){
+    // Sotto i 10 primi serve il decimale: arrotondando, M57 (1,3') e
+    // M76 (1,1') diventerebbero entrambi "1'" e la differenza sparirebbe.
+    const l = sel.size >= 60
+      ? (sel.size/60).toFixed(1).replace('.',',')+'\u00B0'
+      : (sel.size < 10 ? sel.size.toFixed(1).replace('.',',') : sel.size.toFixed(0)) + "'";
+    // Il paragone con la Luna piena (31' circa) dice piu' di un numero:
+    // e' il solo metro di misura angolare che tutti hanno gia' in mente.
+    // Le soglie sono frazioni vere di 31', non a occhio: a 16,5' M13 e'
+    // poco piu' di meta' Luna, non "un quarto".
+    const lune = sel.size / 31;
+    let confronto = '';
+    if      (lune >= 3)    confronto = ' \u2014 diverse volte la Luna piena';
+    else if (lune >= 1.8)  confronto = ' \u2014 il doppio della Luna piena';
+    else if (lune >= 1.2)  confronto = ' \u2014 pi\u00F9 largo della Luna piena';
+    else if (lune >= 0.8)  confronto = ' \u2014 quanto la Luna piena';
+    else if (lune >= 0.4)  confronto = ' \u2014 circa met\u00E0 della Luna piena';
+    else if (lune >= 0.18) confronto = ' \u2014 circa un quinto della Luna piena';
+    else if (lune >= 0.08) confronto = ' \u2014 un decimo della Luna piena';
+    else                   confronto = ' \u2014 molto piccolo: serve ingrandire';
+    const etichetta = sel.sizeIsSep
+      ? 'Separazione delle due stelle'
+      : 'Dimensione apparente';
+    rows.push(`<div class="obj-line">${etichetta} ${l}${confronto}</div>`);
   }
   if (sel.kind === 'planet'){
     const luce = sel.delta*8.3168;          // minuti-luce per UA
@@ -5339,7 +5741,14 @@ function selectionFromHit(o){
     label:o.o.name, sep:o.o.sep, strum:o.o.strum, desc:o.o.desc, cons:o.o.cons,
     conName: CON_NAMES[o.o.con] || o.o.con, typeName:'stella doppia' };
   if (o.kind === 'messier') return {
-    kind:'messier', id:'M'+o.m.id, ra:o.m.ra, dec:o.m.dec, mag:o.m.mag,
+    kind:'messier', id:'M'+o.m.id, ra:o.m.ra, dec:o.m.dec, mag:o.m.mag, size:o.m.size,
+    // M40 non e' un oggetto esteso ma una doppia ottica: la sua "dimensione"
+    // e' la separazione fra le due stelle e va detta cosi'. Il controllo usa
+    // o.m.id e non sel.id perche' quest'ultimo esce da 'M'+o.m.id, cioe'
+    // 'MM40': l'id doppio e' storico e non si tocca, perche' selKey() lo usa
+    // come chiave del diario e cambiarlo cancellerebbe le osservazioni gia'
+    // salvate dagli utenti.
+    sizeIsSep: (o.m.id === 'M40'),
     label:o.m.name || ('M'+o.m.id), type:o.m.type,
     typeName: MESSIER_TYPE_LABELS[o.m.type] || '' };
   return null;
@@ -5518,6 +5927,19 @@ function goToTarget(hit){
   renderInfoPanel();
 
   if (state.mode === 'disc'){ requestDraw(); return hz; }
+
+  /* In realta' aumentata la vista NON si anima e il giroscopio resta
+     acceso. Muovere la vista da soli farebbe ruotare il cielo disegnato
+     mentre la fotocamera resta ferma: la sovrapposizione si romperebbe
+     e con essa tutto il senso della modalita'. Qui il compito dell'app
+     e' indicare la direzione con l'evidenziazione e la freccia gia'
+     previste da drawHighlight; a girarsi e' l'osservatore. E' anche il
+     gesto giusto da insegnare durante un percorso guidato. */
+  if (state.ar){
+    setGeoStatusToast('Girati verso ' + (state.highlight.label || 'l\'oggetto') + ': segui la freccia.');
+    requestDraw();
+    return hz;
+  }
 
   if (state.gyro) setGyro(false);      // altrimenti il sensore riporta subito indietro la vista
   animateViewTo(hz.az, Math.max(-10, Math.min(88, hz.alt)));
@@ -6354,7 +6776,9 @@ function startRoute(id){
   state.route = { id, step: 0 };
   state.selected = null;
   state.highlight = null;
-  if (state.gyro) setGyro(false);
+  // in realta' aumentata il giroscopio deve restare acceso: e' l'utente
+  // che si gira verso ogni tappa, guidato dalla freccia
+  if (state.gyro && !state.ar) setGyro(false);
   closeMenu();
   showRouteStep();
 }
@@ -6371,7 +6795,19 @@ function showRouteStep(){
   if (c && state.mode === 'fp'){
     const pr = precessedFixed('rs'+rt.id+R.step, c.ra, c.dec, state.date);
     const hz = equatorialToHorizontal(pr.raHours, pr.decDeg, state.date, state.lat, state.lon);
-    animateViewTo(hz.az, Math.max(-8, Math.min(86, hz.alt)));
+    if (state.ar){
+      /* In realta' aumentata la vista non si sposta da sola: resta
+         agganciata a dove punta il telefono. Il passo si indica con
+         l'evidenziazione, e drawHighlight disegna la freccia verso il
+         bersaglio finche' e' fuori inquadratura. E' l'osservatore che
+         si gira, che e' poi il gesto che un percorso guidato deve
+         insegnare. */
+      state.highlight = { az: hz.az, alt: hz.alt,
+                          label: passo.titolo || rt.nome,
+                          until: Date.now()+120000, wide: true };
+    } else {
+      animateViewTo(hz.az, Math.max(-8, Math.min(86, hz.alt)));
+    }
   }
 
   const ultimo = R.step === rt.passi.length-1;
@@ -6447,7 +6883,10 @@ function skyStarLimit(){
   const tetto = skyQ().limite;
   if (state.mode !== 'fp') return Math.min(tetto, 4.6);
   if (state.fov > FOV_DEFAULT) return tetto - 1.0;
-  const t = (FOV_DEFAULT - state.fov) / (FOV_DEFAULT - FOV_MIN);   // 0 largo, 1 stretto
+  // con la vista strumento il campo puo' scendere sotto FOV_MIN: il
+  // rapporto va limitato a 1, altrimenti supererebbe il tetto imposto
+  // dalla qualita' del cielo, che non dipende da quanto si ingrandisce
+  const t = Math.min(1, (FOV_DEFAULT - state.fov) / (FOV_DEFAULT - FOV_MIN));
   return tetto - 0.8 + t * 0.8;
 }
 
@@ -6896,7 +7335,7 @@ function startQuiz(){
     return;
   }
   state.quiz = { punteggio: 0, tentativi: 0, cand, corrente: null, esito: null };
-  if (state.gyro) setGyro(false);
+  if (state.gyro && !state.ar) setGyro(false);
   closeMenu();
   prossimaDomanda();
 }
@@ -8288,6 +8727,235 @@ const SWITCHES = [
   ['toggleMessier','showMessier'], ['toggleNGC','showNGC'], ['toggleDoubles','showDoubles'],
 ];
 
+/* =============== STRUMENTI: INTERFACCIA =============== */
+
+let formTipo = 'bino';          // tipo scelto nel form aperto
+
+/* Legge i campi del form e ne ricava uno strumento provvisorio, senza
+   salvarlo: serve sia all'anteprima sia al salvataggio, cosi' i due
+   non possono divergere. */
+function strumentoDalForm(){
+  const num = id=>{
+    const el = document.getElementById(id);
+    if (!el) return null;
+    const v = parseFloat(el.value);
+    return (isFinite(v) && v > 0) ? v : null;
+  };
+  const nomeEl = document.getElementById('strumNome');
+  const s = {
+    tipo: formTipo,
+    nome: (nomeEl && nomeEl.value.trim()) || '',
+    campoApp: num('strumCampoApp'),
+  };
+  if (formTipo === 'bino'){
+    s.ingr = num('strumBinoIngr');
+    s.apertura = num('strumBinoApert');
+  } else {
+    s.focaleTele = num('strumTeleFoc');
+    s.focaleOc = num('strumOcFoc');
+    s.apertura = num('strumTeleApert');
+  }
+  return s;
+}
+
+/* Nome di ripiego, se l'utente non ne mette uno: si costruisce dai
+   dati che ha inserito, cosi' resta riconoscibile nell'elenco. */
+function nomeAutomatico(s){
+  if (s.tipo === 'bino' && s.ingr) return s.ingr + 'x' + (s.apertura || '');
+  if (s.tipo === 'tele' && s.focaleOc) return 'Telescopio ' + s.focaleOc + 'mm';
+  return 'Strumento';
+}
+
+function descriviStrumento(s){
+  const o = strumentoOttica(s);
+  if (!o) return 'dati incompleti';
+  const p = [];
+  p.push('campo ' + fmtGradi(o.campo) + (o.stimato ? ' (stima)' : ''));
+  p.push(Math.round(o.ingr) + '×');
+  if (o.pupilla) p.push('pupilla ' + o.pupilla.toFixed(1).replace('.',',') + ' mm');
+  return p.join(' · ');
+}
+
+function aggiornaAnteprimaStrumento(){
+  const box = document.getElementById('strumAnteprima');
+  if (!box) return;
+  const s = strumentoDalForm();
+  const o = strumentoOttica(s);
+  if (!o){
+    box.textContent = (formTipo === 'bino')
+      ? 'Inserisci almeno l\'ingrandimento per vedere il campo.'
+      : 'Inserisci le due focali per vedere il campo.';
+    return;
+  }
+  let html = 'Campo reale <b>' + fmtGradi(o.campo) + '</b> · ingrandimento <b>'
+           + Math.round(o.ingr) + '×</b>';
+  if (o.pupilla){
+    html += ' · pupilla d\'uscita <b>' + o.pupilla.toFixed(1).replace('.',',') + ' mm</b>';
+  }
+  if (o.stimato){
+    html += '<br><span class="stima">Campo apparente non indicato: usati '
+          + CAMPO_APP_DEFAULT + '°, tipici di un oculare semplice. '
+          + 'Il campo reale è quindi una stima.</span>';
+  }
+  box.innerHTML = html;
+}
+
+function syncFormStrumento(){
+  const bino = formTipo === 'bino';
+  const bb = document.getElementById('strumTipoBino');
+  const bt = document.getElementById('strumTipoTele');
+  if (bb) bb.classList.toggle('active', bino);
+  if (bt) bt.classList.toggle('active', !bino);
+  const cb = document.getElementById('strumCampiBino');
+  const ct = document.getElementById('strumCampiTele');
+  if (cb) cb.style.display = bino ? '' : 'none';
+  if (ct) ct.style.display = bino ? 'none' : '';
+  aggiornaAnteprimaStrumento();
+}
+
+function apriFormStrumento(){
+  const f = document.getElementById('strumForm');
+  const b = document.getElementById('strumAddBtn');
+  if (f) f.style.display = '';
+  if (b) b.style.display = 'none';
+  formTipo = 'bino';
+  ['strumNome','strumBinoIngr','strumBinoApert','strumTeleFoc',
+   'strumOcFoc','strumTeleApert','strumCampoApp'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  syncFormStrumento();
+}
+
+function chiudiFormStrumento(){
+  const f = document.getElementById('strumForm');
+  const b = document.getElementById('strumAddBtn');
+  if (f) f.style.display = 'none';
+  if (b) b.style.display = '';
+}
+
+function salvaStrumento(){
+  const s = strumentoDalForm();
+  if (!strumentoOttica(s)){
+    // senza i dati minimi il campo non e' calcolabile: meglio dirlo che
+    // salvare uno strumento che non disegnerebbe nulla
+    setGeoStatusToast(s.tipo === 'bino'
+      ? 'Serve almeno l\'ingrandimento del binocolo.'
+      : 'Servono la focale del telescopio e quella dell\'oculare.');
+    return;
+  }
+  s.id = 'str_' + Date.now().toString(36) + Math.random().toString(36).slice(2,6);
+  if (!s.nome) s.nome = nomeAutomatico(s);
+  if (!Array.isArray(state.strumenti)) state.strumenti = [];
+  state.strumenti.push(s);
+  state.strumentoAttivo = s.id;
+  chiudiFormStrumento();
+  syncMenu();
+  saveSettings();
+  if (state.fieldZoom) applicaZoomStrumento();
+  requestDraw();
+}
+
+function eliminaStrumento(id){
+  state.strumenti = (state.strumenti || []).filter(s => s.id !== id);
+  if (state.strumentoAttivo === id){
+    state.strumentoAttivo = state.strumenti.length ? state.strumenti[0].id : null;
+  }
+  syncMenu();
+  saveSettings();
+  requestDraw();
+}
+
+function selezionaStrumento(id){
+  // toccare lo strumento gia' attivo lo deseleziona: e' il modo piu'
+  // diretto per tornare alla vista senza strumento
+  state.strumentoAttivo = (state.strumentoAttivo === id) ? null : id;
+  syncMenu();
+  saveSettings();
+  if (state.fieldZoom && state.strumentoAttivo) applicaZoomStrumento();
+  requestDraw();
+}
+
+function renderStrumenti(){
+  const box = document.getElementById('strumentiLista');
+  const nota = document.getElementById('strumentiNota');
+  const lista = Array.isArray(state.strumenti) ? state.strumenti : [];
+  if (nota){
+    const att = strumentoCorrente();
+    nota.textContent = att ? att.nome : (lista.length ? 'nessuno in uso' : 'nessuno');
+  }
+  if (!box) return;
+  box.innerHTML = '';
+  if (!lista.length){
+    const v = document.createElement('div');
+    v.className = 'strum-vuoto';
+    v.textContent = 'Non hai ancora registrato strumenti.';
+    box.appendChild(v);
+    return;
+  }
+  lista.forEach(s=>{
+    const row = document.createElement('div');
+    row.className = 'strum-item' + (s.id === state.strumentoAttivo ? ' active' : '');
+
+    const testo = document.createElement('button');
+    testo.type = 'button';
+    testo.className = 'strum-item-testo';
+    testo.style.cssText = 'background:none;border:none;padding:0;cursor:pointer;font-family:inherit;';
+    const n = document.createElement('div');
+    n.className = 'strum-item-nome';
+    n.textContent = s.nome;
+    const d = document.createElement('div');
+    d.className = 'strum-item-dati';
+    d.textContent = descriviStrumento(s);
+    testo.appendChild(n); testo.appendChild(d);
+    testo.addEventListener('click', ()=> selezionaStrumento(s.id));
+
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.className = 'strum-elimina';
+    del.setAttribute('aria-label', 'Elimina ' + s.nome);
+    del.textContent = '×';
+    del.addEventListener('click', (e)=>{
+      e.stopPropagation();
+      eliminaStrumento(s.id);
+    });
+
+    row.appendChild(testo); row.appendChild(del);
+    box.appendChild(row);
+  });
+}
+
+/* Stringe la vista fino al campo dello strumento. Il limite inferiore
+   di FOV_MIN e' pensato per la navigazione a dito, non per simulare un
+   oculare: qui serve poter scendere molto piu' in basso, altrimenti un
+   campo da telescopio (spesso sotto il grado) resterebbe un puntino in
+   una vista di 25 gradi e non si vedrebbe nulla di quel che si voleva
+   mostrare. */
+function applicaZoomStrumento(){
+  const campo = campoStrumentoAttivo();
+  if (!campo) return;
+  /* Non basta porre fov = campo. fov e' il campo VERTICALE: su uno
+     schermo di telefono, piu' alto che largo, il campo orizzontale e'
+     minore, e un cerchio inscritto in altezza esce dai due lati. Il
+     cerchio va invece inscritto nel lato piu' corto.
+
+     Dal raggio del cerchio  r = focal*tan(campo/2)  con
+     focal = (fpH/2)/tan(fov/2), imponendo  2r <= latoCorto*(1-margine)
+     si ricava il campo verticale minimo che lo contiene tutto:
+
+        fov = 2*atan( (fpH/latoCorto) * tan(campo/2) / (1-margine) )   */
+  const latoCorto = Math.min(fpW || 1, fpH || 1);
+  const margine = 0.12;                  // un po' di cielo attorno al bordo
+  let fovNuovo = campo;
+  if (fpH > 0 && latoCorto > 0){
+    const t = (fpH / latoCorto) * Math.tan(Math.min(89, campo/2) * D2R) / (1 - margine);
+    const calc = 2 * Math.atan(t) / D2R;
+    if (isFinite(calc) && calc > 0) fovNuovo = calc;
+  }
+  state.fov = Math.max(FOV_STRUMENTO_MIN, Math.min(FOV_MAX, fovNuovo));
+  requestDraw();
+}
+
 function syncMenu(){
   SWITCHES.forEach(([id,key])=>{
     const el = document.getElementById(id);
@@ -8308,6 +8976,29 @@ function syncMenu(){
   document.querySelectorAll('.level-btn').forEach(b=>{
     b.classList.toggle('active', state.level === b.getAttribute('data-level'));
   });
+  const tfc = document.getElementById('toggleFieldCircle');
+  if (tfc){
+    tfc.classList.toggle('active', !!state.showFieldCircle);
+    tfc.setAttribute('aria-checked', state.showFieldCircle ? 'true' : 'false');
+  }
+  const tfz = document.getElementById('toggleFieldZoom');
+  if (tfz){
+    tfz.classList.toggle('active', !!state.fieldZoom);
+    tfz.setAttribute('aria-checked', state.fieldZoom ? 'true' : 'false');
+  }
+  const tar = document.getElementById('toggleAR');
+  if (tar){
+    tar.classList.toggle('active', !!state.ar);
+    tar.setAttribute('aria-checked', state.ar ? 'true' : 'false');
+  }
+  const ams = document.getElementById('arMenuStato');
+  if (ams){
+    ams.textContent = state.arCalibrata
+      ? ('Calibrata, correzione di ' + Math.round(state.arOffsetAz || 0) + '°')
+      : 'Non ancora calibrata';
+  }
+  renderStrumenti();
+
   updateGroupNotes();
 
   const lh = document.getElementById('levelHint');
@@ -8420,6 +9111,54 @@ function initMenuUI(){
     });
   });
 
+  // --- strumenti dell'osservatore ---
+  const tfc = document.getElementById('toggleFieldCircle');
+  if (tfc) tfc.addEventListener('click', ()=>{
+    state.showFieldCircle = !state.showFieldCircle;
+    syncMenu(); saveSettings(); requestDraw();
+  });
+  const tfz = document.getElementById('toggleFieldZoom');
+  if (tfz) tfz.addEventListener('click', ()=>{
+    state.fieldZoom = !state.fieldZoom;
+    if (state.fieldZoom) applicaZoomStrumento(); else resetZoom();
+    syncMenu(); saveSettings(); requestDraw();
+  });
+
+  const addBtn = document.getElementById('strumAddBtn');
+  if (addBtn) addBtn.addEventListener('click', ()=> apriFormStrumento());
+  const annulla = document.getElementById('strumAnnulla');
+  if (annulla) annulla.addEventListener('click', ()=> chiudiFormStrumento());
+  const salva = document.getElementById('strumSalva');
+  if (salva) salva.addEventListener('click', ()=> salvaStrumento());
+
+  ['strumTipoBino','strumTipoTele'].forEach(id=>{
+    const b = document.getElementById(id);
+    if (!b) return;
+    b.addEventListener('click', ()=>{
+      formTipo = b.getAttribute('data-tipo');
+      syncFormStrumento();
+    });
+  });
+
+  // l'anteprima si aggiorna a ogni battuta: il campo va visto cambiare
+  // mentre si inseriscono i dati, non solo dopo il salvataggio
+  ['strumBinoIngr','strumBinoApert','strumTeleFoc','strumOcFoc',
+   'strumTeleApert','strumCampoApp'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', aggiornaAnteprimaStrumento);
+  });
+
+  // --- realtà aumentata (beta) ---
+  const tar = document.getElementById('toggleAR');
+  if (tar) tar.addEventListener('click', ()=>{ setAR(!state.ar); });
+  const amc = document.getElementById('arMenuCalibra');
+  if (amc) amc.addEventListener('click', ()=>{
+    // la calibrazione si fa guardando il cielo, non il menù
+    closeMenu();
+    if (!state.ar) setAR(true).then(()=>{ if (state.ar) arApriPannello(); });
+    else arApriPannello();
+  });
+
   // livelli
   document.querySelectorAll('.level-btn').forEach(b=>{
     b.addEventListener('click', ()=> applyLevel(b.getAttribute('data-level')));
@@ -8446,6 +9185,8 @@ function initMenuUI(){
 const SETTING_KEYS = ['showLines','showNames','showConNames','showAsterisms','showArt',
   'showMilkyWay','showSolar','showDeep','showMessier','showNGC','showDoubles',
   'showGrid','showEqGrid','showEcliptic','showAtmosphere','showHorizonSilhouette',
+  'showFieldCircle','fieldZoom','strumenti','strumentoAttivo',
+  'arFov','arOffsetAz','arCalibrata',
   'difficulty','level','skyQuality','wakeLock'];
 
 function saveSettings(){
@@ -8461,6 +9202,14 @@ function loadSettings(){
     if (!raw){ applyLevel('base'); return; }     // al primo avvio: principiante
     const o = JSON.parse(raw);
     SETTING_KEYS.forEach(k=>{ if (o[k] !== undefined) state[k] = o[k]; });
+    // gli strumenti arrivano da localStorage, che puo' contenere dati di
+    // una versione precedente o manomessi: se non sono una lista valida
+    // si riparte da vuoto invece di far fallire il disegno
+    if (!Array.isArray(state.strumenti)) state.strumenti = [];
+    state.strumenti = state.strumenti.filter(s => s && typeof s === 'object' && s.id);
+    if (state.strumentoAttivo && !state.strumenti.some(s => s.id === state.strumentoAttivo)){
+      state.strumentoAttivo = null;
+    }
   }catch(e){ applyLevel('base'); }
 }
 
@@ -8490,6 +9239,18 @@ let state = {
   luogoNome: null,
   showAtmosphere: true,
   showHorizonSilhouette: true,
+  showFieldCircle: false,
+  fieldZoom: false,        // stringe la vista fino al campo dello strumento
+  ar: false,               // realta' aumentata (beta): cielo sopra la fotocamera
+  arFov: 65,               // campo della fotocamera, in gradi: le API non lo
+                           // espongono, quindi si parte da un valore tipico
+                           // e si lascia correggere a mano
+  arOffsetAz: 0,           // correzione della bussola, in gradi. Comprende
+                           // sia l'errore del sensore sia la declinazione
+                           // magnetica, che l'app non correggeva affatto
+  arCalibrata: false,      // se l'offset viene da una calibrazione vera
+  strumenti: [],           // strumenti salvati dall'utente
+  strumentoAttivo: null,   // id dello strumento in uso
   showArt: false,
   playing: false,
   selected: null,
@@ -8508,6 +9269,16 @@ let state = {
 };
 
 const FOV_MIN = 25, FOV_MAX = 110, FOV_DEFAULT = 70;
+/* Minimo separato per la vista "come nell'oculare". FOV_MIN e' tarato
+   sulla navigazione a dito; un campo da telescopio sta spesso sotto il
+   grado e a 25 gradi non si vedrebbe. Non si abbassa FOV_MIN perche'
+   compare nel denominatore di skyStarLimit(): cambiarlo sposterebbe la
+   magnitudine limite a ogni livello di zoom, anche per chi non usa
+   nessuno strumento. */
+const FOV_STRUMENTO_MIN = 0.05;
+function fovMinCorrente(){
+  return state.fieldZoom ? FOV_STRUMENTO_MIN : FOV_MIN;
+}
 const ALT_MIN = -20, ALT_MAX = 90;
 
 /* ============================= ELEMENTI ============================= */
@@ -8672,33 +9443,230 @@ function moonPhaseLabel(illum, waxing){
   return waxing ? 'Gibbosa crescente' : 'Gibbosa calante';
 }
 
-function drawDeepSymbol(ctx, x, y, r, tipo){
-  ctx.beginPath();
-  if (tipo === 'oc' || tipo === 'ass'){
-    ctx.setLineDash([1.5,1.8]); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
-  } else if (tipo === 'gc'){
-    ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(x-r,y); ctx.lineTo(x+r,y); ctx.moveTo(x,y-r); ctx.lineTo(x,y+r); ctx.stroke();
-  } else if (tipo === 'gx'){
-    ctx.ellipse(x,y,r*1.15,r*0.65,0.5,0,Math.PI*2); ctx.stroke();
-  } else if (tipo === 'pneb'){
-    ctx.arc(x,y,r*0.6,0,Math.PI*2); ctx.stroke();
-    ctx.beginPath();
-    for(let k=0;k<4;k++){
-      const a=k*Math.PI/2+Math.PI/4;
-      ctx.moveTo(x+Math.cos(a)*r*0.75, y+Math.sin(a)*r*0.75);
-      ctx.lineTo(x+Math.cos(a)*r*1.3,  y+Math.sin(a)*r*1.3);
-    }
-    ctx.stroke();
-  } else if (tipo === 'snr'){
-    ctx.setLineDash([2,1.4]); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
-  } else if (tipo === 'ocn'){
-    ctx.rect(x-r,y-r*0.7,r*2,r*1.4); ctx.stroke();
-    ctx.beginPath(); ctx.setLineDash([1.5,1.8]); ctx.arc(x,y,r*0.65,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
-  } else {
-    ctx.rect(x-r,y-r*0.7,r*2,r*1.4); ctx.stroke();
+/* ---------------- oggetti del profondo cielo: forma e scala ------------
+
+   Il simbolo cresce fino alla dimensione angolare vera quando questa
+   supera il segnaposto minimo. Sotto quella soglia resta un simbolo
+   fisso e leggibile: disegnare tutto in scala reale renderebbe la gran
+   parte del catalogo piu' piccola di un pixel (M57 misura 1,3', che al
+   campo di 70 gradi vale 0,23 px) e sparirebbe invece di informare.
+
+   Serve quindi conoscere quanti pixel vale un grado nel punto in cui si
+   trova l'oggetto. Non e' una costante: la proiezione gnomonica dilata
+   ai bordi e quella a disco no, quindi lo si misura proiettando un
+   secondo punto a un grado di distanza, invece di ricavarlo dal campo
+   inquadrato. Il calcolo si fa solo per gli oggetti abbastanza estesi da
+   poter superare la soglia, cosi' il costo resta trascurabile. */
+
+const DSO_R_MIN = 4.2;     // raggio del segnaposto, in pixel
+/* Limite di sicurezza al raggio disegnato, non un limite fisico. Era
+   fisso a 420 px: con la vista strumento un oggetto grande come M31
+   (quasi 3 gradi) veniva tagliato a quel valore e sembrava entrare
+   comodamente nell'oculare, mentre in un campo di pochi primi lo
+   eccede di molte volte. Il limite segue quindi la vista: resta ampio
+   abbastanza da lasciar debordare l'oggetto, che e' l'informazione
+   vera, e limitato abbastanza da non far crescere senza fine i tracciati. */
+function dsoRMax(){
+  return Math.max(420, 4 * Math.max(fpW || 0, fpH || 0));
+}
+
+function pxPerDegAt(P, alt, az){
+  /* Si misura proiettando un secondo punto a distanza nota e guardando
+     quanti pixel separa. Il passo non puo' essere fisso a un grado: con
+     la vista strumento il campo scende sotto il grado, il punto di
+     sonda finisce fuori dall'inquadratura, la proiezione lo scarta e la
+     misura fallisce proprio dove la scala reale serve di piu'. Il passo
+     segue quindi il campo, restando abbastanza ampio da non perdersi
+     nell'arrotondamento dei pixel. */
+  const campo = (state.mode === 'fp' && state.fov > 0) ? state.fov : 60;
+  const passo = Math.max(0.002, Math.min(1, campo / 12));
+  const a = P(alt, az);
+  if (!a) return null;
+  // in altezza, o in azimut se salendo si supererebbe lo zenit
+  let b = (alt + passo <= 89.5) ? P(alt + passo, az) : null;
+  let usatoAzimut = false;
+  if (!b){
+    b = P(alt, az + passo / Math.max(Math.cos(alt * D2R), 0.02));
+    usatoAzimut = true;
   }
+  if (!b) return null;
+  const d = Math.hypot(b.x - a.x, b.y - a.y);
+  if (!(d > 0.001) || !isFinite(d)) return null;
+  return d / passo;
+}
+
+/* Geometria dell'oggetto sullo schermo: semiassi in pixel e
+   inclinazione. Restituisce anche se si sta disegnando in scala vera,
+   perche' in quel caso il tratto va alleggerito: un contorno spesso su
+   una figura larga sembra un anello, non una nebulosa. */
+function dsoGeometry(o, P, alt, az, scaleFallback){
+  const rMin = DSO_R_MIN * Math.min(scaleFallback, 1.6);
+  if (!o.size) return { a:rMin, b:rMin, rot:0, reale:false };
+  const pxDeg = pxPerDegAt(P, alt, az);
+  if (!pxDeg) return { a:rMin, b:rMin, rot:0, reale:false };
+
+  // semiasse maggiore in pixel: size e' il diametro in primi d'arco
+  let a = (o.size / 60) * pxDeg / 2;
+  if (a <= rMin) return { a:rMin, b:rMin, rot:0, reale:false };
+  a = Math.min(a, dsoRMax());
+  // senza MinAx l'oggetto e' trattato come circolare: in OpenNGC il
+  // campo manca soprattutto per ammassi e planetarie, che tondi lo sono
+  // davvero, quindi l'assenza del dato non e' un'approssimazione
+  const rapporto = (o.min && o.min > 0 && o.min <= o.size) ? (o.min / o.size) : 1;
+  const b = Math.max(a * rapporto, rMin * 0.55);
+  // PosAng e' misurato da Nord verso Est; sullo schermo lo zero e'
+  // l'asse orizzontale e l'asse y punta in basso, da cui lo scarto.
+  const rot = (o.pa !== undefined && o.pa !== null) ? (o.pa - 90) * D2R : 0;
+  return { a, b, rot, reale:true };
+}
+
+/* Disegna la figura di un oggetto secondo il suo tipo. In scala reale
+   la forma si arricchisce: la spirale accenna i bracci, il globulare si
+   granula, la planetaria mostra l'anello. A dimensione di segnaposto
+   resta il simbolo essenziale, che deve solo dire "qui c'e' qualcosa". */
+function drawDeepSymbol(ctx, x, y, r, tipo, geo){
+  const g = geo || { a:r, b:r, rot:0, reale:false };
+  const A = g.a, B = g.b, ROT = g.rot;
+
+  if (!g.reale){
+    // --- segnaposto: come prima, un simbolo di dimensione fissa
+    ctx.beginPath();
+    if (tipo === 'oc' || tipo === 'ass'){
+      ctx.setLineDash([1.5,1.8]); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+    } else if (tipo === 'gc'){
+      ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x-r,y); ctx.lineTo(x+r,y); ctx.moveTo(x,y-r); ctx.lineTo(x,y+r); ctx.stroke();
+    } else if (tipo === 'gx'){
+      ctx.ellipse(x,y,r*1.15,r*0.65,0.5,0,Math.PI*2); ctx.stroke();
+    } else if (tipo === 'pneb'){
+      ctx.arc(x,y,r*0.6,0,Math.PI*2); ctx.stroke();
+      ctx.beginPath();
+      for(let k=0;k<4;k++){
+        const a=k*Math.PI/2+Math.PI/4;
+        ctx.moveTo(x+Math.cos(a)*r*0.75, y+Math.sin(a)*r*0.75);
+        ctx.lineTo(x+Math.cos(a)*r*1.3,  y+Math.sin(a)*r*1.3);
+      }
+      ctx.stroke();
+    } else if (tipo === 'snr'){
+      ctx.setLineDash([2,1.4]); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+    } else if (tipo === 'ocn'){
+      ctx.rect(x-r,y-r*0.7,r*2,r*1.4); ctx.stroke();
+      ctx.beginPath(); ctx.setLineDash([1.5,1.8]); ctx.arc(x,y,r*0.65,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+    } else {
+      ctx.rect(x-r,y-r*0.7,r*2,r*1.4); ctx.stroke();
+    }
+    return;
+  }
+
+  // --- scala reale
+  const lwPrec = ctx.lineWidth;
+  const col = ctx.strokeStyle;
+  ctx.save();
+  ctx.translate(x,y);
+  ctx.rotate(ROT);
+  ctx.lineWidth = Math.max(0.7, Math.min(1.2, 90/A));
+
+  if (tipo === 'gx'){
+    // alone sfumato piu' il contorno: le galassie non hanno un bordo
+    const gr = ctx.createRadialGradient(0,0,0,0,0,Math.max(A,1));
+    gr.addColorStop(0,   'rgba(190,215,255,0.30)');
+    gr.addColorStop(0.45,'rgba(150,190,255,0.13)');
+    gr.addColorStop(1,   'rgba(120,170,255,0)');
+    ctx.save(); ctx.scale(1, B/A);
+    ctx.fillStyle = gr;
+    ctx.beginPath(); ctx.arc(0,0,A,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.beginPath(); ctx.ellipse(0,0,A,B,0,0,Math.PI*2); ctx.stroke();
+    // accenno dei bracci solo se c'e' spazio per vederli e l'oggetto
+    // non e' visto di taglio, dove i bracci non si distinguono
+    if (A > 16 && B/A > 0.45){
+      ctx.globalAlpha = 0.5;
+      for (let s=0; s<2; s++){
+        ctx.beginPath();
+        for (let t=0; t<=28; t++){
+          const f = t/28, ang = s*Math.PI + f*Math.PI*1.05;
+          const rr = A*(0.18 + 0.78*f);
+          const px = Math.cos(ang)*rr, py = Math.sin(ang)*rr*(B/A);
+          t ? ctx.lineTo(px,py) : ctx.moveTo(px,py);
+        }
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1;
+    }
+  } else if (tipo === 'gc'){
+    // nucleo denso che sfuma: e' cio' che distingue un globulare
+    const gr = ctx.createRadialGradient(0,0,0,0,0,Math.max(A,1));
+    gr.addColorStop(0,   'rgba(255,240,205,0.42)');
+    gr.addColorStop(0.35,'rgba(255,225,170,0.16)');
+    gr.addColorStop(1,   'rgba(255,215,150,0)');
+    ctx.fillStyle = gr;
+    ctx.beginPath(); ctx.arc(0,0,A,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(0,0,A,0,Math.PI*2); ctx.stroke();
+    if (A > 10){
+      // granulosita': stelle disposte in modo deterministico, cosi' la
+      // figura non "formicola" a ogni ridisegno del fotogramma
+      ctx.fillStyle = col; ctx.globalAlpha = 0.75;
+      const n = Math.min(90, Math.round(A*1.7));
+      for (let k=0;k<n;k++){
+        const ang = k*2.39996;                     // angolo aureo
+        const rr = A*Math.sqrt((k+0.5)/n)*0.92;
+        ctx.fillRect(Math.cos(ang)*rr, Math.sin(ang)*rr, 1, 1);
+      }
+      ctx.globalAlpha = 1;
+    }
+  } else if (tipo === 'oc' || tipo === 'ass'){
+    // gli ammassi aperti sono un gruppo di stelle, non una macchia:
+    // niente riempimento, solo il contorno tratteggiato e i punti
+    // Solo il contorno: le stelle di un ammasso aperto sono gia' quelle
+    // vere del catalogo, disegnate al loro posto. Aggiungerne di finte
+    // dentro il cerchio le raddoppierebbe con puntini inventati, che a
+    // occhio sembrano stelle vere e non lo sono.
+    ctx.setLineDash([2,2.6]);
+    ctx.beginPath(); ctx.ellipse(0,0,A,B,0,0,Math.PI*2); ctx.stroke();
+    ctx.setLineDash([]);
+  } else if (tipo === 'pneb'){
+    // anello: vuoto al centro, che e' il tratto distintivo
+    const gr = ctx.createRadialGradient(0,0,A*0.35,0,0,Math.max(A,1));
+    gr.addColorStop(0,   'rgba(120,255,220,0)');
+    gr.addColorStop(0.55,'rgba(120,255,220,0.26)');
+    gr.addColorStop(1,   'rgba(90,220,255,0)');
+    ctx.save(); ctx.scale(1, B/A);
+    ctx.fillStyle = gr;
+    ctx.beginPath(); ctx.arc(0,0,A,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.beginPath(); ctx.ellipse(0,0,A,B,0,0,Math.PI*2); ctx.stroke();
+    if (A > 7){
+      ctx.globalAlpha = 0.55;
+      ctx.beginPath(); ctx.ellipse(0,0,A*0.45,B*0.45,0,0,Math.PI*2); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+  } else if (tipo === 'snr'){
+    ctx.setLineDash([3,2]);
+    ctx.beginPath(); ctx.ellipse(0,0,A,B,0,0,Math.PI*2); ctx.stroke();
+    ctx.setLineDash([]);
+    if (A > 9){
+      ctx.globalAlpha = 0.4;
+      ctx.beginPath(); ctx.ellipse(0,0,A*0.62,B*0.62,0,0,Math.PI*2); ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+  } else {
+    // nebulose diffuse e casi restanti: macchia dal bordo indefinito
+    const gr = ctx.createRadialGradient(0,0,0,0,0,Math.max(A,1));
+    gr.addColorStop(0,   'rgba(150,255,205,0.26)');
+    gr.addColorStop(0.5, 'rgba(130,235,195,0.12)');
+    gr.addColorStop(1,   'rgba(120,220,190,0)');
+    ctx.save(); ctx.scale(1, B/A);
+    ctx.fillStyle = gr;
+    ctx.beginPath(); ctx.arc(0,0,A,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+    ctx.setLineDash([2.5,2.5]);
+    ctx.beginPath(); ctx.ellipse(0,0,A,B,0,0,Math.PI*2); ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  ctx.restore();
+  ctx.lineWidth = lwPrec;
 }
 
 /* ============================= PROIEZIONI ============================= */
@@ -8707,6 +9675,80 @@ function projectDisc(alt, az, R){
   const r = (90 - alt) / 90 * R;
   const azR = az*D2R;
   return { x: R + r*Math.sin(azR), y: R - r*Math.cos(azR) };
+}
+
+/* =============== STRUMENTI DELL'OSSERVATORE: OTTICA ===============
+
+   Il campo realmente inquadrato non dipende dall'apertura. Dipende da
+   quanto ingrandisce lo strumento e da quanto e' ampio il campo
+   apparente dell'oculare:
+
+       campo reale = campo apparente dell'oculare / ingrandimento
+
+   Vale identico per binocolo e telescopio: cambia solo da dove arriva
+   l'ingrandimento. Nel binocolo e' il primo numero della sigla (in
+   "10x50" e' 10). Nel telescopio si ricava dalle due focali:
+
+       ingrandimento = focale del telescopio / focale dell'oculare
+
+   L'apertura non entra in nessuna di queste formule. La chiediamo solo
+   per la pupilla d'uscita (apertura / ingrandimento), che dice se lo
+   strumento e' sfruttabile a occhio adattato al buio, e resta quindi
+   un dato facoltativo.
+
+   Il campo apparente dell'oculare e' l'unico valore che l'utente
+   spesso non conosce. Quando manca usiamo 50 gradi, tipico di un
+   oculare semplice, ma il risultato viene marcato come stima e
+   segnalato nell'interfaccia: un numero assunto non deve mai
+   sembrare misurato. */
+
+const CAMPO_APP_DEFAULT = 50;     // gradi, oculare semplice
+const CAMPO_REALE_MIN = 0.02;     // sotto non e' piu' un campo utile
+const CAMPO_REALE_MAX = 90;
+
+function strumentoIngrandimento(s){
+  if (!s) return null;
+  if (s.tipo === 'bino'){
+    return (s.ingr > 0) ? s.ingr : null;
+  }
+  // telescopio: serve la coppia di focali, entrambe positive
+  if (s.focaleTele > 0 && s.focaleOc > 0) return s.focaleTele / s.focaleOc;
+  return null;
+}
+
+/* Restituisce l'ottica completa dello strumento, o null se i dati non
+   bastano. 'stimato' dice se il campo apparente e' stato assunto. */
+function strumentoOttica(s){
+  const ingr = strumentoIngrandimento(s);
+  if (!ingr || !isFinite(ingr) || ingr <= 0) return null;
+  const stimato = !(s.campoApp > 0);
+  const campoApp = stimato ? CAMPO_APP_DEFAULT : s.campoApp;
+  let campo = campoApp / ingr;
+  if (!isFinite(campo) || campo <= 0) return null;
+  campo = Math.max(CAMPO_REALE_MIN, Math.min(CAMPO_REALE_MAX, campo));
+  const pupilla = (s.apertura > 0) ? (s.apertura / ingr) : null;
+  return { ingr, campo, campoApp, stimato, pupilla };
+}
+
+/* Lo strumento attualmente selezionato, se esiste ancora. */
+function strumentoCorrente(){
+  if (!state.strumentoAttivo) return null;
+  return (state.strumenti || []).find(s => s.id === state.strumentoAttivo) || null;
+}
+
+/* Campo dello strumento in uso, in gradi: e' quanto serve al disegno.
+   Null se non c'e' strumento o se i suoi dati sono incompleti. */
+function campoStrumentoAttivo(){
+  const o = strumentoOttica(strumentoCorrente());
+  return o ? o.campo : null;
+}
+
+/* Formattazione dei gradi coerente col resto dell'app: sotto il grado
+   servono i decimali, altrimenti campi diversi si leggerebbero uguali. */
+function fmtGradi(g){
+  if (g < 0.1) return g.toFixed(3).replace('.',',') + '°';
+  if (g < 1)   return g.toFixed(2).replace('.',',') + '°';
+  return g.toFixed(1).replace('.',',') + '°';
 }
 
 /* Prima persona: proiezione gnomonica (prospettica), come guardare
@@ -8850,19 +9892,23 @@ function drawFp(){
   const sunHz = equatorialToHorizontal(solar.sun.ra, solar.sun.dec, state.date, state.lat, state.lon);
   const dayT = state.showAtmosphere ? clamp01((sunHz.alt + 10) / 16) : 0;
 
-  // sfondo: più chiaro verso l'orizzonte, come nella realtà
+  // sfondo: più chiaro verso l'orizzonte, come nella realtà.
+  // In realta' aumentata si salta del tutto: sotto c'e' l'immagine della
+  // fotocamera, e coprirla con un cielo dipinto vanificherebbe la funzione.
   const horizonY = horizonScreenY();
-  const zenithCol = lerpColor('#070d1c', '#5da9dd', dayT);
-  const midCol    = lerpColor('#08101f', '#9fd0ea', dayT);
-  const horizCol  = lerpColor('#0b1424', '#d8ecf6', dayT);
-  const g = ctx.createLinearGradient(0, 0, 0, fpH);
-  const hFrac = Math.max(0, Math.min(1, horizonY/fpH));
-  g.addColorStop(0, zenithCol);
-  g.addColorStop(Math.max(0.01, hFrac*0.55), midCol);
-  g.addColorStop(Math.min(0.999, Math.max(0.02, hFrac)), horizCol);
-  g.addColorStop(1, lerpColor('#05070d','#c7dbe4', dayT*0.7));
-  ctx.fillStyle = g;
-  ctx.fillRect(0,0,fpW,fpH);
+  if (!state.ar){
+    const zenithCol = lerpColor('#070d1c', '#5da9dd', dayT);
+    const midCol    = lerpColor('#08101f', '#9fd0ea', dayT);
+    const horizCol  = lerpColor('#0b1424', '#d8ecf6', dayT);
+    const g = ctx.createLinearGradient(0, 0, 0, fpH);
+    const hFrac = Math.max(0, Math.min(1, horizonY/fpH));
+    g.addColorStop(0, zenithCol);
+    g.addColorStop(Math.max(0.01, hFrac*0.55), midCol);
+    g.addColorStop(Math.min(0.999, Math.max(0.02, hFrac)), horizCol);
+    g.addColorStop(1, lerpColor('#05070d','#c7dbe4', dayT*0.7));
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,fpW,fpH);
+  }
 
   drawLightDome(ctx, dayT);
 
@@ -8947,7 +9993,13 @@ function drawHorizon(ctx, dayT){
   const pts = puntiOrizzonte();
   if (pts.length < 2) return;
 
-  if (state.showHorizonSilhouette){
+  /* La sagoma del terreno e' un profilo inventato, utile su fondo nero
+     per dare un riferimento. In realta' aumentata l'orizzonte vero e'
+     gia' nell'immagine della fotocamera: sovrapporgliene uno finto
+     coprirebbe il paesaggio e mostrerebbe due orizzonti diversi. Resta
+     invece la linea dell'orizzonte, che e' calcolata e serve da
+     riscontro visivo della calibrazione. */
+  if (state.showHorizonSilhouette && !state.ar){
     ctx.save();
     ctx.beginPath();
     ctx.moveTo(pts[0].x, pts[0].y);
@@ -9221,32 +10273,10 @@ function buildScene(P, solar, starFade, ctx, scale, minAlt){
       if (alt < minAlt) return;
       const p = P(Math.max(alt, minAlt), az);
       if (!p) return;
-      msPts[m.id] = {p, alt, kind:'messier', m};
-      const r = 4.2*Math.min(scale,1.6);
-      ctx.beginPath();
-      if (m.type === 'oc'){
-        ctx.setLineDash([1.5,1.8]); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
-      } else if (m.type === 'gc'){
-        ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(p.x-r,p.y); ctx.lineTo(p.x+r,p.y);
-        ctx.moveTo(p.x,p.y-r); ctx.lineTo(p.x,p.y+r); ctx.stroke();
-      } else if (m.type === 'gx'){
-        ctx.ellipse(p.x,p.y,r*1.15,r*0.65,0.5,0,Math.PI*2); ctx.stroke();
-      } else if (m.type === 'neb'){
-        ctx.rect(p.x-r,p.y-r*0.7,r*2,r*1.4); ctx.stroke();
-      } else if (m.type === 'pneb'){
-        ctx.arc(p.x,p.y,r*0.6,0,Math.PI*2); ctx.stroke();
-        ctx.beginPath();
-        for(let k=0;k<4;k++){
-          const ang = k*Math.PI/2 + Math.PI/4;
-          ctx.moveTo(p.x+Math.cos(ang)*r*0.75, p.y+Math.sin(ang)*r*0.75);
-          ctx.lineTo(p.x+Math.cos(ang)*r*1.3, p.y+Math.sin(ang)*r*1.3);
-        }
-        ctx.stroke();
-      } else if (m.type === 'snr'){
-        ctx.setLineDash([2,1.4]); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
-      }
+      const geo = dsoGeometry(m, P, Math.max(alt, minAlt), az, scale);
+      msPts[m.id] = {p, alt, kind:'messier', m, rPx: geo.a};
+      drawDeepSymbol(ctx, p.x, p.y, 4.2*Math.min(scale,1.6), m.type, geo);
+      ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = 1.2;
     });
   }
 
@@ -9263,8 +10293,10 @@ function buildScene(P, solar, starFade, ctx, scale, minAlt){
       if (alt < minAlt) return;
       const p = P(Math.max(alt, minAlt), az);
       if (!p) return;
-      ngcPts[o.id] = {p, alt, kind:'deepsky', o};
-      drawDeepSymbol(ctx, p.x, p.y, 3.8*Math.min(scale,1.6), o.type);
+      const geo = dsoGeometry(o, P, Math.max(alt, minAlt), az, scale);
+      ngcPts[o.id] = {p, alt, kind:'deepsky', o, rPx: geo.a};
+      drawDeepSymbol(ctx, p.x, p.y, 3.8*Math.min(scale,1.6), o.type, geo);
+      ctx.strokeStyle = c; ctx.lineWidth = 1.1;
     });
   }
 
@@ -9425,6 +10457,67 @@ function buildScene(P, solar, starFade, ctx, scale, minAlt){
           ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
           ctx.fillText('Sole', p.x+rr*1.5, p.y);
         }
+      }
+    }
+  }
+
+  /* Cerchio del campo dello strumento in uso, centrato sul punto verso
+     cui si guarda (che nella proiezione gnomonica e' sempre il punto
+     (fpW/2, fpH/2) per costruzione di projectFp).
+
+     A differenza degli oggetti del profondo cielo, qui non serve la
+     misura pxPerDegAt (un'approssimazione lineare valida solo vicino
+     al centro): un cono di semiapertura theta centrato esattamente
+     sull'asse ottico proietta, in proiezione gnomonica, in un cerchio
+     ESATTO di raggio focal*tan(theta) sul piano immagine, qualunque
+     sia theta. E' lo stesso focal usato da projectFp; usare pxPerDegAt
+     introdurrebbe un errore crescente con l'ampiezza del campo (~5%
+     gia' a 45 gradi, dove tan cresce piu' che linearmente).
+
+     Il cerchio resta utile anche a vista stretta al massimo: fov e' il
+     campo VERTICALE, e su uno schermo piu' alto che largo il campo
+     orizzontale e' minore, quindi il cerchio segna comunque il confine
+     vero del campo circolare dove i bordi dello schermo non lo fanno. */
+  if (state.showFieldCircle){
+    const campoStr = campoStrumentoAttivo();
+    if (campoStr){
+      const focalFC = (fpH/2) / Math.tan(state.fov/2*D2R);
+      const halfAngleFC = Math.min(89, campoStr/2) * D2R;
+      const rFC = focalFC * Math.tan(halfAngleFC);
+      if (isFinite(rFC) && rFC > 0){
+        const cx = fpW/2, cy = fpH/2;
+        const s = strumentoCorrente();
+        const ott = strumentoOttica(s);
+        ctx.save();
+        ctx.strokeStyle = 'rgba(201,162,39,0.75)';
+        ctx.lineWidth = 1.4;
+        ctx.setLineDash([5,4]);
+        ctx.beginPath();
+        ctx.arc(cx, cy, rFC, 0, Math.PI*2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        // crocetta al centro: indica il punto esatto di puntamento
+        const t = 7;
+        ctx.beginPath();
+        ctx.moveTo(cx-t, cy); ctx.lineTo(cx+t, cy);
+        ctx.moveTo(cx, cy-t); ctx.lineTo(cx, cy+t);
+        ctx.strokeStyle = 'rgba(201,162,39,0.9)';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+        // etichetta: nome dello strumento e campo. La stima del campo
+        // apparente va dichiarata anche qui, non solo nel menu: chi
+        // guarda il cielo non ha il menu aperto davanti.
+        ctx.font = '600 11px ' + font;
+        ctx.fillStyle = 'rgba(230,198,90,0.9)';
+        ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+        let label = fmtGradi(campoStr);
+        if (s && s.nome) label = s.nome + ' · ' + label;
+        if (ott && ott.stimato) label += ' (stima)';
+        // con un cerchio piu' alto della vista l'etichetta finirebbe
+        // sopra il bordo del canvas: la si tiene dentro
+        const yLabel = Math.max(14, cy - rFC - 4);
+        ctx.fillText(label, cx, yLabel);
+        ctx.restore();
       }
     }
   }
@@ -9593,6 +10686,11 @@ function onPointerMove(clientX, clientY){
   const dx = clientX - lastX, dy = clientY - lastY;
   if (Math.abs(dx) > 3 || Math.abs(dy) > 3) dragMoved = true;
   lastX = clientX; lastY = clientY;
+  /* In realta' aumentata la vista non si trascina: deve restare
+     agganciata a dove punta il telefono, altrimenti il cielo disegnato
+     scivola via dall'immagine della fotocamera. Ci si guarda intorno
+     girandosi, come si farebbe a occhio nudo. */
+  if (state.ar) return;
   const k = degPerPixel();
   state.viewAz = norm360(state.viewAz - dx*k);
   state.viewAlt = Math.max(ALT_MIN, Math.min(ALT_MAX, state.viewAlt + dy*k));
@@ -9629,9 +10727,12 @@ fpCanvas.addEventListener('touchmove', (e)=>{
     onPointerMove(e.touches[0].clientX, e.touches[0].clientY);
   } else if (e.touches.length === 2 && pinchDist0 > 0){
     e.preventDefault();
+    // in realta' aumentata il campo della vista deve restare uguale a
+    // quello della fotocamera: cambiarlo sfalserebbe la sovrapposizione
+    if (state.ar) return;
     const d = touchDist(e.touches);
     let f = pinchFov0 * (pinchDist0 / Math.max(d, 1));
-    state.fov = Math.max(FOV_MIN, Math.min(FOV_MAX, f));
+    state.fov = Math.max(fovMinCorrente(), Math.min(FOV_MAX, f));
     if (state.gyro) setGyro(false);
     requestDraw();
   }
@@ -9664,7 +10765,7 @@ function touchDist(touches){
 /* rotellina del mouse: zoom anche da desktop */
 fpCanvas.addEventListener('wheel', (e)=>{
   e.preventDefault();
-  state.fov = Math.max(FOV_MIN, Math.min(FOV_MAX, state.fov * (1 + Math.sign(e.deltaY)*0.09)));
+  state.fov = Math.max(fovMinCorrente(), Math.min(FOV_MAX, state.fov * (1 + Math.sign(e.deltaY)*0.09)));
   requestDraw();
 }, {passive:false});
 
@@ -9702,13 +10803,34 @@ function identifyAt(clientX, clientY){
   window._tapTimer = setTimeout(()=>{ tapCard.style.display = 'none'; }, 4000);
 }
 
+/* Soglia minima dell'area di tocco per oggetti estesi, in px. Sotto
+   scala reale un simbolo puo' essere disegnato piu' piccolo di un dito:
+   senza questo minimo diventerebbe intoccabile. */
+const TOUCH_MIN_PX = 20;
+
 function nearestObject(mx, my, radius){
-  let closest = null, closestD = radius;
+  const candidati = [];
   projected.forEach(entry=>{
     const d = Math.hypot(entry.p.x - mx, entry.p.y - my);
-    if (d < closestD){ closestD = d; closest = entry; }
+    // Oggetti con dimensione reale a schermo (rPx, es. Messier/NGC in
+    // scala): l'area di tocco e' il loro raggio vero, con un minimo per
+    // restare toccabili. Oggetti puntiformi (stelle, pianeti, Luna...):
+    // l'area di tocco resta la tolleranza per il dito passata dal chiamante.
+    const rHit = entry.rPx ? Math.max(entry.rPx, TOUCH_MIN_PX) : radius;
+    if (d <= rHit) candidati.push({entry, d});
   });
-  return closest;
+  if (!candidati.length) return null;
+  // Il piu' piccolo vince: fra oggetti sovrapposti (es. M31 e M32/M110
+  // al suo interno) vince quello con l'area di tocco piu' specifica.
+  // Le stelle (rPx assente, trattato come 0) vincono sempre su un
+  // oggetto esteso che le contenga. A parita' di dimensione, vince il
+  // piu' vicino al dito.
+  candidati.sort((a, b) => {
+    const ra = a.entry.rPx || 0, rb = b.entry.rPx || 0;
+    if (ra !== rb) return ra - rb;
+    return a.d - b.d;
+  });
+  return candidati[0].entry;
 }
 
 function describeObject(o){
@@ -9787,6 +10909,24 @@ function direzionePuntata(e){
   if (typeof e.webkitCompassHeading === 'number') alpha = 360 - e.webkitCompassHeading;
   if (alpha == null) return null;
 
+  /* Correzione della bussola. Il sensore restituisce il Nord MAGNETICO,
+     mentre il cielo si calcola sul Nord VERO: fra i due c'e' la
+     declinazione magnetica, che l'app non ha mai corretto. A questa si
+     somma l'errore del magnetometro, che qualunque massa metallica
+     vicina peggiora di parecchi gradi.
+     Invece di stimare la declinazione da un modello geomagnetico, che
+     andrebbe aggiornato e verificato, si misura l'errore complessivo
+     una volta sola puntando un astro di posizione nota: quel singolo
+     numero contiene gia' entrambi i contributi. La correzione si applica
+     qui, quindi vale anche per la bussola normale e per i percorsi
+     Attenzione al segno: alpha cresce in senso OPPOSTO all'azimut
+     (l'azimut vale grosso modo 360 meno alpha), quindi una correzione
+     di +X gradi in azimut si ottiene SOTTRAENDO X ad alpha. Sommarlo
+     raddoppierebbe l'errore invece di annullarlo. arOffsetAz e'
+     definito come correzione in azimut, che e' la grandezza con cui
+     ragiona il resto del programma. */
+  alpha -= (state.arOffsetAz || 0);
+
   const A = alpha*D2R, B = e.beta*D2R, G = e.gamma*D2R;
   const cA = Math.cos(A), sA = Math.sin(A);
   const cB = Math.cos(B), sB = Math.sin(B);
@@ -9831,6 +10971,282 @@ function gyroDiagnosis(){
   return 'Nessuna risposta dai sensori: il dispositivo potrebbe non averli (per esempio un computer). '
        + 'Se sei su iPhone, controlla in Impostazioni \u203A Safari \u203A Movimento e orientamento. '
        + 'In ogni caso puoi muovere il cielo trascinando.';
+}
+
+/* ==================== REALTA' AUMENTATA (beta) ====================
+
+   Sovrappone il cielo calcolato all'immagine della fotocamera. Tre
+   avvertenze che hanno guidato il progetto di questa parte:
+
+   1. Di notte la fotocamera NON vede le stelle. In video l'esposizione
+      e' di pochi centesimi di secondo: passano la Luna e i pianeti piu'
+      brillanti, nient'altro. La AR non serve quindi a identificare le
+      stelle nell'immagine, ma a legare il cielo calcolato al paesaggio
+      reale: campanili, alberi, profilo delle colline.
+   2. Il campo inquadrato dalla fotocamera non e' ricavabile dalle API
+      del browser: MediaTrackSettings non lo espone e varia molto da un
+      modello all'altro. Si parte da un valore tipico e si lascia
+      correggere a mano, una volta per dispositivo.
+   3. La bussola sbaglia di parecchi gradi, e su fondo nero non si nota;
+      con il paesaggio vero dietro si nota subito. Per questo la
+      calibrazione non e' un accessorio ma la condizione perche' la
+      funzione abbia senso, e il suo stato e' sempre in vista.        */
+
+let arStream = null;
+
+function arSupportata(){
+  return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+}
+
+async function arAvvia(){
+  if (!arSupportata()){
+    setGeoStatusToast('Questo dispositivo o browser non consente l\'uso della fotocamera.');
+    return false;
+  }
+  try{
+    // 'environment' e' la fotocamera posteriore: quella con cui si punta
+    // il cielo. Se il dispositivo non la distingue, il browser ripiega da solo.
+    arStream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' } },
+      audio: false
+    });
+  }catch(err){
+    // permesso negato, fotocamera occupata, oppure contesto non sicuro
+    const msg = (err && err.name === 'NotAllowedError')
+      ? 'Permesso per la fotocamera negato: la realtà aumentata resta spenta.'
+      : 'Fotocamera non disponibile: la realtà aumentata resta spenta.';
+    setGeoStatusToast(msg);
+    arStream = null;
+    return false;
+  }
+  const v = document.getElementById('arVideo');
+  if (v){
+    v.srcObject = arStream;
+    try{ await v.play(); }catch(e){ /* alcuni browser riprendono da soli */ }
+  }
+  return true;
+}
+
+/* Spegne davvero la fotocamera. Senza il stop() esplicito su ogni
+   traccia, il sensore resta acceso: si scalda e consuma per tutta la
+   serata anche quando l'utente crede di aver chiuso la funzione. */
+function arFerma(){
+  const v = document.getElementById('arVideo');
+  if (v){ try{ v.pause(); }catch(e){} v.srcObject = null; }
+  if (arStream){
+    arStream.getTracks().forEach(t=>{ try{ t.stop(); }catch(e){} });
+    arStream = null;
+  }
+}
+
+async function setAR(on){
+  if (!on){
+    state.ar = false;
+    document.body.classList.remove('ar-on');
+    arChiudiPannello();
+    arFerma();
+    if (state.fov === state.arFov) resetZoom();
+    syncMenu(); requestDraw();
+    return;
+  }
+  if (state.mode !== 'fp') setMode('fp');
+  const ok = await arAvvia();
+  if (!ok){ state.ar = false; syncMenu(); return; }
+  state.ar = true;
+  document.body.classList.add('ar-on');
+  // il campo della vista deve combaciare con quello della fotocamera,
+  // altrimenti la sovrapposizione e' sbagliata ovunque
+  state.fov = Math.max(FOV_STRUMENTO_MIN, Math.min(FOV_MAX, state.arFov));
+  if (!state.gyro) toggleGyro();      // senza sensori la AR non ha senso
+  arAggiornaBadge();
+  syncMenu(); requestDraw();
+}
+
+function arAggiornaBadge(){
+  const s = document.getElementById('arStato');
+  if (!s) return;
+  if (state.arCalibrata){
+    s.textContent = 'bussola calibrata';
+    s.className = 'ar-stato ok';
+  } else {
+    s.textContent = 'bussola da calibrare';
+    s.className = 'ar-stato no';
+  }
+}
+
+/* ---------- pannello di calibrazione ---------- */
+
+let arModo = null;      // 'menu' | 'manuale' | 'astro' | 'campo'
+let arAstroScelto = null;
+let arOffsetPrima = 0;
+let arFovPrima = 0;
+
+function arChiudiPannello(){
+  const p = document.getElementById('arPannello');
+  if (p) p.classList.remove('aperto');
+  arModo = null;
+}
+
+function arApriPannello(){
+  const p = document.getElementById('arPannello');
+  if (p) p.classList.add('aperto');
+  arMostraMenu();
+}
+
+function arMostraMenu(){
+  arModo = 'menu';
+  document.getElementById('arPannelloTitolo').textContent = 'Calibrazione';
+  document.getElementById('arPannelloTesto').textContent =
+    'Allinea il cielo disegnato con quello vero. Serve una volta sola, finché non sposti il telefono in un posto molto diverso.';
+  const corpo = document.getElementById('arPannelloCorpo');
+  corpo.innerHTML = '';
+  const opzioni = [
+    ['astro',   'Su un astro', 'Il modo più preciso. Richiede Luna o un pianeta brillante in vista.'],
+    ['manuale', 'A mano',      'Ruoti il cielo finché combacia con quello che vedi. Sempre disponibile.'],
+    ['campo',   'Inquadratura','Regola quanto cielo inquadra la fotocamera del tuo telefono.']
+  ];
+  opzioni.forEach(([id, tit, desc])=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'strum-item';
+    b.style.cssText += 'width:100%;text-align:left;';
+    b.innerHTML = '<div class="strum-item-testo"><div class="strum-item-nome">'+tit+
+                  '</div><div class="strum-item-dati">'+desc+'</div></div>';
+    b.addEventListener('click', ()=>{
+      if (id === 'astro') arModoAstro();
+      else if (id === 'manuale') arModoManuale();
+      else arModoCampo();
+    });
+    corpo.appendChild(b);
+  });
+  document.getElementById('arPannelloAzione').textContent = 'Fatto';
+}
+
+/* Astri che la fotocamera vede davvero di notte: la Luna e i pianeti
+   piu' brillanti. Le stelle no, per quanto luminose: in video non
+   lasciano traccia, e proporle come riferimento sarebbe inutile. */
+function arAstriVisibili(){
+  const s = computeSolarSystem(state.date);
+  const out = [];
+  const aggiungi = (nome, ra, dec, par)=>{
+    const h = equatorialToHorizontal(ra, dec, state.date, state.lat, state.lon, par);
+    if (h.alt > 5) out.push({ nome, az: h.az, alt: h.alt });
+  };
+  aggiungi('Luna', s.moon.ra, s.moon.dec, s.moon.parallax);
+  [['Venere','venus'], ['Giove','jupiter'], ['Marte','mars'], ['Saturno','saturn']].forEach(([n,k])=>{
+    const p = s.planets[k];
+    if (p) aggiungi(n, p.ra, p.dec);
+  });
+  return out;
+}
+
+function arModoAstro(){
+  arModo = 'astro';
+  const astri = arAstriVisibili();
+  document.getElementById('arPannelloTitolo').textContent = 'Calibrazione su un astro';
+  const corpo = document.getElementById('arPannelloCorpo');
+  corpo.innerHTML = '';
+  if (!astri.length){
+    document.getElementById('arPannelloTesto').textContent =
+      'In questo momento non c\'è né la Luna né un pianeta abbastanza brillante sopra l\'orizzonte: la fotocamera non avrebbe nulla da inquadrare. Usa la calibrazione a mano.';
+    document.getElementById('arPannelloAzione').textContent = 'Vai a mano';
+    return;
+  }
+  document.getElementById('arPannelloTesto').textContent =
+    'Scegli l\'astro, inquadralo tenendolo al centro della crocetta, poi tocca Allinea.';
+  astri.forEach(a=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'strum-item' + (arAstroScelto === a.nome ? ' active' : '');
+    b.style.cssText += 'width:100%;text-align:left;';
+    b.innerHTML = '<div class="strum-item-testo"><div class="strum-item-nome">'+a.nome+
+                  '</div><div class="strum-item-dati">azimut '+Math.round(a.az)+'° · altezza '+Math.round(a.alt)+'°</div></div>';
+    b.addEventListener('click', ()=>{ arAstroScelto = a.nome; arModoAstro(); });
+    corpo.appendChild(b);
+  });
+  document.getElementById('arPannelloAzione').textContent = arAstroScelto ? 'Allinea' : 'Scegli un astro';
+}
+
+/* Il cuore della calibrazione su astro: la differenza fra dove l'astro
+   sta davvero e dove il telefono crede di puntare e' l'errore della
+   bussola. Comprende gia' la declinazione magnetica, quindi non serve
+   nessun modello geomagnetico. */
+function arAllineaSuAstro(){
+  const a = arAstriVisibili().find(x => x.nome === arAstroScelto);
+  if (!a){ setGeoStatusToast('Astro non più visibile: riprova.'); return; }
+  const scarto = angDiff(a.az, state.viewAz);   // percorso più corto, con segno
+  state.arOffsetAz = norm360((state.arOffsetAz || 0) + scarto);
+  if (state.arOffsetAz > 180) state.arOffsetAz -= 360;
+  state.arCalibrata = true;
+  saveSettings();
+  arAggiornaBadge();
+  arChiudiPannello();
+  setGeoStatusToast('Bussola calibrata su ' + a.nome + ': correzione di ' +
+                    Math.round(scarto) + '°.');
+  requestDraw();
+}
+
+function arModoManuale(){
+  arModo = 'manuale';
+  arOffsetPrima = state.arOffsetAz || 0;
+  document.getElementById('arPannelloTitolo').textContent = 'Calibrazione a mano';
+  document.getElementById('arPannelloTesto').textContent =
+    'Ruota finché il cielo disegnato combacia con quello che vedi a occhio nudo, o con un punto di riferimento del paesaggio di cui conosci la direzione.';
+  const corpo = document.getElementById('arPannelloCorpo');
+  corpo.innerHTML =
+    '<input type="range" id="arSlider" min="-180" max="180" step="0.5" value="'+(state.arOffsetAz||0)+'">' +
+    '<div class="ar-testo" style="text-align:center;margin-top:4px;">correzione <b id="arSliderVal">'+
+    Math.round(state.arOffsetAz||0)+'°</b></div>';
+  const sl = document.getElementById('arSlider');
+  sl.addEventListener('input', ()=>{
+    state.arOffsetAz = parseFloat(sl.value);
+    document.getElementById('arSliderVal').textContent = Math.round(state.arOffsetAz)+'°';
+    requestDraw();
+  });
+  document.getElementById('arPannelloAzione').textContent = 'Conferma';
+}
+
+function arModoCampo(){
+  arModo = 'campo';
+  arFovPrima = state.arFov;
+  document.getElementById('arPannelloTitolo').textContent = 'Inquadratura della fotocamera';
+  document.getElementById('arPannelloTesto').textContent =
+    'Le fotocamere inquadrano porzioni di cielo diverse da modello a modello, e il browser non lo dichiara. Regola finché le distanze fra gli astri disegnati corrispondono a quelle vere.';
+  const corpo = document.getElementById('arPannelloCorpo');
+  corpo.innerHTML =
+    '<input type="range" id="arFovSlider" min="35" max="110" step="0.5" value="'+state.arFov+'">' +
+    '<div class="ar-testo" style="text-align:center;margin-top:4px;">campo <b id="arFovVal">'+
+    state.arFov.toFixed(0)+'°</b></div>';
+  const sl = document.getElementById('arFovSlider');
+  sl.addEventListener('input', ()=>{
+    state.arFov = parseFloat(sl.value);
+    state.fov = Math.max(FOV_STRUMENTO_MIN, Math.min(FOV_MAX, state.arFov));
+    document.getElementById('arFovVal').textContent = state.arFov.toFixed(0)+'°';
+    requestDraw();
+  });
+  document.getElementById('arPannelloAzione').textContent = 'Conferma';
+}
+
+function arAzionePannello(){
+  if (arModo === 'astro'){
+    const astri = arAstriVisibili();
+    if (!astri.length){ arModoManuale(); return; }
+    if (!arAstroScelto){ setGeoStatusToast('Scegli prima quale astro stai inquadrando.'); return; }
+    arAllineaSuAstro();
+    return;
+  }
+  if (arModo === 'manuale'){
+    // una correzione messa a mano vale come calibrazione solo se e'
+    // stata davvero cambiata: altrimenti il badge direbbe il falso
+    if (Math.abs((state.arOffsetAz||0) - arOffsetPrima) > 0.4) state.arCalibrata = true;
+    saveSettings(); arAggiornaBadge(); arChiudiPannello(); requestDraw();
+    return;
+  }
+  if (arModo === 'campo'){
+    saveSettings(); arChiudiPannello(); requestDraw();
+    return;
+  }
+  arChiudiPannello();
 }
 
 function setGyro(on){
@@ -10003,6 +11419,9 @@ function setMode(mode){
 
   document.getElementById('gyroBtn').disabled = !fp;
   if (!fp && state.gyro) setGyro(false);
+  // nel planisfero la realtà aumentata non ha senso: si guarda il cielo
+  // dall'alto, non lo si punta. La fotocamera va comunque spenta.
+  if (!fp && state.ar) setAR(false);
   tapCard.style.display = 'none';
   hoverCard.style.display = 'none';
   try{ localStorage.setItem('gac_sky_mode', mode); }catch(e){}
@@ -10080,6 +11499,30 @@ document.getElementById('modeBtn').addEventListener('click', ()=>{
 });
 document.getElementById('recenterBtn').addEventListener('click', recenter);
 document.getElementById('gyroBtn').addEventListener('click', toggleGyro);
+
+// --- realtà aumentata ---
+document.getElementById('arCalibraBtn').addEventListener('click', arApriPannello);
+document.getElementById('arPannelloChiudi').addEventListener('click', ()=>{
+  // uscendo senza confermare si ripristina il valore di partenza:
+  // altrimenti una regolazione lasciata a metà resterebbe applicata
+  if (arModo === 'manuale') state.arOffsetAz = arOffsetPrima;
+  if (arModo === 'campo'){
+    state.arFov = arFovPrima;
+    state.fov = Math.max(FOV_STRUMENTO_MIN, Math.min(FOV_MAX, state.arFov));
+  }
+  arChiudiPannello(); requestDraw();
+});
+document.getElementById('arPannelloAzione').addEventListener('click', arAzionePannello);
+
+/* Se l'app finisce in secondo piano la fotocamera va spenta: su molti
+   telefoni resterebbe attiva, con l'indicatore acceso e il sensore che
+   scalda. Al ritorno si riaccende sola. */
+document.addEventListener('visibilitychange', ()=>{
+  if (!state.ar) return;
+  if (document.hidden) arFerma();
+  else arAvvia();
+});
+window.addEventListener('pagehide', ()=>{ if (state.ar) arFerma(); });
 
 function setRedlight(on){
   state.redlight = !!on;
