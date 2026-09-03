@@ -4,6 +4,94 @@ Planetario interattivo del Gruppo Astrofili Casalese "Giovanni Celoria", Casale 
 
 ---
 
+## v5.0
+
+Versione pubblica che raccoglie tutto il lavoro svolto a partire dalla 3.0. Per chi usa l'app è un aggiornamento solo: il riquadro delle novità nel menù elenca perciò le implementazioni principali dell'intero ciclo, non le singole voci di sottoversione, che non direbbero nulla di utile a chi apre l'app.
+
+**Le novità principali dalla 3.0**
+
+- **Realtà aumentata**: il cielo calcolato sovrapposto all'immagine della fotocamera
+- **Calibrazione della bussola** su un astro di posizione nota o a mano, che corregge anche il puntamento fuori dalla realtà aumentata e recupera la declinazione magnetica, mai considerata prima
+- **Le tue ottiche**: si registrano binocolo e telescopio e l'app calcola e disegna il campo che inquadrano davvero, con la possibilità di restringere la vista fino a quel campo
+- **Cinque percorsi lunghi** per imparare a leggere il cielo di ogni stagione, oltre ai dodici brevi
+- **Riconoscimento delle costellazioni** dentro i percorsi: non più solo trovare una stella, ma vedere la figura di cui fa parte
+- **Memoria dei percorsi**: quali sono stati completati e da dove riprendere
+- **Curiosità verificate** su ogni stella, pianeta e costellazione del quiz
+- **Oggetti del profondo cielo in forma e dimensione reali**
+- **Menù che si adatta al livello**: chi comincia trova 6 gruppi invece di 15
+- **Dimensione del testo regolabile**, utile al buio durante le serate
+
+---
+
+**Pulizia del codice prima del rilascio**
+
+Scansione completa, ripetuta fino a esito senza anomalie.
+
+**Un bug funzionale che nessuno aveva notato.** Il markup aveva `id="noteLuogo"` mentre il codice cercava `luogoNota`: la nota accanto a «Dove e quando osservi» era quindi congelata sul testo statico e non seguiva più il cambio di località. Introdotto accorpando i gruppi nella 4.1, e invisibile perché il codice è protetto e non produceva errori.
+
+**Riepiloghi ripristinati.** Sempre dall'accorpamento della 4.1 erano sparite le note di riepilogo dei gruppi fusi. Ora «Dove e quando osservi» mostra luogo e ora insieme, e «Il cielo che vedi» ha di nuovo la sua nota — era rimasto l'unico gruppo del menù a non averne una. La qualità del cielo non è stata aggiunta alla nota del luogo di proposito: allungherebbe la riga fino a mandare il titolo a capo, cioè il difetto corretto nella 4.8.2.
+
+**Codice non più pertinente, rimosso:**
+
+- `skyCtxTest()`, funzione di collaudo mai chiamata
+- Il blocco che copiava il logo in `#gruppoLogo`, elemento non più esistente. Il logo del Gruppo è incorporato direttamente nel markup e si visualizza correttamente, quindi non andava reinserito: andava solo ripulito il riferimento morto
+- L'elemento `.tooltip-bubble`, interfaccia mai implementata e per giunta priva di senso su smartphone, dove non esiste un puntatore da passare sopra gli elementi
+- Sei regole CSS orfane: `.hamburger-btn`, `.help-note`, `.rt-ok` (rimasta dalla 4.6, quando lo stato «in cielo adesso» è stato tolto), `.nv-v` e `.nv-d` di una vecchia resa del changelog, `.chisiamo-separatore` della struttura precedente alla 4.7
+
+**Verifica finale:** zero riferimenti a elementi inesistenti, zero identificatori orfani, zero funzioni mai chiamate, zero regole CSS morte, zero duplicati, zero residui di sviluppo.
+
+---
+
+## v4.8.2
+
+La dimensione del testo copre ora anche il menù e i suoi sottotesti: titoli dei gruppi, nomi e descrizioni delle opzioni, note, strumenti registrati, avviso di novità.
+
+In verifica è emerso un bug distinto, non legato all'estensione in sé: `.group-title` aveva `flex: 0 0 auto` **senza** `min-width: 0`. Nel modello flessibile questo impedisce a un elemento di restringersi sotto la sua larghezza intrinseca — lo stesso bug già risolto altrove con `.opt-text{min-width:0}`, qui sfuggito perché il titolo di un gruppo non aveva mai avuto bisogno di restringersi finché il testo era piccolo. A testo ingrandito, un titolo lungo affiancato a una nota lunga («Dove e quando osservi» + «Casale Monferrato») faceva traboccare il pulsante invece di andare a capo.
+
+Verificato il non-traboccamento su ogni nodo dell'intero menù aperto, non a campione, a tutte e tre le scale, comprese le liste generate dinamicamente.
+
+---
+
+## v4.8.1
+
+Due difetti nel comando «Dimensione del testo», trovati subito dopo la consegna della 4.8: i pulsanti sembravano non fare nulla.
+
+La causa non era il meccanismo — click e stato funzionavano già correttamente — ma l'assenza di qualunque riscontro visibile nella stessa schermata: la scala tocca le schede di lettura, non il menù, quindi cliccando non cambiava nulla sotto gli occhi. Aggiunta un'anteprima dal vivo subito sotto i pulsanti, che si ingrandisce insieme al resto.
+
+Scrivendo quell'anteprima è emerso un secondo difetto di natura diversa: due escape in stile JavaScript lasciate dentro testo HTML statico, dove non vengono interpretate e comparivano lettera per lettera. Corretto scrivendo il carattere accentato vero e usando l'entità HTML per l'apostrofo. Controllato l'intero file per la stessa classe di errore fuori da `<script>`: nessun'altra occorrenza.
+
+---
+
+## v4.8
+
+**Dimensione del testo regolabile**
+
+Tre passi — normale, grande, molto grande — sulle schede da leggere. Serve alle serate pubbliche, dove il telefono passa di mano al buio, spesso a persone anziane, e il filtro rosso della modalità notturna abbassa ulteriormente il contrasto.
+
+**Scala solo le superfici di lettura, non tutta l'interfaccia**
+
+Il file aveva **141 dichiarazioni `font-size` in px e nessuna in `rem`**: non esisteva alcuna scala tipografica, ogni dimensione era fissa e indipendente. Scalarle tutte avrebbe ingrandito anche etichette della barra strumenti, badge e note da 9px pensate per stare in spazi fissi, facendo traboccare i contenitori e raddoppiando la lunghezza del menù appena compattato nella v4.6.
+
+Sono state quindi convertite **33 dichiarazioni mirate** a `calc(Npx * var(--txt-scala))`: riquadro dell'oggetto selezionato, schede dei percorsi e del quiz, eventi, lezioni, diario, elenchi. Cioè dove si *legge*, non dove si *comanda*.
+
+Tre passi discreti invece di un cursore continuo, per una ragione pratica: tre valori si possono verificare tutti e tre, un cursore continuo no.
+
+**Non è legata alla modalità notturna**
+
+Chi ha bisogno di caratteri grandi ne ha bisogno sempre, non solo al buio. L'impostazione sta in «Il cielo che vedi», sezione *Come è disegnato*, ed è visibile già al livello Principiante: è accessibilità, non un'opzione avanzata.
+
+**I nomi disegnati sul cielo restano invariati**
+
+Ingrandire anche quelli renderebbe la mappa illeggibile per sovrapposizione delle etichette, che è il contrario dell'obiettivo.
+
+**Difetto trovato in verifica e corretto**
+
+A 1,4× la barra informativa traboccava: la data in carattere monospazio occupava 114 px in una cella da 106. Le celle vanno ora **a capo** invece di comprimersi. Escludere la barra dalla scala sarebbe stata la scorciatoia, ma avrebbe lasciato piccolo proprio un testo che si deve leggere.
+
+Verificate tutte e tre le scale su ogni superficie toccata, non a campione, controllando sia il traboccamento interno sia l'uscita dai bordi dello schermo a 390 px.
+
+---
+
 ## v4.7
 
 **Le costellazioni evidenziate ora seguono le linee del catalogo**

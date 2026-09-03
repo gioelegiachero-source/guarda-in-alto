@@ -19,7 +19,7 @@ Non richiede installazione: è un'unica pagina web che funziona direttamente dal
 - **Avviso di novità**: al riavvio dopo un aggiornamento, un pallino sul pulsante Controlli e una riga di riepilogo nel menù segnalano cosa è cambiato
 - **Menù che si adatta al livello**: scegliendo Principiante, Intermedio o Avanzato cambia non solo il cielo, ma anche quante impostazioni compaiono. Chi comincia trova 6 gruppi e 8 opzioni; chi vuole tutto ne trova 24
 - Vista cielo in prima persona con proiezione gnomonica e planisfero
-- Navigazione touch e tramite giroscopio, zoom, modalità notturna a luce rossa
+- Navigazione touch e tramite giroscopio, zoom, modalità notturna a luce rossa, **dimensione del testo regolabile** su tre passi per il menù e le schede da leggere
 - Motore astronomico completo (precessione, nutazione, parallasse, aberrazione, rifrazione atmosferica), verificato contro le effemeridi NASA
 - Catalogo di 2.492 stelle, 110 oggetti Messier, 265 oggetti NGC/IC, 17 stelle doppie, 20 asterismi, 85 illustrazioni mitologiche delle costellazioni
 - **Oggetti del profondo cielo in forma e dimensione reali**: ingrandendo, il simbolo lascia il posto alla figura vera, orientata secondo l'angolo di posizione del catalogo — galassie ellittiche con accenno dei bracci, ammassi globulari granulati, anelli delle nebulose planetarie

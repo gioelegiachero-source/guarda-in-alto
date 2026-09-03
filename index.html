@@ -66,7 +66,7 @@
   }
   .info-label{
     font-family: var(--mono-font);
-    font-size: 9px;
+    font-size: calc(9px * var(--txt-scala, 1));
     letter-spacing: 0.13em;
     text-transform: uppercase;
     color: var(--brass-dim);
@@ -74,13 +74,13 @@
   }
   .info-value{
     font-family: var(--mono-font);
-    font-size: 15px;
+    font-size: calc(15px * var(--txt-scala, 1));
     letter-spacing: 0.05em;
     color: var(--brass);
   }
   @media (max-width: 480px){
     .info-value{ font-size: 13px; }
-    .info-label{ font-size: 8px; }
+    .info-label{ font-size: calc(8px * var(--txt-scala, 1)); }
     .infobar{ gap:6px; }
     .info-cell{ padding: 7px 4px; }
   }
@@ -175,22 +175,6 @@
   }
   .icon-btn.active::before{ border-color: rgba(5,7,13,0.3); }
   
-  .tooltip-bubble{
-    position: fixed;
-    pointer-events: none;
-    background: rgba(13,20,36,0.96);
-    border: 1px solid var(--panel-border);
-    border-left: 2px solid var(--brass);
-    color: var(--star);
-    font-family: var(--mono-font);
-    font-size: 12px;
-    padding: 6px 10px;
-    border-radius: 4px;
-    z-index: 20;
-    display: none;
-    transform: translate(-50%, -130%);
-    white-space: nowrap;
-  }
 
   
 
@@ -246,7 +230,6 @@ html, body{ overscroll-behavior: none; }
   display:none;
 }
 .tool-btn.busy .dot{ display:block; }
-.hamburger-btn{ margin-right: 2px; }
 
 @media (min-width: 520px){  }
 
@@ -311,7 +294,7 @@ html, body{ overscroll-behavior: none; }
 .menu-drawer .divider{ margin: 10px 0; }
 .menu-section-title{
   font-family: var(--mono-font);
-  font-size: 10px;
+  font-size: calc(10px * var(--txt-scala, 1));
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--brass-dim);
@@ -550,7 +533,7 @@ body.redlight{
 
 .obj-empty{
   color: var(--text-dim);
-  font-size: 12px;
+  font-size: calc(12px * var(--txt-scala, 1));
   padding: 2px 4px;
 }
 .obj-head{
@@ -560,7 +543,7 @@ body.redlight{
 }
 .obj-name{
   font-family: var(--display-font);
-  font-size: 16px;
+  font-size: calc(16px * var(--txt-scala, 1));
   color: var(--star);
   flex: 1 1 auto;
 }
@@ -577,7 +560,7 @@ body.redlight{
 }
 .obj-sub{
   font-family: var(--mono-font);
-  font-size: 10.5px;
+  font-size: calc(10.5px * var(--txt-scala, 1));
   letter-spacing: 0.04em;
   color: var(--brass-bright);
   margin: 1px 0 7px;
@@ -593,7 +576,7 @@ body.redlight{
   border-radius: 6px;
   background: rgba(138,215,255,0.07);
   border: 1px solid rgba(138,215,255,0.18);
-  font-size: 12px;
+  font-size: calc(12px * var(--txt-scala, 1));
   color: var(--text);
 }
 .obj-advice.danger{
@@ -682,12 +665,12 @@ body.redlight{
 .sr-item:hover, .sr-item:focus{ background: rgba(138,215,255,0.07); outline:none; }
 .sr-name{
   display:block;
-  font-size: 14.5px;
+  font-size: calc(14.5px * var(--txt-scala, 1));
   color: var(--star);
 }
 .sr-sub{
   display:block;
-  font-size: 11px;
+  font-size: calc(11px * var(--txt-scala, 1));
   color: var(--text-dim);
   margin-top: 1px;
 }
@@ -741,7 +724,7 @@ body.redlight{
   background: linear-gradient(165deg, var(--panel-2) 0%, var(--panel) 100%);
   color: var(--text);
   font-family: inherit;
-  font-size: 12px;
+  font-size: calc(12px * var(--txt-scala, 1));
   cursor: pointer;
   transition: border-color .15s, color .15s;
 }
@@ -773,14 +756,15 @@ body.redlight{
   border:none;
   color: var(--star);
   font-family: inherit;
-  font-size: 13.5px;
+  font-size: calc(13.5px * var(--txt-scala, 1));
   text-align:left;
   cursor:pointer;
 }
-.group-title{ flex: 0 0 auto; }
+.group-title{ flex: 0 1 auto; min-width:0; }
 .group-note{
   flex: 1 1 auto;
-  font-size: 10.5px;
+  min-width: 0;
+  font-size: calc(10.5px * var(--txt-scala, 1));
   color: var(--text-dim);
   font-style: italic;
 }
@@ -799,7 +783,7 @@ body.redlight{
 .group-body{ display:none; padding: 0 0 12px; }
 .menu-group.open > .group-body{ display:block; }
 .group-intro{
-  font-size: 11px;
+  font-size: calc(11px * var(--txt-scala, 1));
   color: var(--text-dim);
   line-height:1.45;
   margin: 0 2px 8px;
@@ -816,12 +800,12 @@ body.redlight{
 .opt-row.compact{ padding: 7px 2px; }
 .opt-text{ flex:1 1 auto; min-width:0; }
 .opt-name{
-  font-size: 13px;
+  font-size: calc(13px * var(--txt-scala, 1));
   color: var(--text);
   line-height:1.3;
 }
 .opt-desc{
-  font-size: 11px;
+  font-size: calc(11px * var(--txt-scala, 1));
   color: var(--text-dim);
   line-height:1.35;
   margin-top: 2px;
@@ -957,7 +941,7 @@ body.redlight{
 
 /* ---------- strumenti salvati ---------- */
 .strum-lista{ display:flex; flex-direction:column; gap:6px; margin: 4px 0 10px; }
-.strum-vuoto{ font-size:11px; color: var(--text-dim); padding: 6px 2px; line-height:1.45; }
+.strum-vuoto{ font-size: calc(11px * var(--txt-scala, 1)); color: var(--text-dim); padding: 6px 2px; line-height:1.45; }
 .strum-item{
   display:flex; align-items:center; gap:8px;
   padding: 9px 10px;
@@ -971,9 +955,9 @@ body.redlight{
   box-shadow: 0 0 0 1px rgba(201,162,39,0.3) inset;
 }
 .strum-item-testo{ flex:1 1 auto; min-width:0; text-align:left; }
-.strum-item-nome{ font-size:13px; color: var(--text); }
+.strum-item-nome{ font-size: calc(13px * var(--txt-scala, 1)); color: var(--text); }
 .strum-item.active .strum-item-nome{ color: var(--brass-bright); }
-.strum-item-dati{ font-size:11px; color: var(--text-dim); margin-top:2px; line-height:1.4; }
+.strum-item-dati{ font-size: calc(11px * var(--txt-scala, 1)); color: var(--text-dim); margin-top:2px; line-height:1.4; }
 .strum-elimina{
   flex:0 0 auto;
   background:none; border:none; padding:4px 6px;
@@ -1039,7 +1023,7 @@ body.redlight{
 .rc-rimandi-tit{
   width: 100%;
   font-family: var(--mono-font);
-  font-size: 9.5px;
+  font-size: calc(9.5px * var(--txt-scala, 1));
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--brass-dim);
@@ -1052,7 +1036,7 @@ body.redlight{
   border-radius: 999px;
   padding: 5px 11px;
   font-family: inherit;
-  font-size: 11.5px;
+  font-size: calc(11.5px * var(--txt-scala, 1));
   cursor: pointer;
 }
 
@@ -1075,10 +1059,10 @@ body.redlight{
   background: linear-gradient(165deg, rgba(201,162,39,0.14), rgba(201,162,39,0.05));
   border: 1px solid var(--brass-dim);
 }
-.novita-banner-testo{ font-size: 12px; color: var(--text); }
+.novita-banner-testo{ font-size: calc(12px * var(--txt-scala, 1)); color: var(--text); }
 .novita-banner-testo b{ color: var(--brass-bright); }
 .novita-banner-testo ul{ margin: 6px 0 0; padding-left: 18px; }
-.novita-banner-testo li{ margin: 3px 0; font-size: 11.5px; color: var(--text-dim); }
+.novita-banner-testo li{ margin: 3px 0; font-size: calc(11.5px * var(--txt-scala, 1)); color: var(--text-dim); }
 /* pulsanti propri del form: NON riusano .level-btn, che e' agganciata
    ad applyLevel() e verrebbe interpretata come scelta di livello */
 .strum-row{ display:flex; gap:6px; }
@@ -1090,7 +1074,7 @@ body.redlight{
   background: linear-gradient(165deg, var(--panel-2) 0%, var(--panel) 100%);
   color: var(--text);
   font-family: inherit;
-  font-size: 12px;
+  font-size: calc(12px * var(--txt-scala, 1));
   cursor: pointer;
   transition: border-color .15s, color .15s;
 }
@@ -1302,20 +1286,25 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 /* ---------- striscia di data e ora, come le righe del menù ---------- */
 .infobar{
   display:flex;
+  /* le celle vanno a capo invece di comprimersi: con il testo
+     ingrandito la data in monospazio non entra piu' in una riga da
+     quattro, e schiacciarla la troncherebbe */
+  flex-wrap: wrap;
   gap: 0;
+  row-gap: 9px;
   margin-top: 12px;
   padding-top: 10px;
   border-top: 1px solid rgba(28,39,64,0.6);
 }
 .info-cell{
-  flex: 1 1 0;
-  min-width: 0;
+  flex: 1 1 auto;
+  min-width: 84px;
   text-align: left;
   padding-right: 8px;
 }
 .info-label{
   font-family: var(--mono-font);
-  font-size: 9.5px;
+  font-size: calc(9.5px * var(--txt-scala, 1));
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-dim);
@@ -1323,7 +1312,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 }
 .info-value{
   font-family: var(--mono-font);
-  font-size: 12.5px;
+  font-size: calc(12.5px * var(--txt-scala, 1));
   color: var(--star);
 }
 
@@ -1388,12 +1377,6 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 }
 .help-list li{ margin-bottom: 7px; }
 .help-list b{ color: var(--star); }
-.help-note{
-  font-size: 11px;
-  color: var(--text-dim);
-  line-height:1.5;
-  margin: 0;
-}
 
 /* ---------- elenco dei percorsi nel menù ---------- */
 .route-list{ display:flex; flex-direction:column; gap:6px; }
@@ -1414,15 +1397,14 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 }
 .rt-item:hover{ border-color: var(--brass-dim); }
 .rt-riga1{ display:flex; align-items:baseline; gap:6px; }
-.rt-name{ flex:1 1 auto; font-size: 13px; color: var(--star); line-height:1.25; }
-.rt-sub{ display:block; font-size: 10.5px; color: var(--text-dim); margin-top:1px; line-height:1.3; }
-.rt-ok, .rt-low, .rt-no{
+.rt-name{ flex:1 1 auto; font-size: calc(13px * var(--txt-scala, 1)); color: var(--star); line-height:1.25; }
+.rt-sub{ display:block; font-size: calc(10.5px * var(--txt-scala, 1)); color: var(--text-dim); margin-top:1px; line-height:1.3; }
+.rt-low, .rt-no{
   display:inline-block;
   font-family: var(--mono-font);
   font-size: 9.5px;
   margin-top: 3px;
 }
-.rt-ok{ color: var(--cyan); }
 .rt-low{ color: var(--brass-bright); }
 .rt-no{ color: var(--text-dim); }
 
@@ -1440,7 +1422,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 .rc-title{
   flex:1 1 auto;
   font-family: var(--display-font);
-  font-size: 14.5px;
+  font-size: calc(14.5px * var(--txt-scala, 1));
   color: var(--brass-bright);
   line-height:1.25;
 }
@@ -1470,11 +1452,11 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 .rc-count{
   margin-left: auto;
   font-family: var(--mono-font);
-  font-size: 10px;
+  font-size: calc(10px * var(--txt-scala, 1));
   color: var(--text-dim);
 }
 .rc-text{
-  font-size: 13px;
+  font-size: calc(13px * var(--txt-scala, 1));
   line-height: 1.55;
   color: var(--text);
   margin-bottom: 11px;
@@ -1553,7 +1535,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 .tn-main:hover .sr-name{ color: var(--brass-bright); }
 .tn-extra{
   display:block;
-  font-size: 11px;
+  font-size: calc(11px * var(--txt-scala, 1));
   color: var(--text-dim);
   line-height:1.45;
   margin-top: 4px;
@@ -1567,13 +1549,13 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
   background: rgba(201,162,39,0.12);
   color: var(--brass-bright);
   font-family: inherit;
-  font-size: 11.5px;
+  font-size: calc(11.5px * var(--txt-scala, 1));
   cursor:pointer;
   white-space:nowrap;
 }
 .tn-route:hover{ border-color: var(--brass); }
 .quiz-hint{
-  font-size: 12px;
+  font-size: calc(12px * var(--txt-scala, 1));
   color: var(--brass-bright);
   background: rgba(201,162,39,0.1);
   border: 1px solid rgba(201,162,39,0.3);
@@ -1587,7 +1569,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
    ricordare, non un aiuto. Confonderli visivamente confonderebbe
    anche il loro scopo. */
 .quiz-curiosita{
-  font-size: 12px;
+  font-size: calc(12px * var(--txt-scala, 1));
   color: var(--text);
   background: rgba(138,215,255,0.08);
   border: 1px solid rgba(138,215,255,0.25);
@@ -1838,16 +1820,16 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 .ev-item:last-child{ border-bottom:none; }
 .ev-riga{ display:flex; align-items:baseline; gap:8px; }
 .ev-icona{ color: var(--brass-dim); font-size: 14px; flex:0 0 auto; }
-.ev-nome{ font-size: 13.5px; color: var(--star); line-height:1.3; }
+.ev-nome{ font-size: calc(13.5px * var(--txt-scala, 1)); color: var(--star); line-height:1.3; }
 .ev-item.ev-top .ev-nome{ color: var(--brass-bright); }
 .ev-quando{
   font-family: var(--mono-font);
-  font-size: 10.5px;
+  font-size: calc(10.5px * var(--txt-scala, 1));
   color: var(--cyan);
   margin: 3px 0 0 22px;
 }
 .ev-nota{
-  font-size: 11.5px;
+  font-size: calc(11.5px * var(--txt-scala, 1));
   color: var(--text-dim);
   line-height:1.5;
   margin: 4px 0 0 22px;
@@ -1868,7 +1850,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
   border:none;
   color: var(--text);
   font-family: inherit;
-  font-size: 12.5px;
+  font-size: calc(12.5px * var(--txt-scala, 1));
   text-align:left;
   cursor:pointer;
 }
@@ -1877,7 +1859,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 .gl-voce.open .gl-t .group-arrow{ transform: rotate(0deg); }
 .gl-d{
   display:none;
-  font-size: 12px;
+  font-size: calc(12px * var(--txt-scala, 1));
   line-height:1.6;
   color: var(--text-dim);
   padding: 0 2px 11px;
@@ -1888,7 +1870,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 /* ---------- diario ---------- */
 .diario-riepilogo{
   display:none;
-  font-size: 12px;
+  font-size: calc(12px * var(--txt-scala, 1));
   color: var(--text);
   background: rgba(138,215,255,0.07);
   border: 1px solid rgba(138,215,255,0.2);
@@ -1951,7 +1933,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
   border-radius: 8px;
   border: 1px solid rgba(138,215,255,0.25);
   background: rgba(138,215,255,0.07);
-  font-size: 12px;
+  font-size: calc(12px * var(--txt-scala, 1));
   color: var(--cyan);
 }
 .obj-visto-x{
@@ -1959,7 +1941,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
   border:none;
   color: var(--text-dim);
   font-family: inherit;
-  font-size: 11.5px;
+  font-size: calc(11.5px * var(--txt-scala, 1));
   text-decoration: underline;
   cursor:pointer;
 }
@@ -2150,30 +2132,22 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
   padding:8px 10px;
   resize: vertical;
 }
-.diario-stato{ font-size:11.5px; color: var(--cyan); line-height:1.5; margin-top:7px; min-height:16px; }
+.diario-stato{ font-size: calc(11.5px * var(--txt-scala, 1)); color: var(--cyan); line-height:1.5; margin-top:7px; min-height:16px; }
 .novita-list{ display:flex; flex-direction:column; }
 .nv-item{ padding: 6px 2px; border-bottom: 1px solid rgba(28,39,64,0.5); }
 .nv-item:last-child{ border-bottom:none; }
-.nv-v{
-  font-family: var(--mono-font);
-  font-size: 10px;
-  color: var(--brass-bright);
-  letter-spacing: 0.08em;
-}
-.nv-item.nv-ora .nv-v::after{ content:' \00B7 in uso'; color: var(--cyan); }
-.nv-d{ font-size: 12px; color: var(--text-dim); line-height:1.5; margin-top:3px; }
 .nv-t{ font-size: 13px; color: var(--star); line-height:1.3; }
 .changelog-list{ display:flex; flex-direction:column; padding-bottom: 6px; }
 .cl-item{ padding: 10px 0; border-bottom: 1px solid rgba(28,39,64,0.55); }
 .cl-item:last-child{ border-bottom:none; }
 .cl-v{
   font-family: var(--mono-font);
-  font-size: 11px;
+  font-size: calc(11px * var(--txt-scala, 1));
   color: var(--brass-bright);
   letter-spacing: 0.06em;
 }
 .cl-item.cl-ora .cl-v::after{ content:' \00B7 in uso'; color: var(--cyan); }
-.cl-d{ font-size: 12.5px; color: var(--text); line-height:1.5; margin-top:4px; }
+.cl-d{ font-size: calc(12.5px * var(--txt-scala, 1)); color: var(--text); line-height:1.5; margin-top:4px; }
 .lg-list{ display:flex; flex-direction:column; }
 .lg-riga{
   display:flex;
@@ -2198,11 +2172,6 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 .onb-passi b{ color: var(--brass-bright); }
 
 /* ---------- "chi siamo": trattamento più leggero, in fondo al menù ---------- */
-.chisiamo-separatore{
-  height: 1px;
-  background: var(--panel-border);
-  margin: 18px 0 4px;
-}
 .menu-chisiamo{ opacity: 0.86; }
 .menu-chisiamo .group-title{ font-size: 12.5px; }
 .menu-chisiamo .group-head{ padding: 9px 2px; }
@@ -2600,7 +2569,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
       <div class="menu-group" data-group="luogo" data-liv="base">
         <button class="group-head" type="button">
           <span class="group-title">Dove e quando osservi</span>
-          <span class="group-note" id="noteLuogo">Casale Monferrato</span>
+          <span class="group-note" id="luogoNota">Casale Monferrato</span>
           <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
         <div class="group-body">
@@ -2685,6 +2654,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
       <div class="menu-group" data-group="cielo" data-liv="base">
         <button class="group-head" type="button">
           <span class="group-title">Il cielo che vedi</span>
+          <span class="group-note" id="cieloNota"></span>
           
           <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
@@ -2762,6 +2732,16 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
           </div>
         
           <div class="menu-section-title" data-liv="base">Come è disegnato</div>
+          <div class="opt-row stacked" data-liv="base">
+            <div class="opt-text"><div class="opt-name">Dimensione del testo</div>
+              <div class="opt-desc">Ingrandisce il testo del menù e le schede da leggere: quella dell'oggetto scelto, i percorsi, gli eventi, le lezioni. Utile al buio, quando il telefono passa di mano. Non cambia i nomi disegnati sul cielo, che sovrapponendosi lo renderebbero illeggibile</div></div>
+            <div class="strum-row" id="txtScalaRow">
+              <button class="strum-btn" type="button" data-scala="1">Normale</button>
+              <button class="strum-btn" type="button" data-scala="1.2">Grande</button>
+              <button class="strum-btn" type="button" data-scala="1.4">Molto grande</button>
+            </div>
+            <div class="rc-text" style="margin-top:9px;padding:9px 10px;border-radius:8px;background:rgba(138,215,255,0.06);border:1px solid rgba(138,215,255,0.2);">Anteprima: Vega è visibile a 40° sull&rsquo;orizzonte.</div>
+          </div>
 
           <p class="group-intro">Che cosa disegnare sopra le stelle, e con quale resa.</p>
 
@@ -3059,7 +3039,6 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
       </p>
 
     </div>
-    <div class="tooltip-bubble" id="tooltipBubble"></div>
   </aside>
 
   <!-- ============ AREA DEL CIELO ============ -->
@@ -3072,7 +3051,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 
       <!-- realtà aumentata: stato sempre visibile, perché chi la usa in
            piazza non ha il menù davanti e deve sapere se può fidarsi -->
-      <div class="ar-badge" id="arBadge">
+      <div class="ar-badge">
         <span class="ar-beta">beta</span>
         <span class="ar-stato no" id="arStato">bussola da calibrare</span>
         <button type="button" id="arCalibraBtn" style="background:none;border:none;color:var(--brass-bright);font-family:inherit;font-size:11px;cursor:pointer;padding:0 0 0 4px;">calibra</button>
@@ -3140,6 +3119,97 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
    "Giovanni Celoria", Casale Monferrato
    =====================================================================
 
+   v5.0  Versione pubblica che raccoglie tutto il lavoro dalla 3.0 in poi.
+         Il riquadro delle novita' nel menu' elenca ora le implementazioni
+         principali dell'intero ciclo, non le singole voci di sottoversione:
+         per chi apre l'app e' un aggiornamento solo, e vedere venti righe
+         di correzioni intermedie non lo aiuterebbe.
+         PULIZIA PRIMA DEL RILASCIO. Scansione completa del codice, ripetuta
+         fino a esito senza anomalie. Trovato e corretto un BUG FUNZIONALE
+         che nessuno aveva notato: il markup aveva id="noteLuogo" mentre il
+         codice cercava "luogoNota", quindi la nota accanto a "Dove e quando
+         osservi" era congelata sul testo statico e non seguiva piu' il
+         cambio di localita'. Introdotto accorpando i gruppi nella 4.1.
+         Ripristinati i riepiloghi persi in quell'accorpamento: "Dove e
+         quando osservi" mostra ora luogo e ora insieme, "Il cielo che vedi"
+         ha di nuovo la sua nota, che era rimasto l'unico gruppo senza.
+         La qualita' del cielo NON e' stata aggiunta alla nota del luogo di
+         proposito: allungherebbe la riga fino a mandare il titolo a capo,
+         cioe' il difetto corretto nella 4.8.2.
+         Rimosso codice non piu' pertinente: skyCtxTest() mai chiamata; il
+         blocco che copiava il logo in #gruppoLogo, elemento non piu'
+         esistente (il logo del Gruppo e' incorporato direttamente nel
+         markup e si vede correttamente, quindi non andava reinserito ma
+         solo ripulito il riferimento morto); l'elemento .tooltip-bubble,
+         UI mai implementata e per giunta senza senso su smartphone, dove
+         non esiste un puntatore; sei regole CSS orfane (.hamburger-btn,
+         .help-note, .rt-ok rimasta dalla 4.6, .nv-v e .nv-d di una vecchia
+         resa del changelog, .chisiamo-separatore della struttura pre-4.7).
+   v4.8.2 La dimensione del testo ora copre anche il menu' e i suoi
+         sottotesti (titoli dei gruppi, nomi e descrizioni delle
+         opzioni, note, strumenti registrati, avviso di novita'), non
+         solo le schede di lettura come nella 4.8.
+         In verifica e' emerso un bug distinto, non collegato
+         all'estensione in se': .group-title aveva flex:0 0 auto SENZA
+         min-width:0. Nel modello flessibile questo impedisce a un
+         elemento di restringersi sotto la sua larghezza intrinseca -
+         lo stesso bug che era gia' stato risolto altrove con
+         .opt-text{min-width:0}, qui sfuggito perche' il titolo del
+         gruppo non aveva mai avuto bisogno di restringersi prima
+         d'ora. A testo scalato, un titolo lungo affiancato a una nota
+         lunga (es. "Dove e quando osservi" + "Casale Monferrato")
+         faceva traboccare il pulsante invece di andare a capo.
+         Corretto con flex:0 1 auto + min-width:0 sul titolo e
+         min-width:0 sulla nota, senza invertirne le priorita' di
+         crescita relative.
+         Verificato il NON-traboccamento su ogni nodo dell'intero menu'
+         aperto (non a campione) alle tre scale, incluse le liste
+         dinamiche (percorsi, strumenti registrati, avviso di novita').
+   v4.8.1 Due difetti nel comando "Dimensione del testo", trovati subito
+         dopo la consegna della 4.8: i pulsanti sembravano non fare
+         nulla. La causa vera non era il meccanismo - click e stato
+         funzionavano gia' correttamente, verificato con click reali -
+         ma l'assenza di qualunque riscontro visibile nella stessa
+         schermata: la scala tocca solo le schede di lettura, non il
+         menu', quindi cliccando non cambiava nulla sotto gli occhi.
+         Aggiunta un'anteprima dal vivo subito sotto i pulsanti, che
+         scala insieme al resto.
+         Scrivendo quell'anteprima e' emerso un secondo difetto, di
+         un'altra natura: due escape in stile JavaScript (\\u00e8, e poi
+         una barra rovesciata prima dell'apostrofo) lasciate dentro
+         testo HTML statico, dove nessuna delle due viene interpretata
+         e compaiono lettera per lettera. Corretto scrivendo il
+         carattere accentato vero e usando l'entita' HTML &rsquo; per
+         l'apostrofo, invece di un'altra escape. Controllato l'intero
+         file per la stessa classe di errore fuori da <script>: nessun'
+         altra occorrenza.
+   v4.8  Dimensione del testo regolabile: normale, grande, molto grande.
+         Serve alle serate pubbliche, dove il telefono passa di mano al
+         buio, spesso a persone anziane, e il filtro rosso abbassa il
+         contrasto.
+         Scala SOLO le superfici di lettura - riquadro dell'oggetto,
+         schede dei percorsi e del quiz, eventi, lezioni, diario, elenchi
+         - non tutta l'interfaccia. Il file aveva 141 dichiarazioni
+         font-size in px e nessuna in rem: non esisteva alcuna scala
+         tipografica. Scalarle tutte avrebbe ingrandito anche etichette,
+         badge e note da 9px pensate per spazi fissi, facendo traboccare
+         i contenitori e raddoppiando la lunghezza del menu' appena
+         compattato nella 4.6. Convertite quindi 33 dichiarazioni
+         mirate a calc(Npx * var(--txt-scala)).
+         Tre passi discreti invece di un cursore continuo: tre valori si
+         verificano tutti e tre, un cursore no.
+         NON e' legata alla modalita' notturna: chi ha bisogno di
+         caratteri grandi ne ha bisogno sempre. Sta in "Il cielo che
+         vedi", sezione "Come e' disegnato", visibile gia' al livello
+         Principiante perche' e' accessibilita', non un'opzione avanzata.
+         I nomi disegnati sul cielo restano invariati: ingrandirli
+         renderebbe la mappa illeggibile per sovrapposizione.
+         Difetto trovato in verifica e corretto: a 1,4x la barra
+         informativa traboccava (data in monospazio, 114 px in una cella
+         da 106). Le celle vanno ora a capo invece di comprimersi, che e'
+         la soluzione giusta - escluderla dalla scala avrebbe lasciato
+         piccolo proprio un testo da leggere. Verificate tutte e tre le
+         scale su ogni superficie toccata, non a campione.
    v4.7  Correzione di un errore mio nella 4.5: le figure delle
          costellazioni usate dai passi di riconoscimento erano state
          SCRITTE A MANO invece di essere ricavate da LINES, il database
@@ -3536,18 +3606,31 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 /* Numero di versione leggibile dal programma: compare nel menù e serve
    a capire con certezza quale versione sta girando su un dispositivo,
    cosa impossibile quando il browser tiene in cache un file vecchio. */
-const APP_VERSIONE = '4.7';
+const APP_VERSIONE = '5.0';
+/* Elenco CUMULATIVO delle novita' dalla 3.0: per chi usa l'app questo e'
+   un aggiornamento solo, e le singole voci di sottoversione non gli
+   direbbero nulla di utile. */
 const APP_NOVITA = [
+  { t:'Realt\u00e0 aumentata: il cielo sopra l\u2019immagine della fotocamera' },
+  { t:'Calibrazione della bussola, che migliora anche il puntamento normale' },
+  { t:'Registra binocolo e telescopio e vedi il campo che inquadrano davvero' },
   { t:'Cinque nuovi percorsi per imparare a leggere il cielo di ogni stagione' },
-  { t:'I percorsi ora insegnano anche a riconoscere le costellazioni intere' },
+  { t:'I percorsi insegnano ora a riconoscere le costellazioni intere' },
   { t:'L\u2019app ricorda i percorsi fatti e da dove riprendere' },
-  { t:'Elenco dei percorsi diviso in due sezioni e pi\u00f9 compatto' },
+  { t:'Una curiosit\u00e0 su ogni stella, pianeta e costellazione del quiz' },
+  { t:'Gli oggetti del profondo cielo hanno forma e dimensione reali' },
+  { t:'Il menu\u0300 si adatta al livello: molto pi\u00f9 semplice per chi comincia' },
+  { t:'Dimensione del testo regolabile, utile al buio durante le serate' },
 ];
 
 /* Registro completo delle versioni pubblicate, per il changelog esteso.
    Ogni voce riprende, riassunto in una riga, cio' che compare per esteso
    nel blocco di cronologia in cima a questo file. */
 const APP_STORICO = [
+  { v:'5.0', d:'Versione pubblica che raccoglie realt\u00e0 aumentata, ottiche, percorsi per leggere il cielo, curiosit\u00e0, oggetti in scala reale e menu\u0300 adattivo. Pulizia completa del codice.' },
+  { v:'4.8.2', d:'La dimensione del testo copre ora anche il men\u00f9 e i suoi sottotesti; corretto un bug di traboccamento su titoli di gruppo lunghi.' },
+  { v:'4.8.1', d:'Corretti due difetti nel comando "Dimensione del testo": mancava un riscontro visibile del click, e due escape lasciate nel testo statico comparivano lettera per lettera.' },
+  { v:'4.8', d:'Dimensione del testo regolabile su tre passi per le schede da leggere, utile al buio durante le serate.' },
   { v:'4.7', d:'Le costellazioni evidenziate nei percorsi seguono ora esattamente le linee del catalogo; aggiunto il riconoscimento di Cefeo.' },
   { v:'4.6', d:'Elenco dei percorsi diviso in brevi e lunghi, voci compattate, stato di visibilit\u00e0 mostrato solo quando serve.' },
   { v:'4.5', d:'Cinque percorsi lunghi per leggere il cielo di ogni stagione, riconoscimento delle costellazioni nei percorsi, memoria dei progressi.' },
@@ -7685,8 +7768,6 @@ function syncSkyQuality(){
            : mw > 0.02 ? 'Via Lattea appena accennata'
                        : 'Via Lattea non visibile';
   if (n) n.innerHTML = `${q.desc}<br><span class="sq-lim">Stelle fino alla magnitudine ${q.limite.toFixed(1).replace('.',',')} \u00B7 ${vl}.</span>`;
-  const g = document.getElementById('quantoNota');
-  if (g) g.textContent = q.nome.toLowerCase();
 }
 
 
@@ -9892,6 +9973,20 @@ function livelloCorrente(){
   return LIV_ORD[state.livello] !== undefined ? LIV_ORD[state.livello] : 0;
 }
 
+/* La scala agisce solo sulle superfici di LETTURA - riquadro
+   dell'oggetto, schede dei percorsi e del quiz, eventi, lezioni,
+   diario - non su tutta l'interfaccia. Ingrandire anche etichette,
+   badge e note da 9px pensate per spazi fissi avrebbe fatto traboccare
+   i contenitori e raddoppiato la lunghezza del menu', che abbiamo
+   appena compattato. E non e' legata alla modalita' notturna: chi ha
+   bisogno di caratteri grandi ne ha bisogno sempre, non solo al buio. */
+function applicaScalaTesto(){
+  const v = state.txtScala;
+  const ok = (v === 1 || v === 1.2 || v === 1.4) ? v : 1;
+  state.txtScala = ok;
+  document.documentElement.style.setProperty('--txt-scala', ok);
+}
+
 function applicaLivelloMenu(){
   const mio = livelloCorrente();
   let nascosti = 0;
@@ -9950,6 +10045,9 @@ function syncMenu(){
       ? ('Calibrata, correzione di ' + Math.round(state.arOffsetAz || 0) + '°')
       : 'Non ancora calibrata';
   }
+  document.querySelectorAll('#txtScalaRow [data-scala]').forEach(b=>{
+    b.classList.toggle('active', parseFloat(b.getAttribute('data-scala')) === state.txtScala);
+  });
   renderStrumenti();
   applicaLivelloMenu();
 
@@ -9963,29 +10061,28 @@ function syncMenu(){
 
 /* Riassunto accanto al titolo di ogni gruppo: chiuso, deve comunque
    dire cosa c'è acceso, altrimenti va aperto per saperlo. */
+/* Riassunto accanto al titolo del gruppo "Il cielo che vedi".
+   Fino alla 4.1 erano due note separate, una per "Cosa posso osservare"
+   e una per "Come appare il cielo": accorpando i gruppi le due note
+   sono sparite dal markup e questa funzione girava a vuoto, lasciando
+   quel gruppo l'unico privo di riepilogo. Ora ne compone una sola,
+   che tiene insieme cosa compare e come e' disegnato. */
 function updateGroupNotes(){
-  const on = document.getElementById('oggettiNota');
-  if (on){
-    const p = [];
-    if (state.showSolar) p.push('pianeti');
-    if (state.showDeep){
-      const d = DIFFICULTY[Math.max(0,Math.min(3,state.difficulty))];
-      p.push(d.nome.toLowerCase());
-    }
-    on.textContent = p.length ? p.join(' · ') : 'niente acceso';
-  }
   if (typeof syncSkyQuality === 'function') syncSkyQuality();
   const cn = document.getElementById('cieloNota');
-  if (cn){
-    const p = [];
-    if (state.showLines) p.push('figure');
-    if (state.showNames) p.push('nomi');
-    if (state.showAsterisms) p.push('asterismi');
-    if (state.showArt) p.push('disegni');
-    if (state.showMilkyWay) p.push('Via Lattea');
-    cn.textContent = p.length ? p.join(' · ') : 'niente acceso';
+  if (!cn) return;
+  const cosa = [];
+  if (state.showSolar) cosa.push('pianeti');
+  if (state.showDeep){
+    const d = DIFFICULTY[Math.max(0,Math.min(3,state.difficulty))];
+    cosa.push(d.nome.toLowerCase());
   }
-
+  const come = [];
+  if (state.showLines) come.push('figure');
+  if (state.showNames) come.push('nomi');
+  if (state.showMilkyWay) come.push('Via Lattea');
+  const p = cosa.concat(come);
+  cn.textContent = p.length ? p.slice(0,3).join(' · ') : 'niente acceso';
 }
 
 /* Quanti oggetti restano con le impostazioni correnti: dà la misura
@@ -10103,6 +10200,16 @@ function initMenuUI(){
     if (el) el.addEventListener('input', aggiornaAnteprimaStrumento);
   });
 
+  // --- dimensione del testo ---
+  document.querySelectorAll('#txtScalaRow [data-scala]').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      state.txtScala = parseFloat(b.getAttribute('data-scala'));
+      applicaScalaTesto();
+      syncMenu();
+      saveSettings();
+    });
+  });
+
   // --- realtà aumentata (beta) ---
   const tar = document.getElementById('toggleAR');
   if (tar) tar.addEventListener('click', ()=>{ setAR(!state.ar); });
@@ -10141,7 +10248,7 @@ const SETTING_KEYS = ['showLines','showNames','showConNames','showAsterisms','sh
   'showMilkyWay','showSolar','showDeep','showMessier','showNGC','showDoubles',
   'showGrid','showEqGrid','showEcliptic','showAtmosphere','showHorizonSilhouette',
   'showFieldCircle','fieldZoom','strumenti','strumentoAttivo',
-  'arFov','arOffsetAz','arCalibrata','livello',
+  'arFov','arOffsetAz','arCalibrata','livello','txtScala',
   'difficulty','level','skyQuality','wakeLock'];
 
 function saveSettings(){
@@ -10196,6 +10303,7 @@ let state = {
   showHorizonSilhouette: true,
   showFieldCircle: false,
   fieldZoom: false,        // stringe la vista fino al campo dello strumento
+  txtScala: 1,             // dimensione del testo nelle superfici di lettura
   livello: 'base',         // livello scelto: governa QUANTO menu' si vede.
                            // Distinto da state.level, che veniva azzerato al
                            // primo interruttore toccato: se il menu' dipendesse
@@ -11553,24 +11661,32 @@ function updateAltScale(){
 let _panelLast = 0;
 /* Riassunto accanto al titolo dei gruppi del menù, così si capisce
    dove e quando si sta guardando senza doverli aprire. */
+/* Riassunto accanto al titolo di "Dove e quando osservi": dice dove e
+   quando si sta guardando senza dover aprire il gruppo.
+   Fino alla 4.1 erano due gruppi distinti con due note; accorpandoli
+   ne resta una sola, che le compone entrambe. La nota di "Il tuo
+   cielo" (qualita' del cielo) non viene aggiunta di proposito: la riga
+   diventerebbe troppo lunga e su schermo stretto manderebbe il titolo
+   a capo, che e' esattamente il difetto corretto nella 4.8.2. */
 function updateMenuNotes(){
   const ln = document.getElementById('luogoNota');
-  if (ln){
-    const sel = document.getElementById('locationSelect');
-    const preset = sel && sel.value !== 'custom' ? sel.options[sel.selectedIndex].text : null;
-    ln.textContent = preset || state.luogoNome || `${state.lat.toFixed(2)}\u00B0, ${state.lon.toFixed(2)}\u00B0`;
+  if (!ln) return;
+
+  const sel = document.getElementById('locationSelect');
+  const preset = sel && sel.value !== 'custom' ? sel.options[sel.selectedIndex].text : null;
+  const dove = preset || state.luogoNome
+             || `${state.lat.toFixed(2)}\u00B0, ${state.lon.toFixed(2)}\u00B0`;
+
+  let quando;
+  const diff = Math.abs(state.date - Date.now());
+  if (diff < 90000 && !state.playing) quando = 'adesso';
+  else {
+    const p = n => String(n).padStart(2,'0');
+    const d = state.date;
+    const oggi = d.toDateString() === new Date().toDateString();
+    quando = (oggi ? '' : `${p(d.getDate())}/${p(d.getMonth()+1)} `) + `${p(d.getHours())}:${p(d.getMinutes())}`;
   }
-  const qn = document.getElementById('quandoNota');
-  if (qn){
-    const diff = Math.abs(state.date - Date.now());
-    if (diff < 90000 && !state.playing) qn.textContent = 'adesso';
-    else {
-      const p = n => String(n).padStart(2,'0');
-      const d = state.date;
-      const oggi = d.toDateString() === new Date().toDateString();
-      qn.textContent = (oggi ? '' : `${p(d.getDate())}/${p(d.getMonth()+1)} `) + `${p(d.getHours())}:${p(d.getMinutes())}`;
-    }
-  }
+  ln.textContent = dove + ' \u00B7 ' + quando;
 }
 
 function updateClocks(){
@@ -12697,8 +12813,6 @@ document.getElementById('lonInput').addEventListener('change', setCustomOnEdit);
 
 /* Accesso al contesto di disegno, usato dalle verifiche automatiche
    per controllare la resa dei percorsi senza passare dal ciclo completo. */
-function skyCtxTest(){ return fpCtx; }
-
 /* ---------------------------------------------------------------------
    Collegamenti degli Astrofili Celoria. Raccolti qui in un punto solo così che
    aggiornarli non richieda di cercarli dentro la pagina.
@@ -12728,12 +12842,6 @@ const GRUPPO_SOCIAL = [
 ];
 
 function buildGruppo(){
-  // Il logo è già incorporato una volta nell'intestazione del menù:
-  // lo riusiamo invece di ripetere sessanta chilobyte di immagine.
-  const src = document.querySelector('.drawer-brand img');
-  const dst = document.getElementById('gruppoLogo');
-  if (src && dst) dst.src = src.src;
-
   const riga = l =>
     `<a class="gr-a${l.forte?' gr-a-forte':''}" href="${l.url}" target="_blank" rel="noopener">
        <svg viewBox="0 0 24 24" fill="none">${l.icona}</svg>
@@ -12821,6 +12929,7 @@ setTimeout(()=>{ appPronta(); }, 8000);
   }catch(e){}
 
   loadSettings();
+  applicaScalaTesto();
   initMenuUI();
   initSkyQualityUI();
   initWakeUI();
