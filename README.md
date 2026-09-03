@@ -16,14 +16,17 @@ Non richiede installazione: è un'unica pagina web che funziona direttamente dal
 
 ## Funzionalità
 
+- **Avviso di novità**: al riavvio dopo un aggiornamento, un pallino sul pulsante Controlli e una riga di riepilogo nel menù segnalano cosa è cambiato
+- **Menù che si adatta al livello**: scegliendo Principiante, Intermedio o Avanzato cambia non solo il cielo, ma anche quante impostazioni compaiono. Chi comincia trova 6 gruppi e 8 opzioni; chi vuole tutto ne trova 24
 - Vista cielo in prima persona con proiezione gnomonica e planisfero
 - Navigazione touch e tramite giroscopio, zoom, modalità notturna a luce rossa
 - Motore astronomico completo (precessione, nutazione, parallasse, aberrazione, rifrazione atmosferica), verificato contro le effemeridi NASA
 - Catalogo di 2.492 stelle, 110 oggetti Messier, 265 oggetti NGC/IC, 17 stelle doppie, 20 asterismi, 85 illustrazioni mitologiche delle costellazioni
 - **Oggetti del profondo cielo in forma e dimensione reali**: ingrandendo, il simbolo lascia il posto alla figura vera, orientata secondo l'angolo di posizione del catalogo — galassie ellittiche con accenno dei bracci, ammassi globulari granulati, anelli delle nebulose planetarie
-- **I tuoi strumenti**: si registrano il proprio binocolo e telescopio e si richiamano con un tocco. L'app calcola il campo realmente inquadrato (campo apparente dell'oculare diviso l'ingrandimento), ne disegna il cerchio nel cielo e può restringere la vista fino a quel campo, per sapere in anticipo se l'oggetto vi sarà contenuto. Quando il campo apparente dell'oculare non è noto viene usato il valore tipico di 50°, e il risultato è dichiarato come stima
+- **Le tue ottiche**: si registrano il proprio binocolo e telescopio e si richiamano con un tocco. L'app calcola il campo realmente inquadrato (campo apparente dell'oculare diviso l'ingrandimento), ne disegna il cerchio nel cielo e può restringere la vista fino a quel campo, per sapere in anticipo se l'oggetto vi sarà contenuto. Quando il campo apparente dell'oculare non è noto viene usato il valore tipico di 50°, e il risultato è dichiarato come stima
 - **Realtà aumentata (beta)**: il cielo calcolato sovrapposto all'immagine della fotocamera, per legarlo al paesaggio reale. Include la **calibrazione della bussola**, su un astro di posizione nota oppure a mano, che corregge in un colpo l'errore del magnetometro e la declinazione magnetica — e migliora anche il puntamento fuori dalla realtà aumentata
-- 12 percorsi guidati di sky-hopping, utilizzabili anche in realtà aumentata, ed esercizi di riconoscimento degli oggetti celesti
+- **17 percorsi guidati**, utilizzabili anche in realtà aumentata, divisi in due sezioni: 12 **brevi** che insegnano un singolo passaggio (trovare la Polare dal Grande Carro, la Galassia di Andromeda da Mirach) e 5 **lunghi** che insegnano a leggere il cielo di una stagione, riconoscendone le costellazioni principali. L'app ricorda quali hai completato e da dove riprendere
+- Esercizi di riconoscimento degli oggetti celesti, con **curiosità verificate** su ogni stella, pianeta, la Luna e ogni costellazione del quiz — copertura completa, mostrate dopo ogni risposta
 - 23 lezioni tematiche ("Capire il cielo")
 - Suggerimento "Cosa osservare stasera"
 - **Eventi dei prossimi sette giorni**, calcolati e non elencati a memoria: fasi lunari, passaggi della Luna accanto a pianeti e alle stelle zodiacali brillanti, congiunzioni planetarie, opposizioni, massime elongazioni, equinozi e solstizi. Solo gli sciami meteorici hanno date fisse, perché dipendono da quando la Terra attraversa la scia di polvere lasciata da una cometa
@@ -36,7 +39,7 @@ La funzione è marcata **beta** e i suoi limiti sono dichiarati anche dentro l'a
 
 - **Di notte la fotocamera non riprende le stelle.** In video l'esposizione è di pochi centesimi di secondo: si vedono la Luna e i pianeti più brillanti, nient'altro. La realtà aumentata non serve a identificare le stelle nell'immagine, ma a legare il cielo calcolato al paesaggio: campanili, alberi, profilo delle colline
 - **Il campo inquadrato dalla fotocamera non è esposto da alcuna API del browser** e varia molto fra modelli: si parte da un valore tipico e si regola a mano, una volta per dispositivo
-- **La bussola va calibrata.** Senza calibrazione l'errore può essere di diversi gradi, e con il paesaggio reale dietro diventa evidente. Lo stato della calibrazione è sempre visibile nella schermata
+- **La bussola va calibrata**, e alla prima attivazione la calibrazione è il primo passo obbligato: senza, l'errore può essere di diversi gradi e un principiante non ha modo di accorgersene. Lo stato della calibrazione resta poi sempre visibile nella schermata
 - In realtà aumentata la vista non si trascina e il pizzico non cambia l'ingrandimento: resta agganciata a dove punta il telefono, altrimenti il cielo disegnato scivolerebbe via dall'immagine
 
 ## Come si usa
@@ -50,7 +53,7 @@ Note:
 
 ## Stack tecnico
 
-- File HTML singolo e autonomo (~950 KB), nessuna dipendenza esterna, nessun server richiesto
+- File HTML singolo e autonomo (~1,0 MB), nessuna dipendenza esterna, nessun server richiesto
 - Compatibile con qualsiasi browser mobile moderno
 
 ## Changelog

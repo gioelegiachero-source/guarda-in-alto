@@ -661,11 +661,11 @@ body.redlight{
 }
 .sr-header{
   font-family: var(--mono-font);
-  font-size: 10px;
+  font-size: 9.5px;
   letter-spacing: 0.13em;
   text-transform: uppercase;
   color: var(--brass-dim);
-  padding: 10px 14px 6px;
+  padding: 8px 4px 4px;
 }
 .sr-item{
   display:block;
@@ -1005,6 +1005,80 @@ body.redlight{
   line-height: 1.5;
 }
 .strum-anteprima .stima{ color: var(--text-dim); }
+.menu-livello-nota{
+  font-size: 11px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin: 14px 2px 4px;
+  padding-top: 12px;
+  border-top: 1px solid var(--panel-border);
+}
+.menu-livello-nota b{ color: var(--brass-bright); font-weight: 600; }
+
+/* ---------- percorsi: stato e rimandi ---------- */
+.rt-fatto, .rt-corso{
+  flex: 0 0 auto;
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  padding: 1px 5px;
+  white-space: nowrap;
+}
+.rt-fatto{ color:#7fd48b; border:1px solid rgba(127,212,139,0.45); }
+.rt-corso{ color: var(--brass-bright); border:1px solid var(--brass-dim); }
+.rc-rimandi{
+  margin: 10px 0 2px;
+  padding-top: 9px;
+  border-top: 1px solid var(--panel-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.rc-rimandi-tit{
+  width: 100%;
+  font-family: var(--mono-font);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-dim);
+  margin-bottom: 2px;
+}
+.rc-link{
+  background: rgba(138,215,255,0.08);
+  border: 1px solid rgba(138,215,255,0.28);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-family: inherit;
+  font-size: 11.5px;
+  cursor: pointer;
+}
+
+/* ---------- avviso di novità ---------- */
+.novita-dot{
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--brass-bright);
+  box-shadow: 0 0 0 2px var(--panel);
+}
+.novita-banner{
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 11px 12px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: linear-gradient(165deg, rgba(201,162,39,0.14), rgba(201,162,39,0.05));
+  border: 1px solid var(--brass-dim);
+}
+.novita-banner-testo{ font-size: 12px; color: var(--text); }
+.novita-banner-testo b{ color: var(--brass-bright); }
+.novita-banner-testo ul{ margin: 6px 0 0; padding-left: 18px; }
+.novita-banner-testo li{ margin: 3px 0; font-size: 11.5px; color: var(--text-dim); }
 /* pulsanti propri del form: NON riusano .level-btn, che e' agganciata
    ad applyLevel() e verrebbe interpretata come scelta di livello */
 .strum-row{ display:flex; gap:6px; }
@@ -1327,7 +1401,9 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
   display:block;
   width:100%;
   text-align:left;
-  padding: 10px 12px;
+  /* compattata: era 88px per voce, che con 17 percorsi faceva 2,4
+     schermate di scorrimento per il solo elenco */
+  padding: 7px 11px;
   border-radius: 8px;
   border: 1px solid var(--panel-border);
   background: linear-gradient(165deg, var(--panel-2) 0%, var(--panel) 100%);
@@ -1337,13 +1413,14 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
   transition: border-color .15s;
 }
 .rt-item:hover{ border-color: var(--brass-dim); }
-.rt-name{ display:block; font-size: 13.5px; color: var(--star); line-height:1.3; }
-.rt-sub{ display:block; font-size: 11px; color: var(--text-dim); margin-top:2px; line-height:1.35; }
+.rt-riga1{ display:flex; align-items:baseline; gap:6px; }
+.rt-name{ flex:1 1 auto; font-size: 13px; color: var(--star); line-height:1.25; }
+.rt-sub{ display:block; font-size: 10.5px; color: var(--text-dim); margin-top:1px; line-height:1.3; }
 .rt-ok, .rt-low, .rt-no{
   display:inline-block;
   font-family: var(--mono-font);
-  font-size: 10px;
-  margin-top: 5px;
+  font-size: 9.5px;
+  margin-top: 3px;
 }
 .rt-ok{ color: var(--cyan); }
 .rt-low{ color: var(--brass-bright); }
@@ -1504,6 +1581,23 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
   padding: 8px 10px;
   margin-bottom: 11px;
   line-height:1.45;
+}
+/* colore diverso da .quiz-hint apposta: l'indizio aiuta a trovare
+   PRIMA di rispondere, la curiosita' arriva DOPO ed e' un fatto da
+   ricordare, non un aiuto. Confonderli visivamente confonderebbe
+   anche il loro scopo. */
+.quiz-curiosita{
+  font-size: 12px;
+  color: var(--text);
+  background: rgba(138,215,255,0.08);
+  border: 1px solid rgba(138,215,255,0.25);
+  border-radius: 7px;
+  padding: 8px 10px;
+  margin: 8px 0 11px;
+  line-height: 1.45;
+}
+.quiz-curiosita::before{
+  content: '\2728  ';
 }
 .rt-item.rt-now{ border-color: rgba(138,215,255,0.35); }
 .prova-score{
@@ -2211,7 +2305,8 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 
   <!-- ============ BARRA STRUMENTI ============ -->
   <div class="toolbar">
-    <button class="tool-btn" id="hamburgerBtn" aria-label="Apri i controlli">
+    <button class="tool-btn" id="hamburgerBtn" aria-label="Apri i controlli" style="position:relative;">
+      <span class="novita-dot" id="novitaDot" style="display:none;"></span>
       <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
       <span class="tool-label">Controlli</span>
     </button>
@@ -2338,16 +2433,24 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 
     <div class="panel">
 
+      <div class="novita-banner" id="novitaBanner" style="display:none;">
+        <div class="novita-banner-testo">
+          <b>Novità nella versione <span id="novitaBannerVer"></span></b>
+          <ul id="novitaBannerLista"></ul>
+        </div>
+        <button class="strum-btn primario" type="button" id="novitaBannerChiudi">Ho capito</button>
+      </div>
+
       <div class="menu-section-title">Livello</div>
       <div class="level-row">
         <button class="level-btn" data-level="base">Principiante</button>
         <button class="level-btn" data-level="medio">Intermedio</button>
-        <button class="level-btn" data-level="tutto">Tutto</button>
+        <button class="level-btn" data-level="tutto">Avanzato</button>
       </div>
       <p class="level-hint" id="levelHint">Imposta in un tocco cosa mostrare in cielo.</p>
 
       <!-- ===== IMPARA IL CIELO ===== -->
-      <div class="menu-group" data-group="stasera">
+      <div class="menu-group" data-group="stasera" data-liv="base">
         <button class="group-head" type="button">
           <span class="group-title">Cosa vedo stasera</span>
           <span class="group-note">la scaletta della serata</span>
@@ -2358,8 +2461,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
           <div class="tonight-list" id="tonightList"></div>
         </div>
       </div>
-
-      <div class="menu-group" data-group="impara">
+<div class="menu-group" data-group="impara" data-liv="base">
         <button class="group-head" type="button">
           <span class="group-title">Impara il cielo</span>
           <span class="group-note">stasera, percorsi, esercizi</span>
@@ -2367,16 +2469,27 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
         </button>
         <div class="group-body">
 
-          <div class="menu-group menu-sub" data-group="percorsi">
+          <div class="menu-group menu-sub" data-group="percorsi_lunghi">
             <button class="group-head" type="button">
-              <span class="group-title">Percorsi guidati</span>
+              <span class="group-title">Imparare a leggere il cielo</span>
+              <span class="group-note" id="notaLunghi"></span>
               <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             </button>
             <div class="group-body">
+              <p class="group-intro">Percorsi ampi: invece di un singolo passaggio ti fanno riconoscere le costellazioni principali di una stagione, una dopo l'altra. Si possono fare in piu' serate: l'app ricorda dove sei arrivato.</p>
+              <div class="route-list" id="routeListLunghi"></div>
+            </div>
+          </div>
 
-          <p class="group-intro">Ti porto di stella in stella fino al bersaglio, un passo alla volta. Le distanze indicate sono calcolate dalle posizioni vere, non dalle regole tramandate a voce.</p>
-          <div class="route-list" id="routeList"></div>
-
+          <div class="menu-group menu-sub" data-group="percorsi">
+            <button class="group-head" type="button">
+              <span class="group-title">Percorsi brevi</span>
+              <span class="group-note" id="notaBrevi"></span>
+              <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <div class="group-body">
+              <p class="group-intro">Ti porto di stella in stella fino al bersaglio, un passo alla volta. Le distanze indicate sono calcolate dalle posizioni vere, non dalle regole tramandate a voce.</p>
+              <div class="route-list" id="routeList"></div>
             </div>
           </div>
 
@@ -2459,11 +2572,35 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 
         </div>
       </div>
-
-      <div class="menu-group" data-group="luogo">
+<div class="menu-group" data-group="ar" data-liv="base">
         <button class="group-head" type="button">
-          <span class="group-title">Dove ti trovi</span>
-          <span class="group-note" id="luogoNota">Casale Monferrato</span>
+          <span class="group-title">Realtà aumentata</span>
+          <span class="group-note"><span class="ar-beta">beta</span></span>
+          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+        <div class="group-body">
+          <p class="group-intro">Il cielo calcolato sopra l'immagine della fotocamera, per legarlo al paesaggio che hai davanti: campanili, alberi, profilo delle colline.</p>
+          <p class="group-intro" style="border-left:2px solid var(--brass-dim);padding-left:9px;">
+            <b>Funzione in prova.</b> Due cose da sapere prima di usarla in serata.
+            <b>La fotocamera non riprende le stelle</b>: in video l'esposizione è di pochi centesimi di secondo, quindi si vedono la Luna e i pianeti più brillanti, e nient'altro. E la bussola del telefono sbaglia facilmente di diversi gradi: <b>va calibrata</b>, altrimenti il cielo disegnato non combacia con quello vero.
+          </p>
+          <div class="opt-row">
+            <div class="opt-text"><div class="opt-name">Attiva la realtà aumentata</div>
+              <div class="opt-desc">Chiede il permesso per la fotocamera e accende la bussola. Solo in prima persona</div></div>
+            <button class="switch" id="toggleAR" role="switch" aria-checked="false"><span></span></button>
+          </div>
+          <div class="opt-row">
+            <div class="opt-text"><div class="opt-name">Calibrazione della bussola</div>
+              <div class="opt-desc" id="arMenuStato">Non ancora calibrata</div></div>
+            <button class="strum-btn" type="button" id="arMenuCalibra" style="flex:0 0 auto;padding:7px 12px;">Calibra</button>
+          </div>
+          <p class="group-intro" style="margin-top:8px;">La calibrazione corregge la bussola anche fuori dalla realtà aumentata: migliora il puntamento normale e i percorsi guidati.</p>
+        </div>
+      </div>
+      <div class="menu-group" data-group="luogo" data-liv="base">
+        <button class="group-head" type="button">
+          <span class="group-title">Dove e quando osservi</span>
+          <span class="group-note" id="noteLuogo">Casale Monferrato</span>
           <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
         <div class="group-body">
@@ -2505,16 +2642,9 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
             </div>
           </div>
 
-        </div>
-      </div>
+        
+          <div class="menu-section-title">Quando</div>
 
-      <div class="menu-group" data-group="quando">
-        <button class="group-head" type="button">
-          <span class="group-title">Quando</span>
-          <span class="group-note" id="quandoNota">adesso</span>
-          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <div class="group-body">
 
           <div class="opt-row stacked">
             <div class="opt-text"><div class="opt-name">Data e ora</div>
@@ -2542,35 +2672,27 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
             <button class="act-btn wide" id="playBtn">&#9654; Avvia lo scorrere del tempo</button>
           </div>
 
-        </div>
-      </div>
+        
+          <div class="menu-section-title">Il tuo cielo</div>
 
-      <div class="menu-group" data-group="quanto">
-        <button class="group-head" type="button">
-          <span class="group-title">Il tuo cielo</span>
-          <span class="group-note" id="quantoNota">periferia</span>
-          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <div class="group-body">
           <p class="group-intro">Quanto è buio il posto da cui guardi? Il planetario mostrerà solo ciò che da lì si vede davvero, invece di un cielo di montagna che ti farebbe cercare invano.</p>
           <div class="sq-row" id="skyQualityRow"></div>
           <p class="sq-note" id="skyQualityNote"></p>
+        
         </div>
       </div>
 
-      <!-- ===== IL TUO CIELO ===== -->
-
-      <!-- ===== COSA POSSO OSSERVARE ===== -->
-
-      <div class="menu-group" data-group="oggetti">
+      <div class="menu-group" data-group="cielo" data-liv="base">
         <button class="group-head" type="button">
-          <span class="group-title">Cosa posso osservare</span>
-          <span class="group-note" id="oggettiNota"></span>
+          <span class="group-title">Il cielo che vedi</span>
+          
           <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
         <div class="group-body">
+          <div class="menu-section-title" data-liv="medio">Cosa compare</div>
 
-          <div class="opt-row">
+
+          <div class="opt-row" data-liv="medio">
             <div class="opt-text">
               <div class="opt-name">Sole, Luna e pianeti</div>
               <div class="opt-desc">Gli astri che si spostano fra le stelle</div>
@@ -2578,7 +2700,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
             <button class="switch active" id="toggleSolar" role="switch" aria-checked="true"><span></span></button>
           </div>
 
-          <div class="opt-row">
+          <div class="opt-row" data-liv="medio">
             <div class="opt-text">
               <div class="opt-name">Oggetti da osservare</div>
               <div class="opt-desc">Ammassi, nebulose, galassie e stelle doppie</div>
@@ -2602,7 +2724,7 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
             </button>
             <div class="group-body">
 
-              <div class="menu-section-title" style="margin-top:0">Sole, Luna e pianeti</div>
+              <div class="menu-section-title" style="margin-top:0" data-liv="tutto">Sole, Luna e pianeti</div>
               <div class="legend" style="margin-top:8px;">
                 <span><i style="background:#ffd34d"></i>Sole</span>
                 <span><i style="background:#d8dce6"></i>Luna</span>
@@ -2615,104 +2737,104 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
                 <span><i style="background:#5f79d6"></i>Nettuno</span>
               </div>
 
-              <div class="menu-section-title">Cielo profondo e doppie</div>
+              <div class="menu-section-title" data-liv="tutto">Cielo profondo e doppie</div>
               <div class="lg-list" id="legendaSimboli"></div>
 
             </div>
           </div>
 
-        </div>
-      </div>
+        
+          <p class="group-intro">Se preferisci decidere tu invece di usare il cursore, spegni o accendi i singoli tipi. Il cursore qui sopra li reimposta.</p>
+          <div class="opt-row compact" data-liv="tutto">
+            <div class="opt-text"><div class="opt-name">Oggetti di Messier</div>
+              <div class="opt-desc">I 110 classici del cielo profondo</div></div>
+            <button class="switch active" id="toggleMessier" role="switch" aria-checked="true"><span></span></button>
+          </div>
+          <div class="opt-row compact" data-liv="tutto">
+            <div class="opt-text"><div class="opt-name">Ammassi e nebulose NGC</div>
+              <div class="opt-desc">265 oggetti fuori dal catalogo di Messier</div></div>
+            <button class="switch active" id="toggleNGC" role="switch" aria-checked="true"><span></span></button>
+          </div>
+          <div class="opt-row compact" data-liv="tutto">
+            <div class="opt-text"><div class="opt-name">Stelle doppie</div>
+              <div class="opt-desc">Coppie da separare a occhio, col binocolo o al telescopio</div></div>
+            <button class="switch active" id="toggleDoubles" role="switch" aria-checked="true"><span></span></button>
+          </div>
+        
+          <div class="menu-section-title" data-liv="base">Come è disegnato</div>
 
-      <div class="menu-group" data-group="aspetto">
-        <button class="group-head" type="button">
-          <span class="group-title">Come appare il cielo</span>
-          <span class="group-note" id="cieloNota"></span>
-          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <div class="group-body">
           <p class="group-intro">Che cosa disegnare sopra le stelle, e con quale resa.</p>
 
-          <div class="opt-row">
+          <div class="opt-row" data-liv="base">
             <div class="opt-text"><div class="opt-name">Figure delle costellazioni</div>
               <div class="opt-desc">Le linee che uniscono le stelle</div></div>
             <button class="switch active" id="toggleLines" role="switch" aria-checked="true"><span></span></button>
           </div>
-          <div class="opt-row">
+          <div class="opt-row" data-liv="base">
             <div class="opt-text"><div class="opt-name">Nomi delle stelle</div>
               <div class="opt-desc">Etichette sulle stelle principali</div></div>
             <button class="switch active" id="toggleNames" role="switch" aria-checked="true"><span></span></button>
           </div>
-          <div class="opt-row">
+          <div class="opt-row" data-liv="base">
             <div class="opt-text"><div class="opt-name">Nomi delle costellazioni</div>
               <div class="opt-desc">In italiano, al centro di ciascuna</div></div>
             <button class="switch" id="toggleConNames" role="switch" aria-checked="false"><span></span></button>
           </div>
-          <div class="opt-row">
+          <div class="opt-row" data-liv="medio">
             <div class="opt-text"><div class="opt-name">Asterismi</div>
               <div class="opt-desc">Grande Carro, Triangolo Estivo e altre figure d'aiuto</div></div>
             <button class="switch" id="toggleAsterisms" role="switch" aria-checked="false"><span></span></button>
           </div>
-          <div class="opt-row">
+          <div class="opt-row" data-liv="medio">
             <div class="opt-text"><div class="opt-name">Figure mitologiche</div>
               <div class="opt-desc">I disegni delle costellazioni sovrapposti al cielo</div></div>
             <button class="switch" id="toggleArt" role="switch" aria-checked="false"><span></span></button>
           </div>
-          <div class="opt-row">
+          <div class="opt-row" data-liv="medio">
             <div class="opt-text"><div class="opt-name">Via Lattea</div>
               <div class="opt-desc">La banda luminosa della nostra galassia</div></div>
             <button class="switch" id="toggleMilkyWay" role="switch" aria-checked="false"><span></span></button>
           </div>
 
-          <div class="opt-row">
+          <div class="opt-row" data-liv="medio">
             <div class="opt-text"><div class="opt-name">Cielo diurno</div>
               <div class="opt-desc">Di giorno il cielo si schiarisce e le stelle svaniscono</div></div>
             <button class="switch active" id="toggleDayGlow" role="switch" aria-checked="true"><span></span></button>
           </div>
-          <div class="opt-row" id="wakeRow">
+          <div class="opt-row" data-liv="medio" id="wakeRow">
             <div class="opt-text"><div class="opt-name">Tieni acceso lo schermo</div>
               <div class="opt-desc">Impedisce al telefono di spegnersi mentre osservi</div></div>
             <button class="switch active" id="toggleWake" role="switch" aria-checked="true"><span></span></button>
           </div>
-          <div class="opt-row">
+          <div class="opt-row" data-liv="medio">
             <div class="opt-text"><div class="opt-name">Sagoma del terreno</div>
               <div class="opt-desc">Il profilo scuro sotto la linea dell'orizzonte</div></div>
             <button class="switch active" id="toggleHorizon" role="switch" aria-checked="true"><span></span></button>
           </div>
 
-        </div>
-      </div>
-
-      <!-- ===== RIFERIMENTI ===== -->
-      <div class="menu-group" data-group="riferimenti">
-        <button class="group-head" type="button">
-          <span class="group-title">Righe di riferimento</span>
-          <span class="group-note">per chi conosce le coordinate</span>
-          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <div class="group-body">
-          <div class="opt-row">
+        
+          <div class="opt-row" data-liv="tutto">
             <div class="opt-text"><div class="opt-name">Griglia dell'orizzonte</div>
               <div class="opt-desc">Altezza e direzione rispetto a dove ti trovi</div></div>
             <button class="switch active" id="toggleGrid" role="switch" aria-checked="true"><span></span></button>
           </div>
-          <div class="opt-row">
+          <div class="opt-row" data-liv="tutto">
             <div class="opt-text"><div class="opt-name">Griglia equatoriale</div>
               <div class="opt-desc">Ascensione retta e declinazione, come sulle mappe</div></div>
             <button class="switch" id="toggleEqGrid" role="switch" aria-checked="false"><span></span></button>
           </div>
-          <div class="opt-row">
+          <div class="opt-row" data-liv="tutto">
             <div class="opt-text"><div class="opt-name">Eclittica</div>
               <div class="opt-desc">Il percorso del Sole: lì si trovano anche Luna e pianeti</div></div>
             <button class="switch" id="toggleEcliptic" role="switch" aria-checked="false"><span></span></button>
           </div>
+        
         </div>
       </div>
 
-      <!-- ===== IL TUO STRUMENTO ===== -->
-      <div class="menu-group" data-group="strumenti">
+<div class="menu-group" data-group="strumenti" data-liv="medio">
         <button class="group-head" type="button">
-          <span class="group-title">Il tuo strumento</span>
+          <span class="group-title">Le tue ottiche</span>
           <span class="group-note" id="strumentiNota">nessuno</span>
           <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
@@ -2798,70 +2920,20 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
           </div>
         </div>
       </div>
-
-      <!-- ===== REALTÀ AUMENTATA (beta) ===== -->
-      <div class="menu-group" data-group="ar">
+      <div class="menu-chisiamo">
+      <div class="menu-group" data-group="chisiamo" data-liv="base">
         <button class="group-head" type="button">
-          <span class="group-title">Realtà aumentata</span>
-          <span class="group-note"><span class="ar-beta">beta</span></span>
+          <span class="group-title">Chi siamo</span>
+          
           <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
         </button>
         <div class="group-body">
-          <p class="group-intro">Il cielo calcolato sopra l'immagine della fotocamera, per legarlo al paesaggio che hai davanti: campanili, alberi, profilo delle colline.</p>
-          <p class="group-intro" style="border-left:2px solid var(--brass-dim);padding-left:9px;">
-            <b>Funzione in prova.</b> Due cose da sapere prima di usarla in serata.
-            <b>La fotocamera non riprende le stelle</b>: in video l'esposizione è di pochi centesimi di secondo, quindi si vedono la Luna e i pianeti più brillanti, e nient'altro. E la bussola del telefono sbaglia facilmente di diversi gradi: <b>va calibrata</b>, altrimenti il cielo disegnato non combacia con quello vero.
-          </p>
-          <div class="opt-row">
-            <div class="opt-text"><div class="opt-name">Attiva la realtà aumentata</div>
-              <div class="opt-desc">Chiede il permesso per la fotocamera e accende la bussola. Solo in prima persona</div></div>
-            <button class="switch" id="toggleAR" role="switch" aria-checked="false"><span></span></button>
-          </div>
-          <div class="opt-row">
-            <div class="opt-text"><div class="opt-name">Calibrazione della bussola</div>
-              <div class="opt-desc" id="arMenuStato">Non ancora calibrata</div></div>
-            <button class="strum-btn" type="button" id="arMenuCalibra" style="flex:0 0 auto;padding:7px 12px;">Calibra</button>
-          </div>
-          <p class="group-intro" style="margin-top:8px;">La calibrazione corregge la bussola anche fuori dalla realtà aumentata: migliora il puntamento normale e i percorsi guidati.</p>
-        </div>
-      </div>
-
-      <!-- ===== TIPI DI OGGETTO (avanzato) ===== -->
-      <div class="menu-group" data-group="tipi">
-        <button class="group-head" type="button">
-          <span class="group-title">Tipi di oggetto</span>
-          <span class="group-note">scelta manuale</span>
-          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <div class="group-body">
-          <p class="group-intro">Se preferisci decidere tu invece di usare il cursore, spegni o accendi i singoli tipi. Il cursore qui sopra li reimposta.</p>
-          <div class="opt-row compact">
-            <div class="opt-text"><div class="opt-name">Oggetti di Messier</div>
-              <div class="opt-desc">I 110 classici del cielo profondo</div></div>
-            <button class="switch active" id="toggleMessier" role="switch" aria-checked="true"><span></span></button>
-          </div>
-          <div class="opt-row compact">
-            <div class="opt-text"><div class="opt-name">Ammassi e nebulose NGC</div>
-              <div class="opt-desc">265 oggetti fuori dal catalogo di Messier</div></div>
-            <button class="switch active" id="toggleNGC" role="switch" aria-checked="true"><span></span></button>
-          </div>
-          <div class="opt-row compact">
-            <div class="opt-text"><div class="opt-name">Stelle doppie</div>
-              <div class="opt-desc">Coppie da separare a occhio, col binocolo o al telescopio</div></div>
-            <button class="switch active" id="toggleDoubles" role="switch" aria-checked="true"><span></span></button>
-          </div>
-        </div>
-      </div>
-
-<div class="chisiamo-separatore"></div>
-<div class="menu-chisiamo">
-      <div class="menu-group" data-group="gruppo">
-        <button class="group-head" type="button">
-          <span class="group-title">Astrofili Celoria</span>
-          <span class="group-note">dal 1974</span>
-          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <div class="group-body">
+          <div class="menu-group menu-sub" data-group="cs_gac">
+            <button class="group-head" type="button">
+              <span class="group-title">Astrofili Celoria</span>
+              <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <div class="group-body">
           <div class="gr-testa">
             <div class="logo-slot"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKAAAACgCAMAAAC8EZcfAAADAFBMVEVMaXEAAAATLDkARUUTLTgTJzkULTkULjkTLTgULTgULTkTLTgSLTcTLTkULTgVLTcSLTgTLTgQMTkTLTgSLTgTLTgULTgTLTgTLTgULTgTLTgTLTgULTgTLTgWLTUVLDkULTgSLTgULTgTLTgTLTgSLjgTLTgTLTgTLTgTLTgULTgULTkTLTkTLTgSLjgTLTgiS1hCkq7bgDYULjne19QULzpBka0VMTwVMDsXND8YN0MWMj4gSFVBj6sbPkokS1caOkYVLjgcQU4/jKcgRlMhSlceRFMjTFk3e5MlUmMtZXoYNUEaO0gqTVcYNkJAjqkZOEUcP0wyV2EvT1VfdXsdQlAbPUk9h6IrYHQiTFwvVF9acXhcdHoeRFAjTl5gXU0wa4AnWWs+iqUmVWY6gZo+XmhYcXdWb3VEYmw8hqAxboMfRlUgSVg1d48qXW84fZYuaH0kUGErUV08hZ42eZEycIZ4ZEhPa3NTbXQsY3c6f5mvcz4qXnJMaXE+iaPZfzYzcognTVcpUFwWMj87g5wnVmk1dY0zUFU7XWfPfDhGZG2ytreWbEKRa0MoW200c4omTVpBYWshS1q7dzw1WGRjeH17jJEnT1skTVrUfjehb0CabUI2UVW8vr7d1tOXoqU3WmRmX0u2dT1NV1DXfjc5UlRbW02Nmp6+eDtKV1DHejk/VFNKZ3DLezlDVFKGaEaqsLLEeTpXWk6rcj5QWVB1iI5sYEqSn6PX0s+CZ0bbll7e1c5UWU9IZm9dd3+5u7uDk5imrq+mcEA4W2aMaUSzdD09U1N0YklleoGiqqwtT1YtUl2Hl5vAwMDb1NKdpqjcnm3cj1Hbgzx+ZkhxYkqJaEVHVlFFVVFxhIrbfzbdrojdup/bkVfexLCdbkHexrZoX0tkXkveybtof4bds5LExMNsf4RTcHnUzsuBkJXciUaus7TJx8bewKvdz8bdqYHGurDCgEfNysndpHZNZGuSl5VFX2coRU/dsI2rfVCkk4DGqJBvenhUYVtfb24nUWDd6tHYAAAAMHRSTlMAATsD9AYg/vrvZK0awcsUd5kPM13YvGqG4owlSLULL6NDfJ6TK4Hd59FVb03HUadjeNo9AAAACXBIWXMAAD2EAAA9hAHVrK90AAAYtUlEQVR42u1dd1gU19onigIajbG3GFsSjUmc3bOzs4VdlgWWspRdeq8KiKgoUhQbImIBjIrGArZYYu81lmg0mpjezJd2Y3q9SW7uvV//nu9M2dmZc84uC6xJ/rjv8wjLDLvz47z9Pe959fH5F/0p6IEBIwdOenTo+AchDR/ar9dT3Xp2/5NA6/nE2MkTAwBO/sMGj+81YNQfia17t369JzgRMbpoexKk6GitBGbf8Y8/8Iegu7/XZGHd9JaC1JKI8jiFkwyLpqwpa06L5n/Br++j3X5nhj8wpI8f+2iNpXlJuVrhkkIiorJ1HMhh47vd97tx9omHOHT25hkGhQe0rCxNz/7+Y2Pv/10W71FO7CxR0xSek2FNJCuXfg+NudfwHhnnDx9kSi1XdJQMS9Jo+NaJA3vcS3i9IW/p7OVqRacoJdXGSmOvewVxxGQIry6vXNF5MpSYWWEceC90uv9wyFz9gnxF10i9PAlC7NvN2/Du6wVVg2nuKjwO4hK4in6TvavRPQfDPzutXOEdUpdA2xgwyXt87t7PFwBzhMJ7FNKsAaDPCG8tXx/I3VSDwqs0H4qiby+v4HscutzpyxTeJvU8BoDJ/bvO3qHQ46Z6YPjU5REVUQua8/JmppatiSj34B1ToLIMG9DVmAWy1zirHWjzy2abhQjLD9BCnKW1Z8+b7x6mIQ+yeWCX8D08DCpviNtlWGCGrKL1WltyViDFU1holtFm1UOojL3ZLciSOgCGdiHKGekLaHfsjWDDFCbZHkYVPUPhFJYQC8EzYTNcf8T8ZCiInXZ9vfwBs8TlZ5cXaAGtNYZVvQixPH1rDgHhjkMUZbdqgH62SyXLnw7tTSdVZYgfiI1w6Q6SITq4dFTxKg5L+IZ0AsLMpexXs5YGphIXy2iIhCFOp5KCfgBEu/Ad6lwd0JjCuEUqErCEJ8bjADdlCi+SGWCNIkNUNwMwqBOObyxU3xTyJ5ZZofTzD56T6UST8SKOcO1UxyuzHujnkSGmdgbhJBjSLyJrhg3ozcJTgzYESdAUTcURJjp/IUsPYpcTPzKq41zu5QeMRHwhaYAxOxfttgxNVTEGcE6R5IcsBiQRuTIPRmAd0pSR/sBEyjnUURpgCxMfOHUVAufQKgxhlUw0/x3QC0h8XgDA4A5YmwG+QEfSj5AkYA11Pu2ZTAzOqoXctwaKeumgg8nS+9W1WjJroFN50HP/NgHoSe5trh4kz8m85JSvpwlaUcV+vbP+aE2tcKVloZTjVZSd1pQQeJMGQD8P8fXoA2iCfVbPpBl2+XYkrhBWi/t+pjXm+h3h8elrqy5v3L7vjWOXapRnRFCFUhteSFGhehCJsznOAvxGegbwQQDmEQyqBVgF6VubyBrlpzO4H/ZuPny96jsIqq2tbfXLZ184/cF3q1oOHth6UsQUlCHlMesTbcAYh+d8OhDQ0xN8AwHIxv/AEBOdLFGGxGcEL0G9sliZU3Xrm+KWTY6b8RuC3k/Y0VDr1KViGY8h2WkrLohzNaCvB4oywpf458XSZqmoPZORUcW/Otr4Tg0ih7c3hK94WWYMN0l4fLuqsKjo7xpmPskcDm8/QH0SEN66rI7OQlBsSOTX5Q619J+1yL2lG+JXy34udPjD4sLEhZxIhmo0uJ9PA37t1kYeBSAKD/oYTSiCoXgFtSJxB/dyxVVMl5++1Sa3jy0c7zMydoiXAhl6Lhba6MCwduz1I/6gFBPAFEYTiMUp7JdLmZwnacODwfAf5T4GGsMVmYfCZdEio8FYtZwG49pjcB1moUOsNLp+1KUWXkGri6B4nf0Gt4dtG2QeJH5DJuYGAzUM5q0K2mEyDBHKMPtiA1kUcQE58cpcSF1+AQd49baEnVCnDhGixUCNFi1VhOjAY240+YEAYEEZrE4CSdhHF6+QLE7iodXo/dpTVOuZIvGX1maSMgIYPAATmm4vAWCsOxNNz8KdpFH8wD3YAvJ27rXimAT5oz/ddWCPI7gJLyomoYthg0SQhj5vHfB1aa4f9gMFmNiCWOdnNsUIiGSB36mEVf/3a6vjp5aqL77bfnqncj319TfVqzibc5uEL6GS/WrCbMYUDRjtCuBDoA617/kMI0ZXr5w43sSvYYbsUXdWNh1/rzrz0uXT+662tR07u/HWpfSam40nMs9eubL9mxc3bCLhC/rsRgP7XUsvw1jm9zAZXzfcB6vtEgXe/87mazmcyFfLH1apVJ6Zs/qHs19UvygYkhi41OzL+NNXv1r9QiGe8SUcPbB4CxuQhdE2ROrztaA3GeBgEBuHxZF26cdu4SWteikG8HiMJMyRmpdMKv7yviurXy0M33NRdudio0NRIrGH+g1wsYCoPKTQWtmHvk8ROExR6/fW3uWeXpyI5J7pgjalX341/e5RuSnfK7zQgfmo3SUvYW98AS30VEIetANRyj3POp9alSE1KJs2iL6jtWnl4i2tJGkMo01YludHKB2O8AOpmAZHU1MLC4uQhDeDckPPZFQ5HVqiBG3Qe1vT44lvsaOcy68jhf/jAYOosMHKCCFIRkbRbVlQ7I7SCx0rvLBFev1gzqorZIR6BmFdPfDFstBRvpgNnClxcUsXZmQs5FOQllVUOySEOelViHuhvrlCqo9QoWA2Et3ReH7SCwDEiRj0WkQjiwoLoUgWBVHtEhfmJOLXL68m1ZioWBop8ZWCQWhR7klgxkQVjxFYkdwY3z5ANsyRM1igL44tJUUNNGJqKgBAdlIeASAXsdHoAoqaSnlEt78mXv7iGClusGrkUmiIRePCRwETgiYIWVRXaCo5gKFOv7yJJIV5qL8LkEddg7CwIlZPDEEu3rz+6bWTWxorc/Z0EvkL2wk80OrlDi8CgCcQDiPZfoQkyhKNbeWuxUonHb/OWuhwmVAlHNx/MQfS3lNHYlwhfHUfKTKUS5jaJI9pxmIcLqXRz9i/RYqOp/U7HSr90t7KppPHd0tvrqw5f6KWJMTbX6AS0IuMXf78ZhAg3SrrA0oRFdHEIv5si5JIz52ABu7dmpXku8qVTS8R6q4bY95Dr5kQSzNDpsf9/VFvkwsssve/u1npira+QtVudXlXufs8JnJ7KreeRI1pIJgp1+M68KgT4FMATJEDtGtkqrFF6YaOH4H83/vsnT0NCZBaDz6bU7n1gOT+NYzP7x9e2YiKqN6Ghv5POgEOB8hdA62TvLdhl9ItrbyIs/FZyd/UiN291roQvRQNFiFmzt/ZtdQXZKO5lcQINjynbIc2yxFuSmdt4DvO+/sx+JvadmA8lofzswAQM+RRmAhmSzgcs0vZLm1+X/40tjAd5GRzE8Erb0evaLKQUMCZf8JYGink6CRW+lOlB3SgQfYwLiKrcao6wdgcQ5kcy8gxTAcPiVtKgJa7wjja5NRfpUd0TVbaZx9e6zQ9hwkA164OR+PWaYglHObM141oMCHmcq2bPQOo3CktPLABT47EnpMcytlbqBCmIpYO9BdDLSRgjKQ7xmBulV6RiCBcnBiJajWRAMa3IbGhZjqqJQ5THYBmI0mM401HFnsKUPmOpBAN/zVKbl0k+uSNG91awjgaCD0N/bFIwSqGgls9xqdc6TS9MH54T3Jnl4v8qq2Fr9A48k+NHIUNDBVKMpgS8zqScIpK2O05QKkUxkj/sMX7XYQ1l1+ldkrelAzkpS4LmCw6Orn+LGLN9JGmzfs9VWGenBsP76+XXj/vOkc9srlVGnLJa8KzHc4OWhl5tFgCQp+9tli5Mpy61hGAuxNiXpwKuRtzVCa411wkWQm7apoOH5dm8Ii7mOmwM2OBFc03KWhcdj1LxWzuCEBeF4I+OyC7eMNl4NpwAxp4aSCBJL7zgK8jZUfM4GxNrfLGCTZG7Qi8lUehoQnKQRz3DSQ0lVY/XoL3ayT36WzUEPJ5yWhgQaJpfS1f2fnMLaJ/k8XWZ+BK1d5F44pr6Ppdl4YMyqM5RyslhjBQBmMNAPcLVSMknJ7usDLnPVy8zY1sdvJK5QH0xnU0WG04LpHId64jljoJDapHCIVVJKOzOAA24VjevnDhe+RSzWfsMkGtx3DnoPAqbyhvOC/mIOrDGNHM7hGhcIlEgxYhljnYiAP8i0r1/FtSD3eUrZPG7KzBf3U9no6837i40nW6qo9Gfd0AIWNCXLHF4ekIAJ9XqVQfiUu09QTLw/1NhJxp8XlSRtewy03GrJcXCuc7nDEGsFTjmsWfQIBf8mZvSw7L2oab60liuf4OGcRNdwCNZIAPoSxO07hWko94gItPnkmY0xIek7NFdIZvS6Wv0lUJrNYNQMaMsvhhAeA6xA46oq0zGL6ft0GAP9fchOZs1beqbz8W0b3504dO7ja2dqoowkwnKwlmZuqBaKjk9NZPKpZ+XMve+wW++ly48dtfP/n5gqjVMDgQC0RHXvIcoKYUqUALZmYcSEIrg8LmTYw8mLnwvIqnr/736PG3uR84k/Pm54JYcsLH2fgqR23rzE7PAfpFokVCvhA8FCBl9hLg2B6+Iaty/KJy0F/garLfn4eXP4Zi+R/i79zlhW+psNcTvvVkjKf4wsACGYwy4NddaHPTI52BwOzcohGytsadrdTfRIAQ2M/ci58+ZA3jb47I1Gl6+a2Am9D+rLzrIcBQsARhZIBYnpZHimq4/SC4dhg4LV7ftJMTpE0iPtU25dufiz98Lhjukyek9cu1fEx1oybB0xW0gxQkrRskNGoBgGzoMWJp6+bNU3wylLD3+q9OgCp24QSsX3L2ZXfjHeKWd+UZj0XQRCPVAzBY2MIBYIb8VrS8utqa894NuJTfqwi0jVPe45UNLjoHX9rvMUAtEpaaHXXqHn5oAX2dmNU1nKjcetxhZEgAP2FdygkoerWoCU7ssBlE9hm0Yu1jGFKbg7FsYO2pu5WNNYelWvwxCeCXu95lF6/1/GdoEX1DlUewKp1KLA+o8wEYKO7DIq5kGm0Owv3/BSmwv27jv/+D27jcsvhGEBUm3YSAbT9F6R7ga3jOYYaSgLw9c67D0xHKgwq9iZARywD+9gn/fSN15z24ziv3UGEasWQXXs1uR4VvaBdebeVh5XOnHDqiRguEPZztZPlYRJiDARRZ/Mknqm3vtPGv/4uLZXbDfEk704FwrbBtHF/d/goeea6WHGzBFpqJYjMFQFYX2shAPKP73uHpfvkf1RXqR/71m1x0AKNkU4Uil+F3O8U95mLivmOWSdon9K4ogpGoEosbEd0DECejSIGtAHhdWrTNb6hOnxJkkLUyu9koXrNMsQyGaZsKJfvFVDW+XxcWzVCMpNHA4XvMSNoeQoMhkm6FQEQIdVZqrzQnX//p+btHjjlF8MKbwgsYcB3mhAj2zEGAlzLlm4WZ6M5jmD6wXLFGa8KtIIPupoOHJTt1dQZ0rywwHOZouw/UbD1/5sQe/s886wT4kYPdbylP8jYaAiwPTsd6vTNRVbZls+2gujAsUliHtlb4OndyxgBkfRX5tJE6eFDiRsMP7jz63wQ7+KsQTmVp4Z9oMuNtwV8j1fLQYLViiTYMd8RIAcvirABDXxKAmmqFDdtL3LvrQwJAR6tANCviqRjn1h6iquU9GBYtTMlj8XxEj64QmCTr+DBjveFYSx71DyeHHVhfFz09W/gpsaHuhPUmq6TWJtQGM6O5jBnbhChAY1IwQtYQQCOtfAaNFd+mFN3Irv+EX89BRf5WYGS1iWVBBQLwxWqheXCOqMKaevZBuVadvGXShmzjwNrbY7K+PD+sKyobYF2X2x0At1Nz4NdDV2Hwz1k+2HKUzLK4Qif7/RZHH39QIb/nEGjNEgK7kAJ9qKx3Bsk64vRIv+1gNC9RLKJRflEvQ1SvQVCQb+Gvq1TxEOBV1q9VQ8una2YTRUera2hsGNuyKq5PVgvbNhVmlTR4N1tl+2ARWNOCvD1qCABoa+h0GlW1K3DtWrapvt1EhWecU30VDgF+AHtQWENi13G7qQWC+bAyyXBdRQ3V60MPFWW2RGdJvK06WWKtaSPGv8fkbR8P+KPOBGYmiE5O3aZ6PX6tSsX2WxaqVPvYFS3O5L2ZiS9OLOe7ce0muJZTw8V+3+UFVtgi+oxGtqWaGyupTkegXYGOArpEj20GrHNLLoUbVaofqFtQOdi0UqX6AsrkOUfvZyCzhpUcnVFApFjg5CAEbzDDNvZkubvK93NwKExjx1q+se4tmJisQXvfgNxcnWWDK4hSBbPyD1Tb0uGFK85FYJ8+g6/b2eG2oMGpY7YS3kLakP5dXZaowshutcLuSEckDcrD0PoCG/DIOlPeUKnWUqd507JRdS68arvqmBMgy+MSXovtFBSxYBnABSZ7FnoExBirDeXTTbTjZK4zmJYdAkP7rg16RqonV1WvQdPG8hn2lqh+/OD2dvaCg4+sFs/jpdYI3apBArAC1uVNJuCH5I6hWRqu76BOE4c12k7Ae5X7B+AdtiUgWbqBqoL90uHn2K8QYFti+GrV3yiZJ8mLFgHGBYt/m44HmD0bO4PJZHFxFqqeU2ji2ZfhAG8Mt0ut9WrVZbbFXHUaeo59qqvpRas5fRF2eyvYul2yCDBEAhAWDJpN1jz0RFiE2Wpk+7asaOt2JKE7jz3n7A/qFW6agCG0Qs5a74vP2JH++htU1VmVs8NbyxoKsz0MEgdwEQQYZteywXPsGhagXqtHe7r10VlsGzB6KgI25w130eatwfr4K4DoT9JfV+3j1vEcbBsL//YKqymvigCDyzm91AQHaykjFPqUYAjPWBGpiQ7jAEZToQza4GnlfAgaR0E37Es+BgiXMBI7qZEt9gF/AC1gPJUOI4TXXz79nUpVRRU7tTiQLe+oNaHBU+YyHMBpwdroCsi7KaWMBvK23gRPkKC6qmX358zYgVna5bGX8YROedhEJfjXH9gw4dyPYsj1Wsurqm1rHYmQlhWI4Fh9XEpwaDIMmvMtjtOmc0uhlauPxgHO0sPjBnrs9E8pWQJdnTVgvY7WGqvTmf7596KMjFu3vv7g9Mbvvtu3b98b218+tvqNqYGs1FHmZO7Y1MxFrD82ZmOMKIAAg7Gm+FAGX5El7o6vwdMaFfg5Yps5YlbEjOUVFbm5UfNSZzYXFKRtCrQkGZNtNq0eCh1H2ZITF3oCQFOWEaDxkp8fnYsdDjG6O6/RfSLQ4QfGp1jT3B0DN4Tkl6dIGTXDjJ96qw+2mlEzq45kIkgnZZ9yc+BlDOE8BCsskZ2cj+IEQ/iAmfQawukpaa5EoHEAPwoF5YKu7ypCHPICnL8KtcXNaRLe4U0AJsJUgCVMmpcnVagLCPjYY7yT2jm29gQgGEPWZlnyvYkvLo10vH8WA/p09+BkZwVpnoLNnuLFYSQWK+F4f5zRk9OdowYB/RTCZ04z6pZ7C9+sZN18wuVIUhhIPP1sJA2nCJlN53lFENVRTGAK+aT7OJ/OH49l0xxmuhfYnL+OPP3Cw8OxvE/GQwyeNcbYiq7iW2MzEadLlMd6eLyYP6KNH1AUCgJ06ZSuwCtPA9lEc7AoGvh7PjWs/yCgWeNi/ohZkxfSWXiGVMZI1jT2AHlHBrv0nAAYFzqrLtPacg2dG7oVXTeP/E5DKZC2TXsyaCYA1LkaRLKoQGOLiuswvLJoOtLFvDgDHBEwvoNjZ7r5groZrh42LU9vTe2QZwmZp2MKXM10MWQDMLrDQ67G+LrkMmsrUq10aYmHy6ieEVlXl+fSQsVB/vbuxBAuuIaMG6MSlxtIawvan0ConltvpS1lrhUr39KZ9eNcygQ4UMjds1OiLHC+5EzXINWzombD0Rmp7oZilRvhEI1ODjF7BI5kaicQXFY2WwfqSuujlssHWamnLS/LW6cFsdll7u1mRGxXxjLd3xfOBFvUHg+nlEVarHD4UrTZUjq7oGD2uunmaDiMSZsUGTW/vTg3lwH+Q7ow1mrUQwDYPBr6lh+RO29mfWR2aWl2ZP3MeblzF3liemD8EtC1qZP39fPzbHBZZ4gdXTaoyxPqnoCj30qn3QN46jIoB6NHeWd4njXX64tYXuq18XndJ/l7fX6eOgrOPOvrrQGEPgMmQiVdEOc9fHOh9PmO9eI0UW6Go63ES3wuh77Xe/MbHQe4e8MPNa/xAsSUeqgcEwZ6fzLwGMhnkNRViNPyIDz/ofdkTHX3xwdBiMlRXZDF+ZFwOKf/6BE+94h69HoMQoxt7lxaElcynZ2gPe6eweNXsS83S7mso4UQGHWxUygDhvf0udfUbbQvOyq7NNfzHNkwI48bmz1xUn+f34P6T+KWEU7MXt5+ggdHePLzsgMeHODz+9GIfhM5jLS9vizCFUr1siWp6/jxogHjRvbw8fm9p7b3dky7N02PTM1dMndKeUpICCwIL5u1vCQqL83OOGa2D+32Bw3p7/7wkNGP+QE3FNBn6Mj+Pn8sjRrQa3jvvuh/HeA/aPCD/Z7o6fPnoR73P9JtzFOPQxo5ZkDP/j7/oj8L/T/heVUyznI5CwAAAABJRU5ErkJggg==" alt="Gruppo Astrofili Casalese Giovanni Celoria"></div>
             <div>
@@ -2889,16 +2961,18 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 
           <div class="gr-sez">Seguici</div>
           <div class="gr-link" id="gruppoSocial"></div>
-        </div>
-      </div>
+        
+          
+            </div>
+          </div>
 
-      <div class="menu-group" data-group="celoria">
-        <button class="group-head" type="button">
-          <span class="group-title">Giovanni Celoria</span>
-          <span class="group-note">1842 &ndash; 1920</span>
-          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <div class="group-body">
+          <div class="menu-group menu-sub" data-group="cs_celoria">
+            <button class="group-head" type="button">
+              <span class="group-title">Giovanni Celoria</span>
+              <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <div class="group-body">
+
           <div class="cel-titolo">L&rsquo;uomo che calcolava il cielo a mano</div>
 
           <p class="cel-p">Giovanni Celoria nacque a Casale Monferrato il <b>29 gennaio 1842</b>. Si laure&ograve; in ingegneria a Torino, ma l&rsquo;astronomia pot&eacute; pi&ugrave; del mestiere: a ventun anni entr&ograve; all&rsquo;Osservatorio di Brera, sotto Giovanni Schiaparelli, e non se ne and&ograve; pi&ugrave;. Nel 1893 rifiut&ograve; la direzione dell&rsquo;Osservatorio di Arcetri pur di non lasciare Brera, che avrebbe poi diretto <b>dal 1900 al 1917</b>, succedendo proprio a Schiaparelli.</p>
@@ -2929,15 +3003,18 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
           </div>
 
           <p class="cel-fine">Mor&igrave; a Milano il 17 agosto 1920.</p>
-        </div>
-      </div>
+        
+          
+            </div>
+          </div>
 
-      <div class="menu-group" data-group="aiuto">
-        <button class="group-head" type="button">
-          <span class="group-title">Come si usa</span>
-          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <div class="group-body">
+          <div class="menu-group menu-sub" data-group="cs_aiuto">
+            <button class="group-head" type="button">
+              <span class="group-title">Come si usa</span>
+              <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <div class="group-body">
+
           <ul class="help-list">
             <li><b>Scorri con un dito</b> per girarti verso gli altri punti cardinali o alzare lo sguardo fino allo zenit.</li>
             <li><b>Pizzica con due dita</b> per avvicinare; due tocchi rapidi tornano alla vista normale.</li>
@@ -2948,21 +3025,31 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
           </ul>
 
           <button class="act-btn wide" id="onbRestart" style="margin-bottom:10px">Rivedi la presentazione iniziale</button>
-        </div>
-      </div>
+        
+          
+            </div>
+          </div>
 
-      <div class="menu-group" data-group="novita">
-        <button class="group-head" type="button">
-          <span class="group-title">Novit&agrave; di questa versione</span>
-          <span class="group-note" id="versioneNota"></span>
-          <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        </button>
-        <div class="group-body">
+          <div class="menu-group menu-sub" data-group="cs_novita">
+            <button class="group-head" type="button">
+              <span class="group-title">Novit&agrave; di questa versione</span>
+              <span class="group-note" id="versioneNota"></span>
+              <svg class="group-arrow" viewBox="0 0 24 24" fill="none"><path d="M7 10l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </button>
+            <div class="group-body">
+
           <p class="group-intro">Se una funzione non si comporta come descritto qui, il telefono potrebbe avere in memoria una versione vecchia: chiudi la scheda e riaprila, oppure ricarica tenendo premuto il pulsante di aggiornamento.</p>
           <div class="novita-list" id="novitaList"></div>
           <button class="act-btn wide" id="changelogBtn" style="margin-top:10px">Tutte le versioni</button>
-        </div>
+        
+        
+            </div>
+          </div>
+</div>
       </div>
+
+      <p class="menu-livello-nota" id="notaLivello">Ci sono altre impostazioni: passa a <b>Intermedio</b> o <b>Avanzato</b>, qui sopra, per vederle.</p>
+
 </div>
 
       <div class="menu-section-title">Crediti</div>
@@ -3053,6 +3140,200 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
    "Giovanni Celoria", Casale Monferrato
    =====================================================================
 
+   v4.7  Correzione di un errore mio nella 4.5: le figure delle
+         costellazioni usate dai passi di riconoscimento erano state
+         SCRITTE A MANO invece di essere ricavate da LINES, il database
+         che l'app usa gia' per disegnare le costellazioni in cielo.
+         Il risultato erano due tracciati diversi sovrapposti: il Drago,
+         l'Aquila, il Sagittario ed Ercole mostravano l'evidenziazione
+         su un percorso e le linee vere su un altro. Cefeo, che nel
+         percorso circumpolare non aveva alcun passo di riconoscimento,
+         non veniva evidenziato affatto.
+         FIG e' ora costruito a runtime da LINES: un segmento appartiene
+         alla figura se almeno una delle due stelle e' della
+         costellazione, cosi' restano incluse le linee di confine con
+         una stella condivisa (Elnath fra Toro e Auriga, che appartiene
+         a entrambe le figure). L'incoerenza fra evidenziazione e
+         disegno diventa impossibile per costruzione, non solo
+         improbabile: e' la differenza fra derivare un dato dalla fonte
+         e ricopiarlo a mano, che e' esattamente l'errore commesso.
+         Aggiunto il passo di riconoscimento di Cefeo, che mancava.
+         Adeguate due etichette diventate imprecise: la figura del
+         Sagittario e' ora l'intera costellazione e non la sola Teiera,
+         quella di Pegaso l'intera costellazione e non il solo Quadrato.
+         Verifica a tappeto su tutti e 17 i percorsi: 44 passi di
+         riconoscimento, ogni singolo segmento controllato presente in
+         LINES, nessuna figura vuota, nessuna costellazione citata nei
+         testi senza il suo passo.
+   v4.6  Elenco dei percorsi riorganizzato. Con 17 voci era diventato
+         1646 px, cioe' 2,4 schermate di scorrimento per la sola lista,
+         annidata due livelli dentro il menu'.
+         Il difetto non era solo la lunghezza: l'elenco mescolava due
+         intenti diversi. I percorsi lunghi si scelgono in base a quanto
+         si vuole imparare, i brevi in base a cosa c'e' in cielo stasera;
+         messi in fila con sei intestazioni stagionali in mezzo, nessuno
+         dei due criteri funzionava, e ogni percorso aggiunto in futuro
+         allungava la stessa lista invece di entrare in una famiglia.
+         Divisi quindi in due sottogruppi apribili, "Imparare a leggere
+         il cielo" (5) e "Percorsi brevi" (12). La fisarmonica chiude i
+         fratelli, quindi non possono mai essere aperti insieme: 0,5 e
+         1,2 schermate invece di 2,4.
+         Voce compattata da 88 a 61 px: nome e stato di avanzamento su
+         una riga sola invece che su due.
+         Lo stato di visibilita' si mostra ora SOLO quando e' informativo,
+         cioe' quando l'oggetto NON e' comodamente osservabile: era su
+         tutte e 17 le voci pur essendo "in cielo adesso" su 12, quindi
+         non informava, occupava spazio. Ora compare su 4 voci su 12.
+         Aggiunta accanto al titolo di ogni sottogruppo la nota con
+         quanti percorsi contiene e quanti ne sono gia' stati completati.
+   v4.5  Percorsi guidati: da 12 a 17, e da elenco piatto a percorso di
+         apprendimento.
+         MOTORE. La figura di riferimento era una sola per percorso,
+         fissa dall'inizio alla fine: si poteva insegnare a TROVARE una
+         stella, non a riconoscere la costellazione di cui fa parte. Il
+         percorso su Arturo, per esempio, arrivava ad Arturo e Spica come
+         punti luminosi senza mai nominare Boote. La figura e' ora un
+         dato del singolo passo (nuovo tipo 'figura'), e le figure gia'
+         incontrate restano disegnate attenuate come impalcatura.
+         suFigura() controlla di conseguenza TUTTE le figure attive, non
+         solo quella del percorso: altrimenti un tratto lungo il lato di
+         una costellazione appena insegnata sarebbe stato tratteggiato
+         pur essendo visibile in cielo, invertendo la convenzione
+         grafica (pieno = si vede davvero, tratteggiato = da immaginare).
+         CONTENUTI. 43 passi di riconoscimento aggiunti, sia ai 12
+         percorsi brevi sia ai 5 nuovi. Le figure delle 23 costellazioni
+         stanno in un blocco unico riusabile (FIG), non ripetute dentro
+         ogni percorso: una correzione vale ovunque e non restano
+         versioni divergenti della stessa costellazione.
+         5 PERCORSI LUNGHI: uno circumpolare e quattro stagionali. Non
+         insegnano un trucco ma a leggere una porzione di cielo. Scritti
+         a se' e NON composti dai brevi: quelli hanno aperture e chiusure
+         autonome, e incatenarli avrebbe prodotto cinque "cerca il Grande
+         Carro" e cinque "hai finito" dentro lo stesso percorso. Il
+         collegamento passa dal campo 'vedi'.
+         MEMORIA. Il quiz teneva punteggio, il diario le osservazioni, i
+         percorsi niente. Ora l'avanzamento si salva a ogni passo e non
+         regredisce rivedendo un passo precedente; l'elenco mostra cosa
+         e' completato e da dove si riprende. Serve soprattutto ai lunghi,
+         che durano piu' di una serata.
+         RIMANDI. In fondo a ogni percorso, collegamenti ai percorsi
+         correlati, all'esercizio e alle lezioni: erano tre isole senza
+         alcun ponte.
+         MENU. "Chi siamo" era diventato un unico blocco da 16,8 KB con
+         tre titoletti piatti, e i titoli di sezione (10px, monospace,
+         attenuati) erano piu' piccoli del testo che intestavano: quello
+         stile era nato come etichetta sopra un gruppo di interruttori,
+         non come intestazione di contenuto. Tornano quattro sottogruppi
+         apribili, con lo stile .menu-sub gia' usato da "Impara il cielo".
+         VERIFICHE. Ogni chiave di ogni figura e di ogni passo e'
+         controllata contro il catalogo da uno script: una chiave
+         sbagliata non da' errore, spezza la linea in silenzio. Ne e'
+         emersa una ('etaper', in catalogo 'miram'). Verificati anche i
+         115 passi per centro calcolabile e testo presente.
+   v4.4  Secondo e ultimo lotto di curiosita' nel quiz: le restanti 64
+         stelle candidate (mag 1,3-2,6) e le 23 costellazioni ammissibili.
+         Copertura ora completa, verificata su quattro date diverse
+         dell'anno e su una sessione di quiz reale: ogni candidato che
+         il quiz puo' effettivamente proporre ha una curiosita' collegata.
+         Le costellazioni sono legate al mito, come deciso: il perche' di
+         Orione e lo Scorpione mai visibili insieme, chi e' davvero il
+         Sagittario, perche' Cassiopea ruota a testa in giu' per meta'
+         dell'anno.
+         Corretto un difetto minore trovato per strada, indipendente da
+         questo lavoro: CON_NAMES non aveva la traduzione italiana di
+         Lupo (Lup) e Poppa (Pup), che comparivano nel quiz con la sola
+         sigla a tre lettere invece del nome.
+         Fatti verificati anche stavolta, non scritti a memoria: fra i
+         piu' delicati, l'aumento di luminosita' di Dschubba nel 2000,
+         la stella piu' brillante di sempre 4,7 milioni di anni fa
+         (Adhara), la rotazione di Regolo che la deforma del 30%.
+   v4.3  Curiosita' nel quiz "Mettiti alla prova": un fatto per oggetto,
+         mostrato nella scheda di esito DOPO la risposta, non prima -
+         l'indizio esistente aiuta a trovare, la curiosita' e' un fatto
+         da restare in testa anche dopo aver chiuso l'app.
+         Tabella CURIOSITA separata da quizCandidati(): un oggetto senza
+         voce non mostra nulla, come gia' faceva 'indizio' quando non
+         serviva. Necessario perche' i candidati reali sono ~90 (77
+         stelle nominate sotto mag 2.6, le costellazioni ammissibili, 7
+         pianeti, la Luna): scriverli e verificarli tutti in un colpo
+         solo avrebbe rischiato errori infilati per stanchezza.
+         Primo lotto: le 14 stelle piu' luminose (mag <= 1.2), i 7
+         pianeti, la Luna. Scelta caso per caso fra fatto fisico e
+         aneddoto storico, secondo cosa rende di piu' sull'oggetto
+         specifico. Ogni fatto verificato prima di scriverlo, non a
+         memoria: vale anche per il testo divulgativo, non solo per le
+         coordinate. Le costellazioni restano vuote in questo lotto: la
+         scelta e' di legarle al mito, coerente con le illustrazioni
+         mitologiche gia' in app, e vanno scritte con la stessa cura.
+         CSS distinto apposta da .quiz-hint (colore diverso): indizio e
+         curiosita' hanno scopi opposti - aiutare prima, far ricordare
+         dopo - e confonderli visivamente ne avrebbe confuso lo scopo.
+   v4.2  Onboarding e avviso di novita', rimasti indietro rispetto alle
+         modifiche recenti.
+         Il passo finale della presentazione iniziale elencava ancora
+         "Cosa vedo stasera, Impara il cielo, Cerca": nessuna parola
+         sulla realta' aumentata, nessun nome aggiornato dei gruppi
+         dopo l'accorpamento della 4.1. Riscritto per rispecchiare il
+         menu' vero.
+         Aggiunto un passo dedicato a distinguere la "difficolta'
+         osservativa" (occhio nudo/binocolo/telescopio, decide solo
+         quali oggetti mostrare) da "Le tue ottiche" (le focali dello
+         strumento vero, registrate per calcolare il campo): i due nomi
+         si somigliano e arrivano in sequenza nell'onboarding, quindi
+         vanno distinti finche' l'utente li ha ancora entrambi in mente.
+         Le voci "Novita'" e "Tutte le versioni" esistevano gia' ma
+         erano passive: comparivano solo se l'utente andava a cercarle,
+         quindi chi riapriva l'app dopo settimane non aveva modo di
+         sapere che qualcosa era cambiato. Aggiunto un confronto fra la
+         versione vista l'ultima volta e APP_VERSIONE: se diverse,
+         compaiono un pallino sul pulsante Controlli e una riga di
+         riepilogo in cima al menu', con le voci vere di APP_NOVITA.
+         Nessun overlay imposto: l'onboarding e' invasivo di proposito,
+         solo alla prima apertura; questo resta un segnale ignorabile.
+         Caso limite corretto: chi ha gia' superato l'onboarding ma non
+         ha mai avuto una "versione vista" salvata (chiunque avesse gia'
+         installato l'app prima che questo avviso esistesse) veniva
+         escluso dal controllo (v === null saltava il confronto). Non
+         ha visto la versione corrente piu' di chiunque altro, quindi
+         va trattato come "ancora da vedere", non come esente.
+   v4.1  Il menu' segue il livello scelto: un principiante trova 6 gruppi
+         invece di 15 e 8 righe di opzioni invece di 24. Non ci sono tre
+         menu' da tenere allineati: uno solo, con un livello minimo
+         dichiarato su ogni gruppo, sezione e riga (data-liv).
+         Filtrare per gruppo non bastava: "Come appare il cielo" aveva
+         nove interruttori, di cui a un principiante ne servono tre. O
+         gli si negavano i nomi delle stelle o gli si dava anche "Tieni
+         acceso lo schermo". Il filtro agisce quindi anche sulle righe.
+         Separato il livello di INTERFACCIA (state.livello, che comanda
+         il menu') dal livello di CIELO (state.level, che si azzera al
+         primo interruttore toccato perche' diventa scelta personale).
+         Senza questa separazione il menu' avrebbe cambiato forma sotto
+         le dita dell'utente al primo tocco.
+         Accorpamenti: "Dove ti trovi"+"Quando"+"Il tuo cielo" -> "Dove e
+         quando osservi"; "Cosa posso osservare"+"Tipi di oggetto"+"Come
+         appare il cielo"+"Righe di riferimento"+legenda -> "Il cielo che
+         vedi", con due sezioni interne ("Cosa compare", "Come e'
+         disegnato") perche' fonderli in un elenco unico avrebbe dato 17
+         righe di fila al livello avanzato, cioe' il problema che si
+         voleva risolvere; i quattro gruppi finali -> "Chi siamo".
+         "Il tuo strumento" diventa "Le tue ottiche": termine piu'
+         preciso, accettabile perche' il gruppo vive da Intermedio in su.
+         A un principiante sarebbe stato gergo, come "campo" nella 4.0.
+         Il livello "Tutto" si chiama ora "Avanzato": descrive chi sei,
+         come gli altri due, invece di quanto vedi. Cambiata la sola
+         etichetta, non la chiave 'tutto' salvata in localStorage: chi
+         l'aveva scelta se la sarebbe vista azzerare all'aggiornamento.
+         Aggiunta in fondo al menu' ridotto la via d'uscita esplicita:
+         chi ha visto una voce e non la ritrova pensa che l'app sia rotta.
+         La calibrazione della bussola e' ora il primo passo obbligato
+         alla prima attivazione della realta' aumentata. Un cielo
+         sovrapposto e sfalsato e' peggio di nessun cielo proprio per un
+         principiante: chi e' esperto vede che quella non e' Vega, chi
+         comincia si fida.
+         In verifica: la prima marcatura delle righe usava una regex non
+         delimitata correttamente e assegnava il livello a righe sbagliate
+         ("Stelle doppie" era finita fra le voci da principiante).
+         Rifatta con parsing bilanciato dei blocchi, non con regex.
    v4.0  Realta' aumentata (beta): il cielo calcolato sopra l'immagine
          della fotocamera, con calibrazione della bussola.
          Tre limiti dichiarati apertamente, in app e non solo qui. Di
@@ -3255,18 +3536,25 @@ body.fullscreen-sky .sky-sheet.open .sheet-body{ max-height: 46dvh; }
 /* Numero di versione leggibile dal programma: compare nel menù e serve
    a capire con certezza quale versione sta girando su un dispositivo,
    cosa impossibile quando il browser tiene in cache un file vecchio. */
-const APP_VERSIONE = '4.0';
+const APP_VERSIONE = '4.7';
 const APP_NOVITA = [
-  { t:'Realt\u00e0 aumentata (beta): il cielo sopra l\u2019immagine della fotocamera' },
-  { t:'Calibrazione della bussola, che migliora anche il puntamento normale' },
-  { t:'Registra il tuo binocolo o telescopio e richiamalo con un tocco' },
-  { t:'Simulazione del campo inquadrato dal tuo strumento' },
+  { t:'Cinque nuovi percorsi per imparare a leggere il cielo di ogni stagione' },
+  { t:'I percorsi ora insegnano anche a riconoscere le costellazioni intere' },
+  { t:'L\u2019app ricorda i percorsi fatti e da dove riprendere' },
+  { t:'Elenco dei percorsi diviso in due sezioni e pi\u00f9 compatto' },
 ];
 
 /* Registro completo delle versioni pubblicate, per il changelog esteso.
    Ogni voce riprende, riassunto in una riga, cio' che compare per esteso
    nel blocco di cronologia in cima a questo file. */
 const APP_STORICO = [
+  { v:'4.7', d:'Le costellazioni evidenziate nei percorsi seguono ora esattamente le linee del catalogo; aggiunto il riconoscimento di Cefeo.' },
+  { v:'4.6', d:'Elenco dei percorsi diviso in brevi e lunghi, voci compattate, stato di visibilit\u00e0 mostrato solo quando serve.' },
+  { v:'4.5', d:'Cinque percorsi lunghi per leggere il cielo di ogni stagione, riconoscimento delle costellazioni nei percorsi, memoria dei progressi.' },
+  { v:'4.4', d:'Curiosit\u00e0 completate: le restanti 64 stelle e le 23 costellazioni, legate al mito. Copertura ora piena su ogni candidato reale del quiz.' },
+  { v:'4.3', d:'Curiosit\u00e0 nel quiz: un fatto verificato per ciascuna delle 14 stelle pi\u00f9 luminose, i 7 pianeti e la Luna, mostrato dopo la risposta.' },
+  { v:'4.2', d:'Avviso di novit\u00e0 al riavvio dopo un aggiornamento; presentazione iniziale aggiornata alla struttura del menu\u0300 attuale.' },
+  { v:'4.1', d:'Il menu\u0300 si adatta al livello scelto: chi comincia trova 6 gruppi invece di 15. Voci accorpate e rinominate.' },
   { v:'4.0', d:'Realt\u00e0 aumentata in prova: il cielo sovrapposto alla fotocamera, con calibrazione della bussola che corregge anche il puntamento normale e i percorsi guidati.' },
   { v:'3.2', d:'I tuoi strumenti: registri binocolo e telescopio, l\'app calcola e disegna il campo che inquadrano e pu\u00f2 stringere la vista fino a quel campo.' },
   { v:'3.1', d:'Selezione al tocco proporzionata alla dimensione dell\'oggetto: gli oggetti piccoli dentro a uno grande restano raggiungibili.' },
@@ -4160,6 +4448,7 @@ const CON_NAMES = {
   Aqr:'Acquario', Cap:'Capricorno', Oph:'Ofiuco', Psc:'Pesci', Cet:'Balena', Tri:'Triangolo',
   Del:'Delfino', Sge:'Sagitta', Crv:'Corvo', Crt:'Cratere', Hya:'Idra', Lep:'Lepre',
   Ser:'Serpente', Vul:'Volpetta', Lac:'Lucertola', Sct:'Scudo', CVn:'Cani da Caccia',
+  Lup:'Lupo', Pup:'Poppa',
   Com:'Chioma di Berenice', Col:'Colomba', CrA:'Corona Australe', Equ:'Cavallino',
   Eri:'Eridano',
   LMi:'Leone Minore', Lyn:'Lince', Cam:'Giraffa', Mon:'Monocero', PsA:'Pesce Australe',
@@ -6189,6 +6478,70 @@ function setGeoStatusToast(msg){
      'meta'    sei arrivato: ecco cosa stai guardando
    ===================================================================== */
 
+/* =====================================================================
+   FIGURE DELLE COSTELLAZIONI PER I PASSI DI RICONOSCIMENTO
+   ---------------------------------------------------------------------
+   Tracciati definiti una volta e riusati dai passi 'figura' dei percorsi,
+   invece di riscriverli dentro ogni percorso: cosi' una correzione a una
+   figura vale ovunque, e non restano versioni divergenti della stessa
+   costellazione in punti diversi del file.
+
+   Ogni chiave e' un id presente in STARS: sono verificati a parte da uno
+   script, perche' una chiave sbagliata non da' errore - spezza la linea
+   in silenzio, che e' peggio.
+   ===================================================================== */
+/* =====================================================================
+   FIGURE DELLE COSTELLAZIONI PER I PASSI DI RICONOSCIMENTO
+   ---------------------------------------------------------------------
+   NON si scrivono a mano. Vengono ricavate da LINES, lo stesso identico
+   database che l'app usa per disegnare le costellazioni in cielo.
+
+   La prima stesura (v4.5) le aveva scritte a mano, ed era sbagliato:
+   i tracciati evidenziati non coincidevano con quelli gia' disegnati
+   sotto - il Drago, l'Aquila, il Sagittario ed Ercole mostravano due
+   percorsi diversi sovrapposti. Ricavarle dalla fonte gia' presente
+   rende l'incoerenza impossibile per costruzione, non solo improbabile.
+
+   Un segmento appartiene alla figura se ALMENO UNA delle due stelle e'
+   della costellazione: cosi' restano incluse le linee di confine con
+   una stella condivisa, come Elnath fra Toro e Auriga, che fa parte di
+   entrambe le figure e che un criterio piu' stretto avrebbe perso.
+   ===================================================================== */
+const FIG = {};
+(function costruisciFigure(){
+  const conDi = {};
+  STARS.forEach(st=> conDi[st.id] = st.con);
+  const NOMI = {
+    orione:'Ori', toro:'Tau', canemag:'CMa', auriga:'Aur', gemelli:'Gem',
+    leone:'Leo', boote:'Boo', vergine:'Vir', cigno:'Cyg', lira:'Lyr',
+    aquila:'Aql', cassiopea:'Cas', orsamin:'UMi', drago:'Dra',
+    pegaso:'Peg', andromeda:'And', perseo:'Per', ariete:'Ari',
+    scorpione:'Sco', sagittario:'Sgr', ercole:'Her', coronabor:'CrB',
+    orsamag:'UMa', cefeo:'Cep', canemin:'CMi', lepre:'Lep',
+    balena:'Cet', ofiuco:'Oph', corvo:'Crv', delfino:'Del',
+    triangolo:'Tri', cancro:'Cnc', pesci:'Psc', bilancia:'Lib',
+    acquario:'Aqr', capricorno:'Cap', idra:'Hya', serpente:'Ser',
+  };
+  Object.keys(NOMI).forEach(chiave=>{
+    const c = NOMI[chiave];
+    const segs = LINES.filter(([a,b])=> conDi[a] === c || conDi[b] === c)
+                      .map(([a,b])=> [a,b]);
+    FIG[chiave] = { nome: null, fig: segs, con: c };
+  });
+})();
+
+/* Il Grande Carro non e' una costellazione ma un asterismo: e' un
+   sottoinsieme dell'Orsa Maggiore, quindi va elencato a parte. */
+FIG.carro = { nome:'Grande Carro', con:'UMa', fig:[
+  ['dubhe','merak'],['merak','phecda'],['phecda','megrez'],['megrez','dubhe'],
+  ['megrez','alioth'],['alioth','mizar'],['mizar','alkaid'] ] };
+
+/* Nomi da mostrare a schermo: quelli ufficiali italiani gia' usati
+   altrove nell'app, cosi' non compaiono due diciture per la stessa
+   costellazione. */
+Object.keys(FIG).forEach(k=>{
+  if (!FIG[k].nome) FIG[k].nome = CON_NAMES[FIG[k].con] || FIG[k].con;
+});
 const ROUTES = [
   {
     id:'polare',
@@ -6206,6 +6559,8 @@ const ROUTES = [
         testo:'Prolunga la linea che le unisce oltre Dubhe, nella stessa direzione. Percorri circa cinque volte la loro distanza e incontri una stella isolata, di luminosità media: è la Polare.' },
       { tipo:'meta', obj:'polaris',
         testo:'Sei al Nord. La Polare sta quasi ferma mentre tutto il cielo le ruota attorno, e la sua altezza sull\'orizzonte è pari alla tua latitudine: da Casale, circa 45°.' },
+      { tipo:'figura', fig:FIG.orsamin.fig, nome:'Orsa Minore',
+        testo:'Ora che hai la Polare, prova a seguire l\'Orsa Minore: dalla Polare parte una fila di stelle deboli che curva fino a Kochab e Pherkad, le due piu\' luminose. Serve un cielo discreto: sono tutte piu\' fioche del Carro.' },
     ]
   },
   {
@@ -6222,6 +6577,8 @@ const ROUTES = [
         testo:'Dalla punta centrale della W scendi verso Schedar e prosegui nella stessa direzione: dopo una trentina di gradi incontri la Polare.' },
       { tipo:'meta', obj:'polaris',
         testo:'Avere due strade indipendenti per il Nord è utile: se il Carro è nascosto da una casa o da un albero, Cassiopea ti salva.' },
+      { tipo:'figura', fig:FIG.cassiopea.fig, nome:'Cassiopea',
+        testo:'Guarda ora Cassiopea per intero: cinque stelle a zigzag, dalla punta di Caph fino a Segin. E\' una delle poche figure che si riconosce subito, e ti resta come secondo appiglio del cielo del nord quando il Carro e\' basso.' },
     ]
   },
   {
@@ -6242,6 +6599,10 @@ const ROUTES = [
         testo:'Ora prolunga la cintura dalla parte opposta, verso l\'alto a destra, per una distanza simile: arrivi ad Aldebaran, l\'occhio arancione del Toro.' },
       { tipo:'meta', obj:'aldebaran',
         testo:'Aldebaran sembra far parte delle Iadi, la V di stelle attorno, ma è molto più vicina: si trova a metà strada e le è solo prospetticamente sovrapposta.' },
+      { tipo:'figura', fig:FIG.orione.fig, nome:'Orione',
+        testo:'Allarga lo sguardo attorno alla Cintura: le due spalle (Betelgeuse rossastra e Bellatrix), i due piedi (Rigel azzurra e Saiph) e la piccola testa formano il cacciatore. E\' la costellazione piu\' facile del cielo invernale.' },
+      { tipo:'figura', fig:FIG.canemag.fig, nome:'Cane Maggiore',
+        testo:'Sotto e a sinistra di Sirio si apre il Cane Maggiore: Sirio ne segna il collo, mentre Adhara, Wezen e Aludra disegnano le zampe posteriori e la coda, piu\' in basso verso l\'orizzonte.' },
     ]
   },
   {
@@ -6258,6 +6619,8 @@ const ROUTES = [
         testo:'Continua oltre Aldebaran nella stessa direzione, ancora per circa metà del tratto percorso — una quindicina di gradi: incontri un gruppetto compatto di stelline azzurre.' },
       { tipo:'meta', obj:'M45',
         testo:'Sono le Pleiadi. A occhio nudo se ne contano sei o sette, ma il binocolo ne mostra decine: è il modo migliore per osservarle, perché un telescopio inquadra troppo poco.' },
+      { tipo:'figura', fig:FIG.toro.fig, nome:'Toro',
+        testo:'Le Iadi sono il muso del Toro: la V aperta di stelle con Aldebaran a un vertice. Da li\' partono due lunghe corna che finiscono su Elnath, quasi al confine con l\'Auriga. Le Pleiadi stanno sulla spalla dell\'animale.' },
     ]
   },
   {
@@ -6274,6 +6637,8 @@ const ROUTES = [
         testo:'Scendi lungo il pentagono verso il lato che guarda Orione: è la zona attraversata dalla Via Lattea.' },
       { tipo:'meta', obj:'M37',
         testo:'In questo tratto si annidano tre ammassi aperti, M36, M37 e M38, tutti alla portata di un binocolo. M37 è il più ricco: una manciata di polvere di stelle.' },
+      { tipo:'figura', fig:FIG.auriga.fig, nome:'Auriga',
+        testo:'Capella e le stelle attorno chiudono un pentagono quasi regolare: e\' l\'Auriga. Nota che Elnath, l\'angolo piu\' vicino a Orione, e\' condivisa con il Toro: una stella sola per due figure.' },
     ]
   },
   {
@@ -6290,6 +6655,8 @@ const ROUTES = [
         testo:'Da Castore scendi lungo il corpo del gemello, verso i piedi, in direzione di Orione.' },
       { tipo:'meta', obj:'M35',
         testo:'Ai piedi di Castore, poco oltre l\'ultima stella, il binocolo mostra una chiazza granulosa larga quanto la Luna piena: è l\'ammasso M35.' },
+      { tipo:'figura', fig:FIG.gemelli.fig, nome:'Gemelli',
+        testo:'Da Castore e Polluce scendono verso Orione due file quasi parallele di stelle: sono i corpi dei due fratelli, con i piedi appoggiati sulla Via Lattea invernale.' },
     ]
   },
   {
@@ -6306,6 +6673,8 @@ const ROUTES = [
         testo:'Il punto del punto interrogativo è Regolo, il cuore del Leone. Sta quasi esattamente sull\'eclittica, perciò Luna e pianeti le passano spesso accanto.' },
       { tipo:'salto', da:'regulus', a:'denebola',
         testo:'Verso est, a una trentina di gradi, un triangolo di stelle chiude la figura: Denebola è la coda.' },
+      { tipo:'figura', fig:FIG.leone.fig, nome:'Leone',
+        testo:'Alla Falce, che disegna testa e criniera, aggiungi il triangolo di stelle a sinistra: Denebola ne segna la coda. Il Leone e\' una delle poche costellazioni che somiglia davvero all\'animale da cui prende il nome.' },
     ]
   },
   {
@@ -6326,6 +6695,10 @@ const ROUTES = [
         testo:'Prosegui l\'arco ancora per altrettanto e arrivi a Spica, bianco-azzurra. La filastrocca inglese dice "arc to Arcturus, spike to Spica".' },
       { tipo:'meta', obj:'spica',
         testo:'Spica è il chicco di grano nella mano della Vergine. Il contrasto con Arturo mostra bene la differenza di colore fra una stella calda e una fredda.' },
+      { tipo:'figura', fig:FIG.boote.fig, nome:'Boote',
+        testo:'Arturo non e\' isolata: sopra di lei si apre un aquilone allungato di stelle piu\' deboli. E\' Boote, il bovaro, con Arturo ai suoi piedi.' },
+      { tipo:'figura', fig:FIG.vergine.fig, nome:'Vergine',
+        testo:'Spica e\' il punto piu\' luminoso della Vergine, che si estende verso destra con una figura ampia e poco marcata. Le sue stelle sono deboli: serve un cielo scuro per seguirla tutta.' },
     ]
   },
   {
@@ -6346,6 +6719,12 @@ const ROUTES = [
         testo:'Ora torna sul Cigno e percorrilo per intero, da Deneb fino al becco: lì c\'è Albireo.' },
       { tipo:'meta', obj:'albireo',
         testo:'Albireo a occhio nudo è una stella sola, ma qualsiasi binocolo la sdoppia in due punti di colore diverso, ambra e azzurro: è il contrasto più bello del cielo.' },
+      { tipo:'figura', fig:FIG.cigno.fig, nome:'Cigno',
+        testo:'Deneb e Albireo sono la coda e la testa del Cigno, che vola lungo la Via Lattea con le ali spiegate ai lati. E\' anche chiamato Croce del Nord, e la somiglianza si coglie subito.' },
+      { tipo:'figura', fig:FIG.lira.fig, nome:'Lira',
+        testo:'Accanto a Vega, un piccolo parallelogramma di stelle deboli completa la Lira. Fra le due stelle in basso si nasconde la Nebulosa Anello, invisibile a occhio nudo ma alla portata di un telescopio.' },
+      { tipo:'figura', fig:FIG.aquila.fig, nome:'Aquila',
+        testo:'Altair sta in mezzo a due stelle piu\' deboli, una per lato: e\' un allineamento inconfondibile, la testa dell\'Aquila. Il resto del corpo si allunga verso il basso.' },
     ]
   },
   {
@@ -6362,6 +6741,10 @@ const ROUTES = [
         testo:'Sopra il coperchio della teiera, di poco, la Via Lattea si allarga in una nube luminosa. Cerca lì una macchia più chiara.' },
       { tipo:'meta', obj:'M8',
         testo:'È la Nebulosa Laguna, visibile col binocolo come una nuvoletta con dentro un ammasso di stelle. Attorno, in pochi gradi, si contano più oggetti che in qualunque altra zona: conviene passare del tempo qui.' },
+      { tipo:'figura', fig:FIG.sagittario.fig, nome:'Sagittario',
+        testo:'Le stelle piu\' luminose formano una teiera vista di profilo: corpo, coperchio, manico e beccuccio. Attorno si estende il resto del Sagittario, piu\' debole. Il vapore che sembra uscire dal beccuccio e\' la Via Lattea, cioe\' il centro della nostra galassia.' },
+      { tipo:'figura', fig:FIG.scorpione.fig, nome:'Scorpione',
+        testo:'A destra della Teiera, piu\' basso sull\'orizzonte, si allunga lo Scorpione: le chele in alto, Antares rossa nel corpo, e la coda che curva fino al pungiglione. Da queste latitudini resta sempre basso.' },
     ]
   },
   {
@@ -6382,6 +6765,10 @@ const ROUTES = [
         testo:'Continua nella stessa direzione ancora per altrettanto: lì c\'è una macchia allungata e sfumata.' },
       { tipo:'meta', obj:'M31',
         testo:'È la Galassia di Andromeda: duemilacinquecento miliardi di stelle a due milioni e mezzo di anni luce. Da un cielo buio si intravede a occhio nudo; col binocolo è un ovale sfumato. Non aspettarti le spirali delle fotografie.' },
+      { tipo:'figura', fig:FIG.andromeda.fig, nome:'Andromeda',
+        testo:'Da Alpheratz, angolo del Quadrato, parte una doppia fila di stelle verso sinistra: e\' Andromeda. Mirach, la seconda, e\' il riferimento da cui sei salito alla galassia.' },
+      { tipo:'figura', fig:FIG.pegaso.fig, nome:'Pegaso',
+        testo:'Il Quadrato e\' il corpo del cavallo alato, visto capovolto; da un angolo parte il collo che finisce su Enif, il muso. Alpheratz, l\'angolo in alto a sinistra, e\' condivisa con Andromeda.' },
     ]
   },
   {
@@ -6398,9 +6785,181 @@ const ROUTES = [
         testo:'Dalla W scendi verso Perseo, la costellazione successiva, la cui stella principale è Mirfak.' },
       { tipo:'meta', obj:'NGC0869',
         testo:'A metà strada fra Cassiopea e Mirfak, in una zona ricca di Via Lattea, si nota una chiazza chiara: sono due ammassi vicini. Il binocolo li mostra entrambi nello stesso campo, ed è lo strumento ideale.' },
+      { tipo:'figura', fig:FIG.perseo.fig, nome:'Perseo',
+        testo:'Da Mirfak scende una curva di stelle fino ad Algol, la stella del demone, che rappresenta la testa di Medusa tenuta in mano dall\'eroe. Ogni due giorni e mezzo circa Algol si affievolisce visibilmente: e\' una variabile a eclisse.' },
     ]
   },
 
+
+  /* ---------------------------------------------------------------
+     PERCORSI LUNGHI (v4.5): non insegnano un trucco, insegnano a
+     leggere una porzione di cielo. Sono scritti a se' e non composti
+     dai brevi: quelli hanno aperture e chiusure autonome, e incatenarli
+     avrebbe prodotto cinque "cerca il Grande Carro" e cinque "hai
+     finito" dentro lo stesso percorso. Dove serve rimandano al breve
+     corrispondente con il campo 'vedi'.
+     --------------------------------------------------------------- */
+  {
+    id:'giro_circum',
+    nome:'Il cielo che non tramonta mai',
+    sotto:'Cinque figure sempre sopra l\'orizzonte, in qualunque notte dell\'anno',
+    stagione:'tutto l\'anno',
+    gruppo:'lungo',
+    figura:FIG.carro.fig, figuraNome:'Grande Carro',
+    vedi:[['polare','Trovare la Stella Polare'],['cassiopea','Cassiopea e la Polare']],
+    passi:[
+      { tipo:'ancora', stelle:null,
+        testo:'Cominciamo dall\'unica parte di cielo che da queste latitudini non tramonta mai. Qualunque notte dell\'anno, a qualunque ora, queste figure sono sopra l\'orizzonte: cambia solo la loro inclinazione. Impararle significa avere sempre un punto di partenza.' },
+      { tipo:'figura', fig:FIG.carro.fig, nome:'Grande Carro',
+        testo:'Il Grande Carro: quattro stelle a formare il cassone e tre il timone. Non e\' una costellazione, ma la parte piu\' luminosa dell\'Orsa Maggiore. Da qui parte tutto.' },
+      { tipo:'prolunga', da:'merak', per:'dubhe', a:'polaris',
+        testo:'Prolunga il fondo del cassone, da Merak verso Dubhe, per circa cinque volte la loro distanza: arrivi alla Polare. Se ti serve rivedere il passaggio in dettaglio, c\'e\' il percorso breve dedicato.' },
+      { tipo:'figura', fig:FIG.orsamin.fig, nome:'Orsa Minore',
+        testo:'La Polare e\' la punta della coda dell\'Orsa Minore. Da li\' una fila di stelle deboli curva fino a Kochab e Pherkad, le due piu\' luminose, chiamate un tempo i guardiani del polo.' },
+      { tipo:'salto', da:'polaris', a:'schedar',
+        testo:'Ora prosegui oltre la Polare, dalla parte opposta al Carro, per circa la stessa distanza che hai appena percorso.' },
+      { tipo:'figura', fig:FIG.cassiopea.fig, nome:'Cassiopea',
+        testo:'Cinque stelle a zigzag: Cassiopea. Sta sempre dalla parte opposta della Polare rispetto al Carro, quindi quando uno e\' basso l\'altra e\' alta. Insieme sono i due appigli del cielo del nord.' },
+      { tipo:'salto', da:'schedar', a:'alderamin',
+        testo:'Fra Cassiopea e la Polare, un po\' spostato, cerca una figura a forma di casetta con il tetto a punta: e\' Cefeo, il re, marito di Cassiopea.' },
+      { tipo:'meta', obj:'alderamin',
+        testo:'Alderamin e\' la sua stella piu\' luminosa. Fra circa 5500 anni, per la lenta oscillazione dell\'asse terrestre, sara\' lei la stella polare al posto della Polare.' },
+      { tipo:'figura', fig:FIG.cefeo.fig, nome:'Cefeo',
+        testo:'Ecco Cefeo per intero: una casetta storta con il tetto a punta rivolto verso la Polare. Le sue stelle sono piu\' deboli di quelle di Cassiopea, ma la forma e\' semplice e una volta vista si ritrova sempre.' },
+      { tipo:'figura', fig:FIG.drago.fig, nome:'Drago',
+        testo:'Infine il Drago: parte da fra le due Orse, si avvolge attorno all\'Orsa Minore e finisce nella testa a quadrilatero vicino a Vega. E\' lungo e poco luminoso, ma una volta trovato non si dimentica. Con queste cinque figure hai il cielo del nord.' },
+    ]
+  },
+  {
+    id:'giro_inverno',
+    nome:'Leggere il cielo d\'inverno',
+    sotto:'Da Orione alle sei costellazioni che gli stanno attorno',
+    stagione:'da dicembre a marzo',
+    gruppo:'lungo',
+    figura:[['mintaka','alnilam','alnitak']], figuraNome:'Cintura di Orione',
+    vedi:[['orione','La Cintura di Orione: Sirio e Aldebaran'],['pleiadi','Dalle Iadi alle Pleiadi']],
+    passi:[
+      { tipo:'ancora', stelle:['mintaka','alnilam','alnitak'],
+        testo:'Il cielo d\'inverno e\' il piu\' ricco dell\'anno, e ha un centro indiscusso: Orione. Trovate le tre stelle in fila della Cintura, tutto il resto si raggiunge da li\'. Guarda verso sud nelle prime ore della sera.' },
+      { tipo:'figura', fig:FIG.orione.fig, nome:'Orione',
+        testo:'Attorno alla Cintura: due spalle, Betelgeuse rossastra a sinistra e Bellatrix piu\' bianca a destra; due piedi, Rigel azzurra e Saiph. La differenza di colore fra Betelgeuse e Rigel si coglie a occhio nudo.' },
+      { tipo:'prolunga', da:'mintaka', per:'alnitak', a:'sirius',
+        testo:'Prolunga la Cintura verso il basso a sinistra: la prima stella brillante che incontri e\' Sirio, la piu\' luminosa di tutto il cielo notturno.' },
+      { tipo:'figura', fig:FIG.canemag.fig, nome:'Cane Maggiore',
+        testo:'Sirio segna il collo del Cane Maggiore. Sotto di lui, verso l\'orizzonte, Adhara e Wezen disegnano le zampe: da Casale restano basse, quindi serve un orizzonte sud libero.' },
+      { tipo:'prolunga', da:'alnitak', per:'mintaka', a:'aldebaran',
+        testo:'Torna alla Cintura e prolungala nella direzione opposta, verso l\'alto a destra: arrivi a una stella arancione, Aldebaran.' },
+      { tipo:'figura', fig:FIG.toro.fig, nome:'Toro',
+        testo:'Aldebaran e\' l\'occhio del Toro, dentro la V delle Iadi che ne forma il muso. Le due lunghe corna finiscono in alto a sinistra. Piu\' oltre, sulla spalla, il gruppetto delle Pleiadi.' },
+      { tipo:'salto', da:'aldebaran', a:'capella',
+        testo:'Sali ancora dallo stesso lato, piuttosto in alto: incontri una stella gialla molto brillante, Capella. D\'inverno passa quasi allo zenit.' },
+      { tipo:'figura', fig:FIG.auriga.fig, nome:'Auriga',
+        testo:'Capella chiude un pentagono quasi regolare, l\'Auriga. Uno dei suoi angoli, Elnath, e\' condiviso con il corno del Toro: una stella sola per due figure confinanti.' },
+      { tipo:'salto', da:'betelgeuse', a:'procyon',
+        testo:'Torna a Betelgeuse e vai a sinistra: trovi Procione. Insieme a Sirio e Betelgeuse forma un grande triangolo quasi equilatero, il Triangolo Invernale.' },
+      { tipo:'salto', da:'procyon', a:'pollux',
+        testo:'Da Procione sali verso l\'alto: due stelle vicine e simili, una accanto all\'altra.' },
+      { tipo:'figura', fig:FIG.gemelli.fig, nome:'Gemelli',
+        testo:'Castore e Polluce sono le teste dei Gemelli, e da li\' due file parallele di stelle scendono verso Orione: i loro corpi. Con questo hai chiuso il giro del cielo invernale.' },
+    ]
+  },
+  {
+    id:'giro_primavera',
+    nome:'Leggere il cielo di primavera',
+    sotto:'Dal Carro all\'arco che porta ad Arturo e alla Vergine',
+    stagione:'da marzo a giugno',
+    gruppo:'lungo',
+    figura:FIG.carro.fig, figuraNome:'Grande Carro',
+    vedi:[['arturo','Dall\'Orsa Maggiore ad Arturo e Spica'],['leone','La Falce del Leone']],
+    passi:[
+      { tipo:'ancora', stelle:null,
+        testo:'In primavera il cielo si svuota delle stelle brillanti dell\'inverno, ma il Grande Carro passa alto sopra la testa: da li\' si raggiunge tutto il resto. Guarda in alto, quasi allo zenit, nelle ore serali.' },
+      { tipo:'figura', fig:FIG.carro.fig, nome:'Grande Carro',
+        testo:'Il Carro, in questa stagione, e\' capovolto e quasi sopra di te. Il timone curva verso est: e\' quella curva il filo da seguire.' },
+      { tipo:'prolunga', da:'alioth', per:'alkaid', a:'arcturus', arco:true,
+        testo:'Segui la curva del timone proseguendo l\'arco, senza tirare dritto. Dopo una trentina di gradi trovi una stella arancione molto luminosa: Arturo.' },
+      { tipo:'figura', fig:FIG.boote.fig, nome:'Boote',
+        testo:'Sopra Arturo si apre un aquilone allungato di stelle piu\' deboli: e\' Boote, il bovaro, e Arturo sta ai suoi piedi. Il nome della costellazione significa proprio "il bifolco".' },
+      { tipo:'prolunga', da:'alkaid', per:'arcturus', a:'spica', arco:true,
+        testo:'Prosegui l\'arco per un tratto simile e arrivi a Spica, bianco-azzurra. Il contrasto con l\'arancione di Arturo e\' il modo piu\' semplice per vedere a occhio nudo la differenza di temperatura fra due stelle.' },
+      { tipo:'figura', fig:FIG.vergine.fig, nome:'Vergine',
+        testo:'Spica e\' il chicco di grano nella mano della Vergine, che si estende verso destra con una figura ampia e poco marcata. Serve un cielo scuro per seguirla tutta.' },
+      { tipo:'salto', da:'spica', a:'gienah_v',
+        testo:'Sotto Spica, verso l\'orizzonte sud, cerca un piccolo quadrilatero compatto di quattro stelle: si nota bene proprio perche\' e\' isolato.' },
+      { tipo:'meta', obj:'gienah_v',
+        testo:'E\' il Corvo, una costellazione piccola ma molto riconoscibile. Nel mito Apollo lo condanno\' a una sete perenne per avergli portato cattive notizie.' },
+      { tipo:'salto', da:'megrez', a:'regulus',
+        testo:'Torna al Carro e scendi dalla parte opposta al timone, come se il cassone versasse: arrivi a una stella bianca e brillante.' },
+      { tipo:'figura', fig:FIG.leone.fig, nome:'Leone',
+        testo:'Regolo e\' il cuore del Leone. Sopra di lei un punto interrogativo rovesciato di stelle disegna la criniera, e a sinistra un triangolo chiude la coda su Denebola: e\' fra le poche costellazioni che somigliano davvero all\'animale.' },
+    ]
+  },
+  {
+    id:'giro_estate',
+    nome:'Leggere il cielo d\'estate',
+    sotto:'Il Triangolo Estivo, la Via Lattea e le figure che l\'attraversano',
+    stagione:'da giugno a settembre',
+    gruppo:'lungo',
+    figura:[['vega','deneb','altair','vega']], figuraNome:'Triangolo Estivo',
+    vedi:[['triangolo','Il Triangolo Estivo e Albireo'],['sagittario','La Teiera e il cuore della Via Lattea']],
+    passi:[
+      { tipo:'ancora', stelle:['vega','deneb','altair'],
+        testo:'D\'estate il cielo e\' dominato da tre stelle molto luminose, lontane fra loro, che formano un grande triangolo quasi sopra la testa. Sono di tre costellazioni diverse, e da esse si raggiunge tutto il resto.' },
+      { tipo:'meta', obj:'vega',
+        testo:'Vega e\' la piu\' alta e la piu\' brillante delle tre, bianco-azzurra. Fra circa 12.000 anni sara\' lei la stella polare.' },
+      { tipo:'figura', fig:FIG.lira.fig, nome:'Lira',
+        testo:'Accanto a Vega, un piccolo parallelogramma di stelle deboli completa la Lira. Fra le due stelle in basso si nasconde la Nebulosa Anello, invisibile a occhio nudo.' },
+      { tipo:'salto', da:'vega', a:'deneb',
+        testo:'Sposta lo sguardo verso est, alla seconda punta del triangolo: una stella bianca meno brillante di Vega, ma molto piu\' lontana.' },
+      { tipo:'figura', fig:FIG.cigno.fig, nome:'Cigno',
+        testo:'Deneb e\' la coda del Cigno, che vola lungo la Via Lattea con le ali spiegate. La testa e\' Albireo, in fondo al collo: al telescopio si rivela una doppia dai colori splendidi, arancio e blu.' },
+      { tipo:'salto', da:'deneb', a:'altair',
+        testo:'Scendi alla terza punta del triangolo, piu\' in basso verso sud.' },
+      { tipo:'figura', fig:FIG.aquila.fig, nome:'Aquila',
+        testo:'Altair sta fra due stelle piu\' deboli, una per lato: un allineamento inconfondibile che segna la testa dell\'Aquila. Il corpo si allunga verso il basso.' },
+      { tipo:'salto', da:'altair', a:'antares',
+        testo:'Scendi ancora verso sud, restando basso sull\'orizzonte: cerca una stella chiaramente rossa.' },
+      { tipo:'figura', fig:FIG.scorpione.fig, nome:'Scorpione',
+        testo:'Antares e\' il cuore dello Scorpione: il nome greco significa "rivale di Marte", per il colore. Le chele stanno in alto a destra, la coda curva fino al pungiglione. Da queste latitudini resta sempre basso.' },
+      { tipo:'salto', da:'antares', a:'kausaustralis',
+        testo:'Spostati a sinistra dello Scorpione, sempre basso: trovi un gruppo di stelle a forma di teiera.' },
+      { tipo:'figura', fig:FIG.sagittario.fig, nome:'Sagittario',
+        testo:'La Teiera e\' la parte piu\' riconoscibile del Sagittario, che attorno si estende con stelle piu\' deboli. Il vapore che sembra uscire dal beccuccio e\' la Via Lattea: guardando li\' stai guardando verso il centro della nostra galassia.' },
+      { tipo:'figura', fig:FIG.ercole.fig, nome:'Ercole',
+        testo:'Torna in alto, fra Vega e la Corona Boreale: quattro stelle formano un trapezio, la Chiave di Volta, con due gambe che scendono. E\' Ercole. Su un lato del trapezio si trova M13, il piu\' bell\'ammasso globulare del cielo boreale.' },
+      { tipo:'figura', fig:FIG.coronabor.fig, nome:'Corona Boreale',
+        testo:'Fra Ercole e Boote, un piccolo semicerchio di stelle: la Corona Boreale, la corona d\'oro di Arianna. E\' minuscola ma inconfondibile, e chiude il giro del cielo estivo.' },
+    ]
+  },
+  {
+    id:'giro_autunno',
+    nome:'Leggere il cielo d\'autunno',
+    sotto:'Dal Quadrato di Pegaso alla catena di Andromeda e Perseo',
+    stagione:'da settembre a dicembre',
+    gruppo:'lungo',
+    figura:[['alpheratz','scheat','markab','algenib','alpheratz']], figuraNome:'Grande Quadrato di Pegaso',
+    vedi:[['andromeda','La Galassia di Andromeda'],['doppioammasso','Il Doppio Ammasso del Perseo']],
+    passi:[
+      { tipo:'ancora', stelle:['alpheratz','scheat','markab','algenib'],
+        testo:'Il cielo d\'autunno ha poche stelle molto brillanti, ma una figura enorme e facilissima da riconoscere: un quadrato quasi perfetto, alto verso sud nelle sere di ottobre. Da li\' si dipana tutto il resto, che e\' anche un unico racconto mitologico.' },
+      { tipo:'figura', fig:FIG.pegaso.fig, nome:'Pegaso',
+        testo:'Il Quadrato e\' il corpo del cavallo alato, visto capovolto. Da un angolo parte il collo che finisce su Enif, il muso. L\'interno del quadrato e\' notoriamente vuoto: contarci dentro le stelle e\' un buon modo per misurare quanto e\' scuro il tuo cielo.' },
+      { tipo:'figura', fig:FIG.andromeda.fig, nome:'Andromeda',
+        testo:'Da Alpheratz, l\'angolo in alto a sinistra, partono due file di stelle: e\' Andromeda, la principessa incatenata. Alpheratz appartiene a entrambe le figure, ed e\' rimasta a lungo l\'unica stella ufficialmente condivisa fra due costellazioni.' },
+      { tipo:'salto', da:'mirach', a:'mirfak',
+        testo:'Prosegui la catena di Andromeda oltre la sua ultima stella, verso est e verso l\'alto: incontri una zona piu\' densa di stelle, immersa nella Via Lattea.' },
+      { tipo:'figura', fig:FIG.perseo.fig, nome:'Perseo',
+        testo:'E\' Perseo, l\'eroe che salvo\' Andromeda. Da Mirfak scende una curva di stelle fino ad Algol, la testa di Medusa che tiene in mano: ogni due giorni e mezzo circa Algol si affievolisce visibilmente, ed e\' la ragione per cui gli arabi la chiamavano la stella del demone.' },
+      { tipo:'salto', da:'mirfak', a:'schedar',
+        testo:'Sali ancora, verso nord: le cinque stelle a zigzag che conosci gia\'.' },
+      { tipo:'figura', fig:FIG.cassiopea.fig, nome:'Cassiopea',
+        testo:'Cassiopea e\' la madre di Andromeda: fu la sua vanita\' a scatenare la punizione che porto\' la figlia incatenata allo scoglio. In cielo le due figure sono vicine, e con Perseo e Pegaso formano un unico racconto.' },
+      { tipo:'salto', da:'alpheratz', a:'hamal',
+        testo:'Torna al Quadrato e scendi a sinistra, verso est: tre stelle sole, allineate e non troppo luminose.' },
+      { tipo:'figura', fig:FIG.ariete.fig, nome:'Ariete',
+        testo:'E\' l\'Ariete. Duemila anni fa il Sole vi si trovava all\'equinozio di primavera, e per questo apriva lo zodiaco: oggi quel punto e\' scivolato nei Pesci per effetto della precessione, ma il nome "punto d\'Ariete" e\' rimasto.' },
+    ]
+  },
 ];
 
 /* ---------------------------------------------------------------------
@@ -6530,16 +7089,20 @@ function arcLabel(ctx, P, a, b, testo){
   ctx.restore();
 }
 
-/* Disegna la figura di riferimento del percorso: resta visibile a ogni
-   passo, perché è l'appiglio da cui si parte. Senza, dopo il primo passo
-   si perde l'orientamento. */
-function drawRouteFigure(ctx, P, rt, acceso){
-  if (!rt.figura) return;
+/* Disegna una figura di riferimento. Fino alla 4.4 esisteva una sola
+   figura per percorso, fissa dall'inizio alla fine: si poteva quindi
+   insegnare a TROVARE una stella, ma non a riconoscere la costellazione
+   di cui fa parte. Ora la figura e' un dato del singolo passo, cosi' un
+   percorso puo' insegnare a leggere una porzione di cielo passando da
+   una figura all'altra. Le figure gia' incontrate restano disegnate
+   attenuate: sono l'impalcatura da cui si e' arrivati. */
+function drawRouteFigure(ctx, P, figura, nome, acceso){
+  if (!figura) return;
   ctx.save();
   ctx.strokeStyle = acceso ? 'rgba(255,205,90,0.9)' : 'rgba(255,205,90,0.32)';
   ctx.lineWidth = acceso ? 2 : 1.4;
   const maxLen = Math.max(fpW, fpH, size)*0.75;
-  rt.figura.forEach(seg=>{
+  figura.forEach(seg=>{
     ctx.beginPath();
     let last = null, started = false;
     seg.forEach(k=>{
@@ -6553,7 +7116,7 @@ function drawRouteFigure(ctx, P, rt, acceso){
   });
   // pallini sulle stelle della figura
   const visti = new Set();
-  rt.figura.forEach(seg=> seg.forEach(k=>{
+  figura.forEach(seg=> seg.forEach(k=>{
     if (visti.has(k)) return; visti.add(k);
     const t = routeTarget(k); if (!t) return;
     const s = routeScreen(t, P); if (!s) return;
@@ -6561,9 +7124,9 @@ function drawRouteFigure(ctx, P, rt, acceso){
       acceso ? 'rgba(255,205,90,0.9)' : 'rgba(255,205,90,0.4)', acceso ? 1.8 : 1.2);
   }));
   // nome della figura, così si sa cosa si sta guardando
-  if (acceso && rt.figuraNome){
+  if (acceso && nome){
     const pts = [];
-    rt.figura.forEach(seg=> seg.forEach(k=>{
+    figura.forEach(seg=> seg.forEach(k=>{
       const t = routeTarget(k); if (!t) return;
       const s = routeScreen(t, P); if (s) pts.push(s.p);
     }));
@@ -6574,27 +7137,44 @@ function drawRouteFigure(ctx, P, rt, acceso){
       ctx.textAlign='center'; ctx.textBaseline='middle';
       ctx.lineWidth = 3;
       ctx.strokeStyle = 'rgba(5,7,13,0.8)';
-      ctx.strokeText(rt.figuraNome, cx, cy);
+      ctx.strokeText(nome, cx, cy);
       ctx.fillStyle = 'rgba(255,205,90,0.95)';
-      ctx.fillText(rt.figuraNome, cx, cy);
+      ctx.fillText(nome, cx, cy);
     }
   }
   ctx.restore();
 }
 
-/* Il tratto fra due punti corre lungo la figura di riferimento?
+/* Le figure da mostrare al passo indicato: quella di riferimento del
+   percorso piu' tutte quelle gia' insegnate fino a qui. */
+function figureAttive(rt, step){
+  const out = [];
+  if (rt.figura) out.push({ fig: rt.figura, nome: rt.figuraNome,
+                            acceso: rt.passi[step].tipo === 'ancora' });
+  for (let i = 0; i <= step; i++){
+    const p = rt.passi[i];
+    if (p.tipo === 'figura' && p.fig)
+      out.push({ fig: p.fig, nome: p.nome, acceso: i === step });
+  }
+  return out;
+}
+
+/* Il tratto fra due punti corre lungo una figura gia' visibile?
    In tal caso in cielo lo si VEDE davvero (è un lato del Carro, della W,
    della Cintura) e non va né tratteggiato né ridisegnato: ci pensa già
    drawRouteFigure. Altrimenti è una linea che l'occhio deve immaginare,
-   e allora va tratteggiata. */
-function suFigura(rt, k1, k2){
-  if (!rt.figura) return false;
-  return rt.figura.some(seg=> seg.indexOf(k1) >= 0 && seg.indexOf(k2) >= 0);
+   e allora va tratteggiata. Si controllano TUTTE le figure attive, non
+   solo quella del percorso: altrimenti un tratto lungo il lato di una
+   costellazione appena insegnata verrebbe tratteggiato pur essendo
+   visibile in cielo. */
+function suFigura(rt, k1, k2, step){
+  const figs = figureAttive(rt, (step === undefined ? 0 : step));
+  return figs.some(f => f.fig.some(seg=> seg.indexOf(k1) >= 0 && seg.indexOf(k2) >= 0));
 }
 
 /* Un singolo passo. Con "sbiadito" si disegnano i passi già percorsi,
    così il tragitto resta tracciato per intero e si vede da dove si viene. */
-function drawRouteStep(ctx, P, rt, passo, sbiadito){
+function drawRouteStep(ctx, P, rt, passo, sbiadito, idxCorrente){
   const ORO = sbiadito ? 'rgba(255,205,90,0.32)' : 'rgba(255,205,90,0.95)';
   const puls = sbiadito ? 1 : (1 + 0.1*Math.sin(Date.now()/300));
   const sp = sbiadito ? 1.2 : 2;
@@ -6602,7 +7182,7 @@ function drawRouteStep(ctx, P, rt, passo, sbiadito){
   /* Traccia il tratto fra due bersagli con la convenzione giusta:
      nulla se corre lungo la figura (già disegnata), tratteggiato altrimenti. */
   function tratto(a, b, ka, kb, conFreccia, etichetta){
-    const lungoFigura = suFigura(rt, ka, kb);
+    const lungoFigura = suFigura(rt, ka, kb, idxCorrente);
     if (!lungoFigura){
       ctx.strokeStyle = ORO; ctx.lineWidth = sp;
       ctx.setLineDash([7,5]);
@@ -6658,6 +7238,13 @@ function drawRouteStep(ctx, P, rt, passo, sbiadito){
     }
   }
 
+  else if (passo.tipo === 'figura'){
+    /* Nessun tracciato aggiuntivo: la figura e' gia' disegnata accesa,
+       con i suoi pallini e il suo nome, da drawRouteFigure. Aggiungere
+       qui altri cerchi la renderebbe illeggibile proprio nel momento in
+       cui la si sta imparando a riconoscere. */
+  }
+
   else if (passo.tipo === 'meta'){
     const t = routeTarget(passo.obj);
     const s = t && routeScreen(t, P);
@@ -6689,13 +7276,14 @@ function drawRoute(ctx, P){
   if (!rt) return;
 
   ctx.save();
-  // la figura di riferimento resta sempre visibile: accesa quando è lei
-  // il passo corrente, altrimenti attenuata a fare da sfondo
-  drawRouteFigure(ctx, P, rt, rt.passi[R.step].tipo === 'ancora');
+  // tutte le figure incontrate finora restano visibili: quella del passo
+  // corrente accesa, le altre attenuate a fare da impalcatura. Senza,
+  // dopo il primo passo si perde l'orientamento
+  figureAttive(rt, R.step).forEach(f=> drawRouteFigure(ctx, P, f.fig, f.nome, f.acceso));
   // i passi già fatti restano tracciati, sbiaditi
-  for (let i=0; i<R.step; i++) drawRouteStep(ctx, P, rt, rt.passi[i], true);
+  for (let i=0; i<R.step; i++) drawRouteStep(ctx, P, rt, rt.passi[i], true, R.step);
   // il passo corrente, in evidenza
-  drawRouteStep(ctx, P, rt, rt.passi[R.step], false);
+  drawRouteStep(ctx, P, rt, rt.passi[R.step], false, R.step);
   ctx.restore();
   requestDraw();
 }
@@ -6706,8 +7294,9 @@ function routeStepCenter(rt, step){
   const chiavi = [];
   if (passo.stelle) chiavi.push(...passo.stelle);
   ['da','per','a','obj'].forEach(k=>{ if (passo[k]) chiavi.push(passo[k]); });
-  // un passo di riconoscimento non nomina stelle proprie: il bersaglio
-  // è la figura stessa del percorso
+  // un passo di riconoscimento punta la figura che sta insegnando;
+  // se non ne ha una propria, ripiega su quella del percorso
+  if (passo.fig) passo.fig.forEach(seg=> chiavi.push(...seg));
   if (!chiavi.length && rt.figura) rt.figura.forEach(seg=> chiavi.push(...seg));
   let x=0,y=0,z=0,n=0;
   chiavi.forEach(k=>{
@@ -6736,6 +7325,7 @@ function routeAltitude(rt){
 }
 
 const GRUPPI_ROTTE = [
+  ['lungo',     'Imparare a leggere il cielo'],
   ['circum',    'Sempre visibili, in ogni stagione'],
   ['inverno',   'Cielo d\'inverno'],
   ['primavera', 'Cielo di primavera'],
@@ -6743,30 +7333,67 @@ const GRUPPI_ROTTE = [
   ['autunno',   'Cielo d\'autunno'],
 ];
 
-function buildRouteList(){
-  const box = document.getElementById('routeList');
-  if (!box) return;
+/* Costruisce i due elenchi. Sono separati perche' rispondono a due
+   domande diverse: i lunghi si scelgono in base a quanto si vuole
+   imparare, i brevi in base a cosa c'e' in cielo stasera. In un elenco
+   unico, con le intestazioni stagionali in mezzo, nessuno dei due
+   criteri funzionava - e ogni percorso aggiunto in futuro allungava la
+   stessa lista invece di entrare in una delle due famiglie. */
+function riempiElencoRotte(box, rotte, conGruppi){
   let html = '';
-  GRUPPI_ROTTE.forEach(([g, titolo])=>{
-    const dentro = ROUTES.filter(rt=> rt.gruppo === g);
-    if (!dentro.length) return;
-    html += `<div class="sr-header">${titolo}</div>`;
-    dentro.forEach(rt=>{
-      const alt = routeAltitude(rt);
-      const stato = alt > 20 ? `<span class="rt-ok">in cielo adesso, a ${alt.toFixed(0)}\u00B0</span>`
-                  : alt > 0  ? `<span class="rt-low">basso sull'orizzonte, a ${alt.toFixed(0)}\u00B0</span>`
-                             : `<span class="rt-no">ora sotto l'orizzonte \u00B7 ${rt.stagione}</span>`;
-      html += `<button class="rt-item${alt>20?' rt-now':''}" data-id="${rt.id}">
-                 <span class="rt-name">${rt.nome}</span>
-                 <span class="rt-sub">${rt.sotto}</span>
-                 ${stato}
-               </button>`;
+  const voce = rt=>{
+    const alt = routeAltitude(rt);
+    /* Lo stato si mostra SOLO quando dice qualcosa: con 12 voci su 17
+       "in cielo adesso", quella riga non informava, occupava spazio. */
+    let stato = '';
+    if (alt <= 0) stato = `<span class="rt-no">sotto l'orizzonte \u00B7 ${rt.stagione}</span>`;
+    else if (alt <= 20) stato = `<span class="rt-low">bassa, ${alt.toFixed(0)}\u00B0</span>`;
+
+    const av = routeStato(rt.id);
+    let badge = '';
+    if (av && av.fatto) badge = '<span class="rt-fatto">fatto</span>';
+    else if (av && av.max > 0) badge = `<span class="rt-corso">al ${av.max+1}/${rt.passi.length}</span>`;
+
+    return `<button class="rt-item${alt>20?' rt-now':''}" data-id="${rt.id}">
+              <span class="rt-riga1"><span class="rt-name">${rt.nome}</span>${badge}</span>
+              <span class="rt-sub">${rt.sotto}</span>
+              ${stato}
+            </button>`;
+  };
+  if (conGruppi){
+    GRUPPI_ROTTE.forEach(([g, titolo])=>{
+      const dentro = rotte.filter(rt=> rt.gruppo === g);
+      if (!dentro.length) return;
+      html += `<div class="sr-header">${titolo}</div>`;
+      dentro.forEach(rt=> html += voce(rt));
     });
-  });
+  } else {
+    rotte.forEach(rt=> html += voce(rt));
+  }
   box.innerHTML = html;
   box.querySelectorAll('.rt-item').forEach(el=>{
     el.addEventListener('click', ()=> startRoute(el.getAttribute('data-id')));
   });
+}
+
+function buildRouteList(){
+  const lunghi = ROUTES.filter(rt=> rt.gruppo === 'lungo');
+  const brevi  = ROUTES.filter(rt=> rt.gruppo !== 'lungo');
+
+  const bl = document.getElementById('routeListLunghi');
+  if (bl) riempiElencoRotte(bl, lunghi, false);
+  const bb = document.getElementById('routeList');
+  if (bb) riempiElencoRotte(bb, brevi, true);
+
+  // nota accanto al titolo: quanti sono, e quanti gia' completati
+  const conta = (arr, id)=>{
+    const el = document.getElementById(id);
+    if (!el) return;
+    const fatti = arr.filter(rt=>{ const v = routeStato(rt.id); return v && v.fatto; }).length;
+    el.textContent = fatti ? `${fatti} di ${arr.length} fatti` : `${arr.length} percorsi`;
+  };
+  conta(lunghi, 'notaLunghi');
+  conta(brevi, 'notaBrevi');
 }
 
 function startRoute(id){
@@ -6781,6 +7408,60 @@ function startRoute(id){
   if (state.gyro && !state.ar) setGyro(false);
   closeMenu();
   showRouteStep();
+}
+
+/* =====================================================================
+   MEMORIA DEI PERCORSI
+   ---------------------------------------------------------------------
+   Il quiz teneva punteggio e storico, il diario registrava le
+   osservazioni, i percorsi no: si facevano e spariva tutto. Non si
+   sapeva quali fossero gia' stati fatti ne' da dove riprendere.
+
+   Serve soprattutto ai percorsi lunghi, che durano piu' di una serata:
+   l'avanzamento parziale si salva a ogni passo, cosi' riaprendo il
+   percorso si riparte da dove si era arrivati invece che da capo.
+   ===================================================================== */
+function routeStorico(){
+  try{ return JSON.parse(localStorage.getItem('gac_sky_percorsi') || '{}'); }
+  catch(e){ return {}; }
+}
+function routeSalvaStorico(h){
+  try{ localStorage.setItem('gac_sky_percorsi', JSON.stringify(h)); }catch(e){}
+}
+function routeSegnaPasso(id, step, totale){
+  const h = routeStorico();
+  const v = h[id] || {};
+  // l'avanzamento non torna mai indietro: se si rivede un passo gia'
+  // fatto non si perde il progresso raggiunto
+  v.max = Math.max(v.max || 0, step);
+  if (step >= totale - 1) v.fatto = true;
+  h[id] = v;
+  routeSalvaStorico(h);
+}
+function routeStato(id){
+  const v = routeStorico()[id];
+  if (!v) return null;
+  return { fatto: !!v.fatto, max: v.max || 0 };
+}
+
+/* Rimandi di fine percorso: percorsi, esercizio e lezioni erano tre
+   isole separate. Chi finiva un percorso non aveva nessun invito a
+   provare quello che aveva appena imparato, ne' ad approfondirlo.
+   I rimandi ad altri percorsi sono dichiarati nel campo 'vedi'; quelli
+   all'esercizio e alle lezioni valgono per tutti. */
+function routeRimandi(rt){
+  const parti = [];
+  (rt.vedi || []).forEach(([id, nome])=>{
+    const st = routeStato(id);
+    const segno = st && st.fatto ? ' \u2713' : '';
+    parti.push(`<button class="rc-link" data-route="${id}">${nome}${segno}</button>`);
+  });
+  parti.push('<button class="rc-link" data-azione="quiz">Mettiti alla prova</button>');
+  parti.push('<button class="rc-link" data-azione="lezioni">Capire il cielo</button>');
+  return `<div class="rc-rimandi">
+            <div class="rc-rimandi-tit">E adesso</div>
+            ${parti.join('')}
+          </div>`;
 }
 
 function showRouteStep(){
@@ -6810,6 +7491,8 @@ function showRouteStep(){
     }
   }
 
+  routeSegnaPasso(rt.id, R.step, rt.passi.length);
+
   const ultimo = R.step === rt.passi.length-1;
   card.style.display = 'block';
   card.innerHTML = `
@@ -6822,10 +7505,23 @@ function showRouteStep(){
       <span class="rc-count">passo ${R.step+1} di ${rt.passi.length}</span>
     </div>
     <div class="rc-text">${passo.testo}</div>
+    ${ultimo ? routeRimandi(rt) : ''}
     <div class="rc-actions">
       <button class="act-btn" id="routePrev"${R.step===0?' disabled':''}>Indietro</button>
       <button class="act-btn primary" id="routeNext">${ultimo?'Ho finito':'Avanti'}</button>
     </div>`;
+
+  card.querySelectorAll('.rc-link[data-route]').forEach(el=>{
+    el.addEventListener('click', ()=> startRoute(el.getAttribute('data-route')));
+  });
+  const bq = card.querySelector('.rc-link[data-azione="quiz"]');
+  if (bq) bq.addEventListener('click', ()=>{ endRoute(); startQuiz(); });
+  const bl = card.querySelector('.rc-link[data-azione="lezioni"]');
+  if (bl) bl.addEventListener('click', ()=>{
+    endRoute(); openMenu();
+    const g = document.querySelector('.menu-group[data-group="capire"] .group-head');
+    if (g) g.click();
+  });
 
   document.getElementById('routeClose').addEventListener('click', endRoute);
   document.getElementById('routePrev').addEventListener('click', ()=>{
@@ -7258,6 +7954,162 @@ function constellationExtents(){
 
 /* Un bersaglio è proponibile se è abbastanza alto e riconoscibile.
    La difficoltà cresce scendendo di luminosità. */
+/* =====================================================================
+   CURIOSITA'
+   ---------------------------------------------------------------------
+   Un fatto per oggetto, mostrato nella scheda di esito del quiz DOPO
+   che si e' risposto - non prima, dove servirebbe 'indizio' per aiutare
+   a trovare, non per far restare in testa qualcosa.
+
+   Tabella separata dalla logica di quizCandidati(), cosi' si puo'
+   ampliare a lotti senza toccare il resto: 77 stelle e le costellazioni
+   ammissibili sono troppe per scrivere e verificare tutto in una volta
+   senza rischiare errori infilati per stanchezza. Un oggetto senza
+   voce qui semplicemente non mostra nulla, come gia' fa 'indizio'
+   quando non serve.
+
+   Scelta case per caso fra fatto fisico/scientifico e aneddoto
+   storico/culturale, secondo cosa rende di piu' su quell'oggetto. Per
+   le costellazioni si privilegia il mito, coerente con le illustrazioni
+   mitologiche che l'app ha gia'.
+
+   PRIMO LOTTO (v4.3): le 14 stelle piu' luminose (mag <= 1.2), i 7
+   pianeti, la Luna. Ogni fatto e' stato verificato, non scritto a
+   memoria: le regole del progetto valgono anche per il testo divulgativo,
+   non solo per le coordinate. */
+
+const CURIOSITA = {
+  star: {
+    sirius:    'È una stella doppia: la compagna, Sirio B, è una nana bianca densa quanto il Sole ma piccola come la Terra. Fu osservata per la prima volta nel 1862, dopo che le si era predetta l\'esistenza dalle sole irregolarità nel moto di Sirio A.',
+    arcturus:  'Si muove così in fretta rispetto al Sole che nel corso di qualche decina di migliaia di anni cambierà posizione in cielo in modo visibile a occhio nudo: gli antichi greci la vedevano già in un punto leggermente diverso.',
+    vega:      'Ruota così velocemente su se stessa - una rotazione ogni 12 ore e mezza - che la forza centrifuga la schiaccia ai poli e la gonfia all\'equatore, invece di lasciarla sferica.',
+    capella:   'A occhio nudo sembra una sola stella, ma è in realtà un sistema di quattro: due giganti gialle simili fra loro, legate a una coppia di piccole nane rosse molto più lontana.',
+    rigel:     'È una supergigante blu larga circa 80 volte il Sole: se prendesse il suo posto, la sua superficie arriverebbe oltre l\'orbita di Mercurio.',
+    procyon:   'Come Sirio, ha una compagna nana bianca troppo debole per essere vista a occhio nudo: la si scoprì per prima dalle irregolarità nel suo moto, decenni prima di riuscire a fotografarla.',
+    achernar:  'È la stella conosciuta più "schiacciata" fra quelle che ruotano rapidamente: gira così veloce che il suo diametro all\'equatore supera di oltre il 50% quello ai poli.',
+    betelgeuse:'È una supergigante rossa così grande che, al posto del Sole, il suo bordo arriverebbe oltre l\'orbita di Giove. È anche instabile: fra qualche centinaio di migliaia di anni - un attimo, in termini astronomici - esploderà come supernova.',
+    altair:    'Ruota su se stessa in meno di 9 ore, contro le circa 25 giorni del Sole: la rotazione è così veloce da appiattirla visibilmente, tanto che il suo diametro all\'equatore è più ampio del 20% rispetto a quello ai poli.',
+    aldebaran: 'Sembra far parte dell\'ammasso delle Iadi, la cui forma a V disegna il muso del Toro, ma è solo un caso prospettico: è molto più vicina a noi e non ha alcun legame reale con quelle stelle.',
+    antares:   'Il suo nome in greco significa "rivale di Marte", per via del colore rosso acceso che la rende facilmente confondibile con il pianeta quando i due si trovano vicini in cielo.',
+    spica:     'È in realtà una coppia di stelle così vicine fra loro - orbitano l\'una intorno all\'altra in circa quattro giorni - che i telescopi non riescono a separarle: si distinguono solo dallo spettro della luce.',
+    pollux:    'È stata la prima stella, nel 2006, a ricevere un nome proprio ufficiale per il suo pianeta: Thestias, un gigante gassoso circa due volte più massiccio di Giove.',
+    fomalhaut: 'Nel 2008 un telescopio spaziale fotografò quello che sembrava un pianeta nel disco di polvere che la circonda: osservazioni successive mostrarono che si trattava probabilmente di una nube di detriti, non di un vero pianeta.',
+
+    /* SECONDO LOTTO (v4.4): le restanti 64 stelle candidate al quiz
+       (mag 1,3-2,6). Stesso criterio del primo lotto: fatto verificato,
+       scelto caso per caso fra fisico e storico/culturale. */
+    deneb:     'È una delle stelle più lontane fra quelle visibili a occhio nudo, eppure resta luminosissima in cielo: si stima emetta decine di migliaia di volte la luce del Sole, l\'unico motivo per cui si vede ancora da una simile distanza.',
+    regulus:   'Ruota su se stessa in meno di 16 ore - il Sole impiega circa un mese - e la forza centrifuga la deforma così tanto che il suo diametro all\'equatore supera del 30% quello ai poli.',
+    adhara:    'Circa 4,7 milioni di anni fa, quando si trovava molto più vicina al Sole, fu probabilmente la stella più luminosa mai apparsa nel cielo notturno della Terra, più brillante di come oggi appare Venere.',
+    bellatrix: 'Il nome latino significa "la guerriera": è una delle pochissime stelle ad avere un nome proprio femminile, e segna la spalla sinistra di Orione.',
+    castor:    'A occhio nudo sembra una stella sola, ma è in realtà un sistema di sei stelle: tre coppie di stelle doppie legate fra loro dalla gravità.',
+    shaula:    'Il nome arabo significa "il pungiglione sollevato": segna la punta della coda dello Scorpione, pronta a colpire.',
+    elnath:    'Segna una delle corna del Toro, ma il suo cielo è conteso: fino a quando i confini ufficiali delle costellazioni non furono fissati nel 1930, era considerata anche una stella dell\'Auriga vicina, con un nome diverso.',
+    alnilam:   'Insieme ad Alnitak e Mintaka forma la Cintura di Orione: sembrano allineate e ugualmente luminose, ma sono in realtà a distanze molto diverse fra loro, vicine solo in prospettiva.',
+    dubhe:     'Insieme ad Alkaid, alla punta opposta del Grande Carro, non fa parte del gruppo di stelle che si muovono insieme alle altre cinque: nel corso di decine di migliaia di anni la forma del Carro cambierà, aprendosi.',
+    alioth:    'È la stella più luminosa dell\'Orsa Maggiore e fa parte del gruppo di sette stelle che si muovono insieme nello spazio, nate probabilmente dalla stessa nube di gas circa 300 milioni di anni fa.',
+    mirfak:    'È la stella più luminosa di Perseo ed è immersa in un ammasso di stelle giovani, visibile a occhio nudo come una zona leggermente più densa di stelline intorno a lei.',
+    wezen:     'Il nome arabo significa "il peso": è una supergigante immensamente più lontana e più luminosa della maggior parte delle stelle visibili a occhio nudo.',
+    sargas:    'Era già conosciuta dagli antichi babilonesi, che la associavano al dio Nergal: il suo nome proprio è fra quelli con la storia documentata più antica.',
+    kausaustralis: 'Segna la base dell\'arco del Sagittario, la stella più meridionale e luminosa dell\'asterismo noto come la Teiera.',
+    alkaid:    'Segna la punta del manico del Grande Carro. Come Dubhe, si muove in direzione diversa dalle altre cinque stelle del Carro: nel tempo la loro forma familiare si distorcerà.',
+    alnitak:   'La più orientale delle tre stelle della Cintura di Orione: poco sotto di lei, visibile nelle fotografie a lunga esposizione, si trova la celebre Nebulosa Testa di Cavallo.',
+    menkalinan: 'Il nome arabo significa "colui che tiene le redini": è una stretta stella doppia le cui due componenti si eclissano a vicenda a ogni orbita, un po\' come fa Algol.',
+    alhena:    'Il nome arabo si riferisce a un marchio di henné sul piede: segna infatti il piede di uno dei due Gemelli.',
+    mirzam:    'Il nome arabo significa "l\'annunciatore": sorge poco prima di Sirio, come ad annunciarne l\'arrivo imminente.',
+    alphard:   'Il nome arabo significa "la solitaria": è la stella più luminosa dell\'Idra, la costellazione più estesa del cielo, isolata in una zona povera di altre stelle brillanti.',
+    polaris:   'Non coincide esattamente con il polo celeste nord, anche se se ne avvicinerà al massimo nel 2100: fra circa 12.000 anni, per la precessione dell\'asse terrestre, sarà Vega a diventare la stella polare.',
+    hamal:     'Il nome arabo significa "l\'agnello". Un tempo segnava il punto in cui il Sole si trova all\'equinozio di primavera, ma quel punto, per la precessione, è scivolato da secoli nella vicina costellazione dei Pesci.',
+    diphda:    'Il nome arabo significa "la rana": è la stella più luminosa della Balena, isolata in una zona di cielo autunnale con poche altre stelle brillanti nei dintorni.',
+    nunki:     'Il nome deriva da un\'antichissima designazione babilonese: è una delle poche stelle il cui nome proprio risale a più di duemila anni fa, arrivato fino a noi quasi invariato.',
+    mirach:    'Poco distante da questa stella, in un piccolo telescopio, si trova la Galassia di Andromeda: ancora oggi molti osservatori la usano come riferimento per orientarsi e trovarla al buio.',
+    alpheratz: 'Segna sia la testa di Andromeda sia un angolo del Quadrato di Pegaso: è rimasta per secoli l\'unica stella ufficialmente condivisa fra due costellazioni diverse.',
+    rasalhague: 'Il nome arabo significa "la testa del guardiano dei serpenti": segna la testa di Ofiuco, la figura che nel mito domina i due Serpenti confinanti.',
+    kochab:    'Fino a circa 2500 anni fa era lei, insieme alla vicina Pherkad, la stella più vicina al polo nord celeste: le due venivano chiamate "i guardiani del polo", prima che Polare ne prendesse il posto.',
+    saiph:     'Segna il piede di Orione ed è una supergigante calda quanto Rigel, ma appare molto più debole perché si trova a una distanza maggiore.',
+    denebola:  'Il nome viene dall\'arabo e significa "la coda del leone": segna la punta della figura opposta a Regolo, che invece ne segna il cuore.',
+    algol:     'È il prototipo delle stelle variabili a eclisse: ogni due giorni e mezzo circa una stella compagna più debole le passa davanti, e la sua luminosità cala visibilmente anche a occhio nudo. Gli arabi la chiamavano "la stella del demone".',
+    almach:    'Al telescopio si rivela una splendida doppia colorata, una arancione e una blu: è in realtà un sistema di almeno cinque stelle legate fra loro.',
+    mizar:     'Insieme alla debole Alcor, che le sta accanto, formava un antico test della vista usato da arabi e persiani: chi riusciva a distinguerle entrambe a occhio nudo aveva una vista considerata buona.',
+    schedar:   'È la stella più luminosa di Cassiopea e segna uno dei cinque punti della caratteristica "W" che disegna la costellazione nel cielo del nord.',
+    sadr:      'Segna il centro della Croce del Nord ed è immersa in una vasta nube di gas dove nascono nuove stelle, spesso fotografata insieme a lei dagli astrofotografi.',
+    mintaka:   'È l\'unica delle tre stelle della Cintura di Orione a trovarsi quasi esattamente sull\'equatore celeste: da qui in poi, scendendo verso sud, inizia convenzionalmente l\'emisfero celeste australe.',
+    alphecca:  'È la stella più luminosa della Corona Boreale, il piccolo arco di stelle che nel mito rappresenta la corona d\'oro di Arianna, lanciata in cielo da Dioniso.',
+    eltanin:   'Segna l\'occhio del Drago. Fra circa 1,5 milioni di anni sarà, secondo le previsioni attuali, la stella più vicina al Sole fra quelle oggi conosciute.',
+    h39429:    'Conosciuta anche come Naos, è una delle stelle più calde visibili a occhio nudo, con una temperatura superficiale di svariate decine di migliaia di gradi: il suo colore azzurro-violaceo tradisce quel calore estremo.',
+    dschubba:  'Il nome arabo significa "la fronte" dello Scorpione. Nel 2000 la sua luminosità è improvvisamente aumentata per l\'espulsione di un anello di gas dalla stella, e da allora resta più brillante di quanto fosse registrato in tutto il secolo precedente.',
+    epssco:    'Segna il corpo dello Scorpione, fra le chele e la coda, in una delle regioni più ricche di stelle luminose ravvicinate di tutto il cielo.',
+    caph:      'Segna la punta della "W" di Cassiopea più vicina alla Stella Polare, spesso usata insieme al Grande Carro come riferimento per orientarsi verso nord.',
+    izar:      'Al telescopio è una delle coppie doppie più belle del cielo: una gigante arancione e una compagna azzurra, con un contrasto di colore che le è valso il soprannome di "Perla di Boote".',
+    kappasco:  'Segna l\'ultima curva della coda dello Scorpione, poco prima del pungiglione formato da Shaula e dalla vicina Lesath.',
+    merak:     'Insieme a Dubhe forma le "stelle puntatrici" del Grande Carro: la linea che le unisce, prolungata, porta dritta alla Stella Polare.',
+    phecda:    'Segna uno degli angoli del "pentolino" del Grande Carro, fra il manico e le due stelle puntatrici verso il polo.',
+    scheat:    'È una gigante rossa fredda e instabile, uno dei quattro angoli del grande Quadrato di Pegaso, l\'asterismo che aiuta a orientarsi nel cielo d\'autunno.',
+    enif:      'Il nome arabo significa "il naso": segna il muso del cavallo alato Pegaso, staccato dal resto della figura del Quadrato.',
+    sabik:     'Segna una delle gambe di Ofiuco, in una zona di cielo relativamente povera di altre stelle luminose facilmente riconoscibili.',
+    aludra:    'È una calda supergigante blu, una delle stelle intrinsecamente più luminose visibili a occhio nudo nonostante la sua notevole distanza da noi.',
+    gammacas:  'È una stella instabile che ruota così velocemente da espellere periodicamente anelli di gas dal proprio equatore, causando variazioni di luminosità imprevedibili: dà il nome a un\'intera categoria di stelle simili.',
+    gienah_c:  'Il nome, Aljanah, significa "l\'ala" in arabo: segna una delle ali spiegate del Cigno in volo lungo la Via Lattea.',
+    markab:    'Segna un angolo del Quadrato di Pegaso: nell\'immagine tradizionale del cavallo alato è il punto della sella.',
+    alderamin: 'Fra circa 5500 anni, per effetto della precessione, diventerà la nuova stella polare al posto di Polare: il suo nome arabo significa "il braccio destro", riferito alla figura di Cefeo.',
+    menkar:    'Segna la testa della Balena. È una gigante rossa affiancata, in cielo, da una stella molto più debole e del tutto indipendente, che per un caso prospettico le si sovrappone quasi otticamente.',
+    zosma:     'Il nome deriva dal greco e significa "cintura": segna il fianco del Leone, fra la criniera e la coda.',
+    graffias:  'Insieme a Dschubba forma una delle chele dello Scorpione: al telescopio si rivela una stretta e bella stella doppia.',
+    zetaoph:   'È una stella "fuggitiva": si muove nello spazio a una velocità tale da comprimere il gas che attraversa in un\'onda d\'urto visibile nelle immagini a infrarossi, come la prua di una nave.',
+    arneb:     'Il nome arabo significa semplicemente "la lepre": è la stella più luminosa della costellazione, proprio sotto i piedi di Orione, come se ne stesse scappando.',
+    gienah_v:  'Il nome significa "l\'ala del corvo": segna una delle quattro stelle che disegnano la piccola vela quadrata della costellazione del Corvo.',
+    algieba:   'Vista al binocolo si separa in due stelle dorate ravvicinate: è una delle coppie doppie più facili ed eleganti da individuare con un piccolo telescopio.',
+    ascella:   'Il nome latino significa "l\'ascella": segna il punto in cui il braccio del Sagittario si unisce al corpo, mentre tende l\'arco verso lo Scorpione.',
+    sheratan:  'Segna uno dei due corni dell\'Ariete: il nome arabo significa "il segno", riferito al suo ruolo storico di indicatore dell\'inizio della costellazione.',
+    zubeneschamali: 'Il nome arabo significa "la chela settentrionale": la Bilancia, infatti, un tempo faceva parte dello Scorpione vicino, di cui le sue stelle principali rappresentavano le chele.',
+  },
+  planet: {
+    mercury: 'È il pianeta con l\'orbita più eccentrica e più veloce, ma anche il più lento a ruotare su se stesso rispetto alla sua orbita: un giorno solare su Mercurio dura quanto due dei suoi anni.',
+    venus:   'Ruota su se stesso nella direzione opposta rispetto alla maggior parte degli altri pianeti, e così lentamente che il suo giorno - 243 giorni terrestri - dura più del suo anno.',
+    mars:    'Ospita il vulcano più alto conosciuto nel sistema solare, l\'Olympus Mons: alto circa tre volte l\'Everest, con una base larga quanto l\'Italia intera.',
+    jupiter: 'La sua Grande Macchia Rossa è una tempesta più larga della Terra, attiva da almeno 150 anni di osservazioni continue - e probabilmente da molto più tempo.',
+    saturn:  'È il pianeta meno denso del sistema solare: se esistesse una vasca abbastanza grande, galleggerebbe sull\'acqua.',
+    uranus:  'Il suo asse di rotazione è inclinato di circa 98°: ruota quasi "sdraiato" rispetto al piano della sua orbita, probabilmente per una collisione violenta avvenuta miliardi di anni fa.',
+    neptune: 'Ha i venti più forti conosciuti nel sistema solare, con raffiche che superano i 2000 km/h, nonostante riceva dal Sole meno di un millesimo della luce che arriva sulla Terra.',
+  },
+  moon: 'Si allontana dalla Terra di circa 3,8 centimetri ogni anno, misurati con precisione grazie a specchi lasciati sulla sua superficie dalle missioni Apollo, verso cui si inviano ancora oggi impulsi laser dalla Terra.',
+  con: {
+    /* Un aneddoto legato al mito, non alla forma o alla posizione:
+       coerente con le illustrazioni mitologiche gia' presenti in app.
+       (v4.4) Le 23 costellazioni ammissibili al quiz. */
+    UMa: 'Nel mito greco è Callisto, una ninfa trasformata in orsa per gelosia di Era. Zeus, per proteggerla, la pose in cielo insieme al figlio Arcade, diventato l\'Orsa Minore.',
+    UMi: 'È Arcade, il figlio di Callisto: nel racconto più diffuso stava per cacciare senza saperlo la madre trasformata in orsa, quando Zeus sollevò in cielo entrambi appena in tempo.',
+    Cas: 'È la regina d\'Etiopia che si vantò di essere più bella delle Nereidi, scatenando l\'ira di Poseidone: per punizione fu condannata a ruotare in eterno intorno al polo, a testa in giù per metà dell\'anno.',
+    Cyg: 'Rappresenta Zeus trasformato in cigno per avvicinarsi a Leda, oppure, in un\'altra versione, l\'amico di Fetonte trasformato dagli dei in cigno dopo averne pianto a lungo la morte.',
+    Aql: 'È l\'aquila di Zeus, l\'uccello che rapì in cielo il giovane Ganimede per farne il coppiere degli dei sull\'Olimpo.',
+    Ori: 'Il cacciatore gigante che si vantò di poter uccidere ogni animale sulla Terra: per punirlo di tanta superbia gli dei mandarono uno scorpione a ucciderlo, motivo per cui Orione e lo Scorpione non sono mai visibili insieme in cielo.',
+    Tau: 'Rappresenta Zeus trasformato in toro bianco per rapire la principessa fenicia Europa, portandola a nuoto fino a Creta.',
+    Gem: 'Sono Castore e Polluce, fratelli inseparabili ma solo per metà divini: alla morte del mortale Castore, Polluce chiese a Zeus di condividere con lui l\'immortalità, e i due furono posti insieme in cielo.',
+    Leo: 'È il Leone di Nemea, la belva dalla pelle impenetrabile che Eracle dovette uccidere a mani nude nella prima delle sue dodici fatiche.',
+    Boo: 'Il nome significa "il bovaro": nel mito è spesso identificato con l\'inventore dell\'aratro, raffigurato mentre insegue l\'Orsa Maggiore intorno al polo.',
+    Vir: 'È comunemente associata a Demetra, dea del raccolto, o a sua figlia Persefone: la spiga di grano che tiene in mano è la stella Spica, il suo punto più luminoso.',
+    Sco: 'È lo scorpione mandato dagli dei a uccidere il cacciatore Orione: le due figure furono poste agli antipodi del cielo, così che l\'una tramonti sempre quando l\'altra sorge.',
+    Sgr: 'Rappresenta un centauro che punta l\'arco verso il cuore dello Scorpione: nella tradizione più diffusa è Chirone, il saggio maestro di eroi come Achille.',
+    Per: 'L\'eroe che decapitò la Gorgone Medusa e salvò Andromeda incatenata a uno scoglio, uccidendo il mostro marino mandato a divorarla.',
+    And: 'La principessa incatenata a uno scoglio come sacrificio al mostro marino, per punire la vanità della madre Cassiopea: fu salvata da Perseo, che se ne innamorò e la sposò.',
+    Peg: 'Il cavallo alato nato dal sangue della Gorgone Medusa quando Perseo le tagliò la testa: portò poi l\'eroe Bellerofonte nella sua battaglia contro la Chimera.',
+    Aur: 'Rappresenta Erittonio, leggendario re di Atene, spesso raffigurato mentre porta in braccio una capra e i suoi capretti: la stella Capella, la più luminosa della costellazione, prende il nome proprio da questo animale.',
+    CMa: 'È uno dei due cani da caccia di Orione, che lo segue in cielo inseguendo la Lepre: la sua stella più luminosa, Sirio, è così splendente da restare visibile anche in pieno giorno con un piccolo telescopio.',
+    Dra: 'Rappresenta Ladone, il drago dalle cento teste che custodiva il giardino delle Esperidi e i suoi pomi d\'oro, ucciso da Eracle in una delle sue dodici fatiche.',
+    Oph: 'Rappresenta Asclepio, il dio della medicina, così abile da poter resuscitare i morti: Zeus, temendo che gli uomini diventassero immortali, lo fulminò e lo pose in cielo con in mano il serpente, ancora oggi simbolo della medicina.',
+    Crv: 'Il corvo che Apollo mandò a sorvegliare la sua amata Coronide, ma che tornò con brutte notizie: per punizione fu condannato a una sete perenne, raffigurata dalla vicina Coppa che non riesce mai a raggiungere.',
+    Lup: 'Una delle costellazioni più antiche, raffigurata già dai babilonesi: nell\'antichità classica veniva spesso rappresentata come un animale selvatico offerto in sacrificio agli dei dal vicino Centauro.',
+    Pup: 'Fa parte di quella che un tempo era un\'unica, enorme costellazione, la Nave Argo, la nave con cui Giasone e gli Argonauti cercarono il Vello d\'Oro: nel 1750 fu suddivisa in più parti perché troppo estesa per essere pratica.',
+  }
+};
+
+function curiositaDi(tipo, chiave){
+  const tab = CURIOSITA[tipo];
+  if (!tab) return null;
+  if (typeof tab === 'string') return tab;   // caso 'moon'
+  return tab[chiave] || null;
+}
+
 function quizCandidati(){
   const out = [];
   STARS.forEach(s=>{
@@ -7266,7 +8118,8 @@ function quizCandidati(){
     if (alt < 18) return;
     out.push({ tipo:'stella', kind:'star', s, nome:s.name, ra:s.ra, dec:s.dec, id:s.id,
                liv: s.mag <= 1.2 ? 0 : (s.mag <= 1.9 ? 1 : 2), raggio: 0,
-               indizio:`Si trova nella costellazione ${CON_NAMES[s.con] || s.con}, magnitudine ${s.mag.toFixed(1).replace('.',',')}.` });
+               indizio:`Si trova nella costellazione ${CON_NAMES[s.con] || s.con}, magnitudine ${s.mag.toFixed(1).replace('.',',')}.`,
+               curiosita: curiositaDi('star', s.id) });
   });
 
   // costellazioni: il bersaglio è un'area, non un punto
@@ -7280,7 +8133,8 @@ function quizCandidati(){
     out.push({ tipo:'costellazione', kind:'con', con:c, nome: CON_NAMES[c] || c,
                ra: e.ra, dec: e.dec, id:'qc'+c, raggio: e.raggio,
                liv: e.luminose >= 6 ? 1 : 2,
-               indizio:`Conta ${e.luminose} stelle luminose e occupa un'area larga circa ${(e.raggio*2).toFixed(0)}\u00B0.` });
+               indizio:`Conta ${e.luminose} stelle luminose e occupa un'area larga circa ${(e.raggio*2).toFixed(0)}\u00B0.`,
+               curiosita: curiositaDi('con', c) });
   });
 
   const solar = computeSolarSystem(state.date);
@@ -7290,12 +8144,14 @@ function quizCandidati(){
     const hz = equatorialToHorizontal(p.ra, p.dec, state.date, state.lat, state.lon);
     if (hz.alt < 18) return;
     out.push({ tipo:'pianeta', kind:'planet', key:k, nome:PLN[k], ra:p.ra, dec:p.dec, id:'q'+k, liv:1, raggio:0,
-               indizio:'È un pianeta: non scintilla come le stelle, la sua luce è ferma.' });
+               indizio:'È un pianeta: non scintilla come le stelle, la sua luce è ferma.',
+               curiosita: curiositaDi('planet', k) });
   });
   const hm = equatorialToHorizontal(solar.moon.ra, solar.moon.dec, state.date, state.lat, state.lon, solar.moon.parallax);
   if (hm.alt > 15 && solar.moon.illum > 0.08)
     out.push({ tipo:'luna', kind:'moon', nome:'Luna', ra:solar.moon.ra, dec:solar.moon.dec, id:'qmoon', liv:0, raggio:0,
-               indizio:'Difficile sbagliarla.' });
+               indizio:'Difficile sbagliarla.',
+               curiosita: curiositaDi('moon') });
   return out;
 }
 
@@ -7518,6 +8374,7 @@ function showQuizCard(){
       <div class="rc-progress"><span class="rc-count">scarto ${e.sep.toFixed(0)}\u00B0 · ${trovate} su ${q.tentativi} trovate</span></div>
       <div class="rc-text">${c.nome} ${c.raggio?'occupa il cielo':'si trova'} a ${t.alt.toFixed(0)}\u00B0 sull'orizzonte, verso ${dirName(t.az)}.
         ${e.confuso ? `Hai indicato piuttosto la zona di <b>${e.confuso}</b>.` : scartoInParole(e.sep, e.toll)}</div>
+      ${c.curiosita ? `<div class="quiz-curiosita">${c.curiosita}</div>` : ''}
       <div class="rc-actions">
         <button class="act-btn" id="quizShow">Portami lì</button>
         <button class="act-btn primary" id="quizNext">Avanti</button>
@@ -7781,13 +8638,62 @@ function syncRiconosci(){
    resto. Ogni passo si può saltare.
    ===================================================================== */
 
-const ONB_PASSI = ['benvenuto', 'luogo', 'cielo', 'strumento', 'installa', 'fine'];
+const ONB_PASSI = ['benvenuto', 'luogo', 'cielo', 'strumento', 'ottiche_nota', 'installa', 'fine'];
 
 function onbVisto(){
   try{ return localStorage.getItem('gac_sky_onb') === '1'; }catch(e){ return false; }
 }
 function onbSegna(){
   try{ localStorage.setItem('gac_sky_onb', '1'); }catch(e){}
+}
+
+/* =====================================================================
+   AVVISO DI NOVITA'
+   ---------------------------------------------------------------------
+   Le voci "Novità" e "Tutte le versioni" esistevano gia', ma erano
+   passive: comparivano solo se l'utente andava a cercarle. Chi riapre
+   l'app dopo settimane non ha modo di sapere che qualcosa e' cambiato,
+   a meno di aprire quel gruppo per curiosita'.
+
+   Si confronta la versione vista l'ultima volta con APP_VERSIONE. Se
+   sono diverse E l'utente ha gia' completato il primo avvio (altrimenti
+   e' un'installazione nuova, dove tutto e' gia' "l'ultima versione" per
+   definizione e non serve avvisare di nulla), si mostra un pallino sul
+   pulsante Controlli e una riga di riepilogo in cima al menu'. Nessun
+   overlay imposto: l'onboarding e' invasivo di proposito, e solo la
+   prima volta; questo deve restare un segnale che si puo' ignorare. */
+
+function versioneVista(){
+  try{ return localStorage.getItem('gac_sky_ultima_versione'); }catch(e){ return null; }
+}
+function segnaVersioneVista(){
+  try{ localStorage.setItem('gac_sky_ultima_versione', APP_VERSIONE); }catch(e){}
+  const dot = document.getElementById('novitaDot');
+  if (dot) dot.style.display = 'none';
+  const b = document.getElementById('novitaBanner');
+  if (b) b.style.display = 'none';
+}
+function ciSonoNovitaDaVedere(){
+  if (!onbVisto()) return false;           // installazione nuova: niente da segnalare
+  const v = versioneVista();
+  // 'v === null' e' chi usava gia' l'app prima che questo avviso
+  // esistesse: non ha "gia' visto" la versione corrente piu' di
+  // chiunque altro, quindi conta come "ancora da vedere", non come
+  // esente
+  return v !== APP_VERSIONE;
+}
+function aggiornaAvvisoNovita(){
+  const mostra = ciSonoNovitaDaVedere();
+  const dot = document.getElementById('novitaDot');
+  if (dot) dot.style.display = mostra ? '' : 'none';
+  const banner = document.getElementById('novitaBanner');
+  if (!banner) return;
+  banner.style.display = mostra ? 'flex' : 'none';
+  if (mostra){
+    document.getElementById('novitaBannerVer').textContent = APP_VERSIONE;
+    document.getElementById('novitaBannerLista').innerHTML =
+      APP_NOVITA.map(x => '<li>' + x.t + '</li>').join('');
+  }
 }
 
 function startOnboarding(){
@@ -7800,6 +8706,7 @@ function startOnboarding(){
 
 function endOnboarding(){
   onbSegna();
+  segnaVersioneVista();   // chi finisce ora il primo avvio parte gia' aggiornato
   state.onb = null;
   const ov = document.getElementById('onbOverlay');
   if (ov) ov.classList.remove('open');
@@ -7884,6 +8791,17 @@ function showOnbStep(){
       <p class="onb-nota">Si cambia in qualsiasi momento dal menù.</p>`;
   }
 
+  else if (nome === 'ottiche_nota'){
+    /* Le due cose si somigliano nel nome e nel momento in cui compaiono
+       una dopo l'altra, quindi vanno distinte esplicitamente qui,
+       finche' l'utente le ha ancora entrambe in mente. */
+    titolo = 'Due cose diverse, da non confondere';
+    corpo = `
+      <p>Quello che hai appena scelto è quanto <b>in profondità</b> vuoi guardare il cielo: con l'occhio nudo si vedono meno stelle che con un binocolo, e meno ancora che con un telescopio. Serve solo a decidere cosa mostrarti.</p>
+      <p>Se possiedi davvero un binocolo o un telescopio e vuoi sapere <b>esattamente cosa inquadra</b> — per esempio se una galassia ci sta dentro tutta — quello è un'altra funzione: <b>Le tue ottiche</b>, nel menù. Lì si registrano le focali dello strumento vero, non solo quanto si vede lontano.</p>
+      <p class="onb-nota">Nessuna delle due sostituisce l'altra: la prima decide cosa vedi in generale, la seconda cosa entra in un preciso strumento.</p>`;
+  }
+
   else if (nome === 'installa'){
     titolo = 'Mettila sul telefono';
     const piatt = rilevaPiattaforma();
@@ -7899,13 +8817,13 @@ function showOnbStep(){
     titolo = 'Tutto pronto';
     corpo = `
       <p>Cielo di tipo <b>${q.nome.toLowerCase()}</b>, osservazione <b>${d.nome.toLowerCase()}</b>, da <b>${onbLuogoAttuale()}</b>.</p>
-      <p>Nel menù in alto a sinistra trovi tre cose pensate per cominciare:</p>
+      <p>Nel menù in alto a sinistra trovi, per cominciare:</p>
       <ul class="onb-lista">
         <li><b>Cosa vedo stasera</b> — la scaletta di ciò che è alto adesso</li>
         <li><b>Impara il cielo</b> — dodici percorsi che ti portano di stella in stella, un esercizio per provarci da solo, e il confronto fra stelle, pianeti, satelliti e aerei</li>
-        <li><b>Cerca</b> — per farti portare su qualsiasi oggetto</li>
+        <li><b>Realtà aumentata</b> <span class="ar-beta" style="vertical-align:1px;">beta</span> — il cielo sovrapposto a quello che inquadra la fotocamera</li>
       </ul>
-      <p class="onb-nota">Se osservi di notte, accendi <b>Notte</b> nella barra in alto: lo schermo diventa rosso e gli occhi restano adattati al buio.</p>`;
+      <p class="onb-nota">Puoi anche toccare <b>Cerca</b> per farti portare su qualsiasi oggetto, o accendere <b>Notte</b> nella barra in alto se osservi al buio: lo schermo diventa rosso e gli occhi restano adattati.</p>`;
     avanti = 'Guarda in alto';
 
   }
@@ -8956,6 +9874,39 @@ function applicaZoomStrumento(){
   requestDraw();
 }
 
+/* =============== IL MENU' SEGUE IL LIVELLO ===============
+
+   Un principiante che apre l'app trova 6 gruppi invece di 15, e nessun
+   interruttore che possa rovinargli la vista senza che sappia perche'.
+   Non ci sono tre menu' diversi da tenere allineati: c'e' un solo menu'
+   con un livello minimo dichiarato su ogni gruppo, sezione e riga.
+
+   Il livello che comanda qui e' state.livello, NON state.level: il
+   secondo viene azzerato al primo interruttore toccato (diventa "scelta
+   personale"), e se il menu' dipendesse da quello cambierebbe forma
+   sotto le dita dell'utente appena tocca qualcosa. */
+
+const LIV_ORD = { base: 0, medio: 1, tutto: 2 };
+
+function livelloCorrente(){
+  return LIV_ORD[state.livello] !== undefined ? LIV_ORD[state.livello] : 0;
+}
+
+function applicaLivelloMenu(){
+  const mio = livelloCorrente();
+  let nascosti = 0;
+  document.querySelectorAll('#menuDrawer [data-liv]').forEach(el=>{
+    const serve = LIV_ORD[el.getAttribute('data-liv')] || 0;
+    const visibile = serve <= mio;
+    el.style.display = visibile ? '' : 'none';
+    if (!visibile) nascosti++;
+  });
+  /* Chi ha visto una voce e non la ritrova pensa che l'app sia rotta:
+     la via d'uscita deve essere dichiarata, non intuita. */
+  const nota = document.getElementById('notaLivello');
+  if (nota) nota.style.display = nascosti > 0 ? '' : 'none';
+}
+
 function syncMenu(){
   SWITCHES.forEach(([id,key])=>{
     const el = document.getElementById(id);
@@ -8974,7 +9925,9 @@ function syncMenu(){
   if (db) db.classList.toggle('disabled', !state.showDeep);
 
   document.querySelectorAll('.level-btn').forEach(b=>{
-    b.classList.toggle('active', state.level === b.getAttribute('data-level'));
+    // si evidenzia il livello di INTERFACCIA scelto: resta acceso anche
+    // dopo che l'utente ha personalizzato qualche interruttore
+    b.classList.toggle('active', state.livello === b.getAttribute('data-level'));
   });
   const tfc = document.getElementById('toggleFieldCircle');
   if (tfc){
@@ -8998,6 +9951,7 @@ function syncMenu(){
       : 'Non ancora calibrata';
   }
   renderStrumenti();
+  applicaLivelloMenu();
 
   updateGroupNotes();
 
@@ -9049,6 +10003,7 @@ function applyLevel(name){
   if (!L) return;
   Object.keys(L.set).forEach(k=>{ state[k] = L.set[k]; });
   state.level = name;
+  state.livello = name;     // il livello scelto governa il menu' e non si azzera
   syncMenu();
   saveSettings();
   requestDraw();
@@ -9186,7 +10141,7 @@ const SETTING_KEYS = ['showLines','showNames','showConNames','showAsterisms','sh
   'showMilkyWay','showSolar','showDeep','showMessier','showNGC','showDoubles',
   'showGrid','showEqGrid','showEcliptic','showAtmosphere','showHorizonSilhouette',
   'showFieldCircle','fieldZoom','strumenti','strumentoAttivo',
-  'arFov','arOffsetAz','arCalibrata',
+  'arFov','arOffsetAz','arCalibrata','livello',
   'difficulty','level','skyQuality','wakeLock'];
 
 function saveSettings(){
@@ -9241,6 +10196,11 @@ let state = {
   showHorizonSilhouette: true,
   showFieldCircle: false,
   fieldZoom: false,        // stringe la vista fino al campo dello strumento
+  livello: 'base',         // livello scelto: governa QUANTO menu' si vede.
+                           // Distinto da state.level, che veniva azzerato al
+                           // primo interruttore toccato: se il menu' dipendesse
+                           // da quello, cambierebbe forma sotto le dita
+                           // dell'utente appena tocca qualcosa.
   ar: false,               // realta' aumentata (beta): cielo sopra la fotocamera
   arFov: 65,               // campo della fotocamera, in gradi: le API non lo
                            // espongono, quindi si parte da un valore tipico
@@ -11060,6 +12020,13 @@ async function setAR(on){
   if (!state.gyro) toggleGyro();      // senza sensori la AR non ha senso
   arAggiornaBadge();
   syncMenu(); requestDraw();
+  /* Prima attivazione: la calibrazione non e' un invito, e' il primo
+     passo. Un cielo sovrapposto e sfalsato di quindici gradi e' peggio
+     di nessun cielo, e proprio per un principiante: chi e' esperto si
+     accorge che quella non e' Vega, chi comincia si fida e impara una
+     cosa sbagliata con la sicurezza che gli da' la sovrapposizione.
+     Chi ha gia' calibrato non se la ritrova davanti. */
+  if (!state.arCalibrata) arApriPannello();
 }
 
 function arAggiornaBadge(){
@@ -11880,6 +12847,9 @@ setTimeout(()=>{ appPronta(); }, 8000);
   buildDiario();
   buildLegenda();
   initDiarioComandi();
+  aggiornaAvvisoNovita();
+  const nbc = document.getElementById('novitaBannerChiudi');
+  if (nbc) nbc.addEventListener('click', segnaVersioneVista);
   const ob = document.getElementById('onbRestart');
   if (ob) ob.addEventListener('click', startOnboarding);
 

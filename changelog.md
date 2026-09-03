@@ -4,6 +4,213 @@ Planetario interattivo del Gruppo Astrofili Casalese "Giovanni Celoria", Casale 
 
 ---
 
+## v4.7
+
+**Le costellazioni evidenziate ora seguono le linee del catalogo**
+
+Correzione di un errore introdotto nella v4.5: le figure usate dai passi di riconoscimento erano state **scritte a mano** invece di essere ricavate da `LINES`, il database che l'app usa già per disegnare le costellazioni in cielo.
+
+Il risultato erano due tracciati diversi sovrapposti. Il Drago, l'Aquila, il Sagittario ed Ercole mostravano l'evidenziazione su un percorso e le linee vere su un altro. Cefeo, che nel percorso circumpolare non aveva alcun passo di riconoscimento, non veniva evidenziato affatto.
+
+**La correzione, e perché è strutturale e non un ritocco**
+
+`FIG` è ora costruito a runtime da `LINES`. Un segmento appartiene alla figura se almeno una delle due stelle è della costellazione: così restano incluse le linee di confine con una stella condivisa, come Elnath fra Toro e Auriga, che appartiene legittimamente a entrambe le figure.
+
+La differenza non è di accuratezza ma di natura: derivando il dato dalla fonte, l'incoerenza fra evidenziazione e disegno diventa **impossibile per costruzione**, non solo improbabile. Ricopiare a mano un dato che l'app possiede già era esattamente l'errore.
+
+**Cefeo**
+
+Aggiunto il passo di riconoscimento che mancava, con la sua figura a casetta col tetto a punta rivolto verso la Polare.
+
+**Due etichette adeguate**
+
+La figura del Sagittario è ora l'intera costellazione e non la sola Teiera; quella di Pegaso l'intera costellazione e non il solo Quadrato. I testi che le accompagnano sono stati adeguati di conseguenza, mantenendo il riferimento all'asterismo come parte più riconoscibile.
+
+**Verifica a tappeto**
+
+Controllati tutti e 17 i percorsi: 44 passi di riconoscimento, ogni singolo segmento verificato presente in `LINES`, nessuna figura vuota, nessuna costellazione citata nei testi senza il proprio passo di riconoscimento.
+
+---
+
+## v4.6
+
+**L'elenco dei percorsi riorganizzato**
+
+Con 17 voci l'elenco era arrivato a 1646 px: **2,4 schermate di scorrimento** per la sola lista, per giunta annidata due livelli dentro il menù.
+
+**Il difetto non era solo la lunghezza**
+
+L'elenco mescolava due intenti diversi. I percorsi lunghi si scelgono in base a quanto si vuole imparare; i brevi in base a cosa c'è in cielo stasera. Messi in fila, con sei intestazioni stagionali in mezzo, nessuno dei due criteri funzionava — e ogni percorso aggiunto in futuro avrebbe allungato la stessa lista invece di entrare in una delle due famiglie.
+
+Ora sono due sottogruppi apribili, **«Imparare a leggere il cielo» (5)** e **«Percorsi brevi» (12)**. La fisarmonica chiude i gruppi fratelli, quindi non possono mai essere aperti insieme: **0,5 e 1,2 schermate invece di 2,4**.
+
+**Voci compattate**
+
+Da 88 a 61 px per voce: nome e stato di avanzamento stanno ora su una riga sola invece che su due.
+
+**Lo stato di visibilità solo quando dice qualcosa**
+
+Compariva su tutte e 17 le voci, ma in gennaio 12 dicevano «in cielo adesso»: quella riga non informava, occupava spazio. Ora compare **solo quando l'oggetto non è comodamente osservabile** — sotto l'orizzonte, o troppo basso. In gennaio scende da 17 voci a 4.
+
+**Nota di riepilogo**
+
+Accanto al titolo di ogni sottogruppo compare quanti percorsi contiene e, se ne hai completati, quanti — «1 di 5 fatti».
+
+---
+
+## v4.5
+
+**I percorsi guidati diventano un percorso di apprendimento**
+
+Da 12 a 17 percorsi, ma soprattutto da elenco piatto a struttura che accompagna.
+
+**Il limite del motore, e perché contava**
+
+La figura di riferimento era **una sola per percorso**, fissa dall'inizio alla fine. Si poteva quindi insegnare a *trovare* una stella, ma non a riconoscere la costellazione di cui fa parte: il percorso su Arturo arrivava ad Arturo e Spica come punti luminosi, senza mai nominare Boote e citando la Vergine solo di sfuggita. Si imparava a trovare due puntini, non a leggere quella zona di cielo.
+
+Ora la figura è un dato del **singolo passo** (nuovo tipo `figura`), e le figure già incontrate restano disegnate attenuate, come impalcatura da cui si è arrivati.
+
+Una conseguenza da non sbagliare: `suFigura()` ora controlla **tutte** le figure attive, non solo quella del percorso. Altrimenti un tratto che corre lungo il lato di una costellazione appena insegnata sarebbe stato tratteggiato pur essendo visibile in cielo, invertendo la convenzione grafica su cui si regge tutto il sistema — linea piena dove il cielo la mostra davvero, tratteggiata dove l'occhio deve immaginarla.
+
+**43 passi di riconoscimento**
+
+Aggiunti sia ai 12 percorsi brevi sia ai 5 nuovi. Le figure delle 23 costellazioni stanno in un blocco unico riusabile, non ripetute dentro ogni percorso: una correzione vale ovunque, e non restano versioni divergenti della stessa costellazione in punti diversi del file.
+
+**Cinque percorsi lunghi: uno circumpolare e quattro stagionali**
+
+Non insegnano un trucco, insegnano a leggere una porzione di cielo. Il cielo che non tramonta mai; leggere il cielo d'inverno, di primavera, d'estate, d'autunno.
+
+Sono **scritti a sé e non composti dai brevi**, ed è una scelta deliberata: i brevi hanno aperture (`ancora`) e chiusure (`meta`) autonome, scritte per stare in piedi da sole. Incatenarli avrebbe prodotto cinque «cerca il Grande Carro» rivolti a chi lo sta guardando da dieci minuti, e cinque «hai finito» prima della fine. Il collegamento fra le due famiglie passa invece dai rimandi.
+
+**Memoria dei progressi**
+
+Il quiz teneva punteggio e storico, il diario registrava le osservazioni, i percorsi non registravano nulla: si facevano e spariva tutto. Ora l'avanzamento si salva a ogni passo, l'elenco mostra cosa è già completato e da dove si riprende, e il progresso **non regredisce** rivedendo un passo precedente. Serve soprattutto ai percorsi lunghi, che durano più di una serata.
+
+**Rimandi fra le sezioni**
+
+In fondo a ogni percorso compaiono i collegamenti ai percorsi correlati, all'esercizio e alle lezioni. Erano tre isole senza alcun ponte: chi finiva un percorso non aveva alcun invito a mettere alla prova quello che aveva appena imparato.
+
+**Menù: «Chi siamo» torna diviso in sezioni**
+
+Con l'accorpamento della v4.1 era diventato un unico blocco da 16,8 KB con tre soli titoletti piatti, il più lungo del menù. E i titoli di sezione (10px, monospace, attenuati) erano **più piccoli del testo che intestavano**: quello stile era nato come etichetta sopra un gruppo di interruttori, non come intestazione di contenuto. Tornano quattro sottogruppi apribili, con lo stesso stile già usato dentro «Impara il cielo».
+
+**Verifiche**
+
+Ogni chiave di ogni figura e di ogni passo è controllata contro il catalogo da uno script dedicato: una chiave sbagliata non produce errori, **spezza la linea in silenzio**, che è peggio. Ne è emersa una (`etaper`, che in catalogo si chiama `miram`). Verificati anche tutti i 115 passi per centro di puntamento calcolabile e testo presente, e la resa grafica per campione con screenshot reali su ogni tipo di passo.
+
+---
+
+## v4.4
+
+**Curiosità completate: copertura piena su ogni oggetto del quiz**
+
+Secondo e ultimo lotto: le restanti 64 stelle candidate (magnitudine da 1,3 a 2,6) e le 23 costellazioni ammissibili. Sommato al primo lotto della v4.3, **ora ogni oggetto che il quiz può effettivamente proporre ha una curiosità collegata** — verificato eseguendo `quizCandidati()` su quattro date diverse dell'anno e su una sessione di quiz reale di più domande consecutive, non solo controllando che le voci esistano nella tabella.
+
+**Le costellazioni, come deciso, raccontano il loro mito**
+
+Perché Orione e lo Scorpione non sono mai visibili insieme in cielo. Chi è davvero il centauro del Sagittario. Perché Cassiopea, nel mito punita per la sua vanità, ruota a testa in giù per metà dell'anno. Ventitré aneddoti, uno per costellazione, coerenti con le illustrazioni mitologiche che l'app disegna già.
+
+**Un difetto minore corretto per strada**
+
+Verificando la copertura è emerso che `CON_NAMES` non aveva la traduzione italiana di due costellazioni, Lupo (`Lup`) e Poppa (`Pup`): comparivano nel quiz e nel resto dell'app con la sola sigla a tre lettere invece del nome. Non è stato introdotto da questo lavoro, ma era lì da correggere ed è stato sistemato insieme.
+
+**Fatti verificati anche in questo lotto**
+
+Fra i più delicati: l'improvviso aumento di luminosità di Dschubba nel 2000, dovuto all'espulsione di un anello di gas dalla stella; il fatto che Adhara, circa 4,7 milioni di anni fa, sia stata probabilmente la stella più brillante mai apparsa nel cielo notturno terrestre; la rotazione di Regolo, così veloce da deformarla del 30% rispetto a una sfera perfetta.
+
+**Riepilogo fuori dall'app**
+
+Consegnato un file separato con tutte le 108 curiosità (78 stelle, 7 pianeti, la Luna, 23 costellazioni) leggibili in un colpo solo, per la revisione.
+
+---
+
+## v4.3
+
+**Curiosità nel quiz «Mettiti alla prova»**
+
+Un fatto per oggetto, mostrato nella scheda di esito **dopo** aver risposto, non prima: l'indizio già esistente serve ad aiutare a trovare il bersaglio, la curiosità serve a lasciare qualcosa da ricordare anche dopo aver chiuso l'app. Sono due scopi opposti, e restano visivamente distinti — colore ciano e icona ✨ per la curiosità, contro il dorato dell'indizio — apposta per non confonderli.
+
+**Perché a lotti, e non tutto insieme**
+
+I candidati reali del quiz sono circa 90: 77 stelle nominate sotto la soglia di magnitudine 2,6, le costellazioni che superano il filtro di compattezza, 7 pianeti, la Luna. Scriverli e verificarli tutti in una sessione sola avrebbe significato lavorare stanchi verso la fine, con il rischio concreto di infilare un fatto sbagliato fra i tanti giusti. La tabella `CURIOSITA` è separata dalla logica di `quizCandidati()` apposta per poter essere ampliata a pezzi: un oggetto senza voce non mostra nulla, esattamente come già faceva `indizio` quando non serviva.
+
+**Primo lotto: le 14 stelle più luminose, i 7 pianeti, la Luna**
+
+Sirio, Arturo, Vega, Capella, Rigel, Procione, Achernar, Betelgeuse, Altair, Aldebaran, Antares, Spica, Polluce, Fomalhaut — tutte con magnitudine 1,2 o più luminosa, quindi anche le più frequenti nelle prime domande del quiz. Ogni fatto è stato verificato prima di essere scritto, non ricavato a memoria: la regola vale anche per il testo divulgativo, non solo per le coordinate astronomiche.
+
+La scelta fra fatto fisico e aneddoto storico è stata fatta caso per caso, secondo cosa rendeva di più su quell'oggetto specifico — per esempio la storia della scoperta della compagna nana bianca di Sirio, o il significato del nome di Antares, «rivale di Marte».
+
+**Le costellazioni restano vuote in questo lotto**
+
+La decisione presa è di legarle al mito, non alla forma o alla posizione, per restare coerenti con le illustrazioni mitologiche che l'app ha già. Meritano la stessa cura del resto e sono rimandate a un lotto successivo.
+
+---
+
+## v4.2
+
+**Onboarding e avviso di novità, rimasti indietro rispetto alle modifiche recenti**
+
+Il passo finale della presentazione iniziale elencava ancora «Cosa vedo stasera, Impara il cielo, Cerca»: nessuna parola sulla realtà aumentata, nessun nome aggiornato dei gruppi dopo l'accorpamento della 4.1. Riscritto per rispecchiare il menù vero, con la realtà aumentata nominata esplicitamente e marcata beta.
+
+**Nuovo passo: «Le tue ottiche» non è la difficoltà osservativa**
+
+I due concetti si somigliano nel nome e arrivano in sequenza nell'onboarding — prima si sceglie con che cosa si osserva (occhio nudo/binocolo/telescopio, che decide solo quali oggetti mostrare), subito dopo esisterebbe la tentazione di confonderla con «Le tue ottiche» (le focali dello strumento vero, registrate per calcolare il campo). Aggiunto un passo breve e dedicato a distinguerli, finché l'utente li ha ancora entrambi in mente.
+
+**Avviso di novità al riavvio**
+
+Le voci «Novità» e «Tutte le versioni» esistevano già, ma erano passive: comparivano solo se l'utente andava a cercarle. Chi riapriva l'app dopo settimane non aveva modo di sapere che qualcosa era cambiato.
+
+Ora si confronta la versione vista l'ultima volta con quella corrente. Se sono diverse, compaiono un pallino sul pulsante Controlli e, aprendo il menù, una riga di riepilogo con le voci vere di quella versione e un pulsante «Ho capito» che lo chiude. Nessun overlay imposto: l'onboarding è invasivo di proposito, e solo alla prima apertura; questo resta un segnale che si può ignorare.
+
+**Caso limite corretto in verifica**
+
+Chi aveva già superato l'onboarding ma non aveva mai avuto una «versione vista» salvata — cioè chiunque avesse installato l'app prima che questo avviso esistesse — veniva escluso dal controllo, perché il confronto con un valore assente non scattava. Non aveva visto la versione corrente più di chiunque altro: va trattato come «ancora da vedere», non come esente. Corretto prima della consegna.
+
+---
+
+## v4.1
+
+**Il menù si adatta al livello scelto**
+
+Il menù era cresciuto a 15 gruppi e 33 righe di opzioni: un principiante che cercava «fammi vedere qualcosa» doveva scorrere accanto a «Griglia equatoriale» e «Campo apparente dell'oculare». Ora **chi comincia trova 6 gruppi e 8 righe; l'intero menù gli entra in una schermata senza scorrere**. A livello Intermedio le righe diventano 18, ad Avanzato 24.
+
+Non ci sono tre menù diversi da tenere allineati: c'è un solo menù, con il livello minimo dichiarato su ogni gruppo, sezione e riga.
+
+**Filtrare per gruppo non bastava.** «Come appare il cielo» aveva nove interruttori, di cui a un principiante ne servono tre: o gli si negavano i nomi delle stelle, o gli si dava anche «Tieni acceso lo schermo». Il filtro agisce quindi anche sulle singole righe.
+
+**Separato il livello di interfaccia da quello del cielo**
+
+Era una trappola pronta a scattare: ogni interruttore impostava `state.level = null` («da qui in poi è una scelta personale»). Se il menù avesse letto quel valore, sarebbe cambiato forma sotto le dita dell'utente appena toccava qualcosa. Ora `state.livello` governa il menù e non si azzera; `state.level` continua a governare il cielo e ad azzerarsi alla prima personalizzazione.
+
+**Accorpamenti: da 22 titoli a 7 gruppi**
+
+| Prima | Ora |
+|---|---|
+| Dove ti trovi + Quando + Il tuo cielo | **Dove e quando osservi** |
+| Cosa posso osservare + Tipi di oggetto + Come appare il cielo + Righe di riferimento + Legenda | **Il cielo che vedi** |
+| Astrofili Celoria + Giovanni Celoria + Come si usa + Novità | **Chi siamo** |
+
+«Il cielo che vedi» ha due sezioni interne — *Cosa compare* e *Come è disegnato* — invece di un elenco unico: fondere davvero i due gruppi avrebbe prodotto 17 righe di fila al livello Avanzato, cioè esattamente il problema che si voleva risolvere.
+
+**Rinomine**
+
+- **«Il tuo strumento» → «Le tue ottiche»**: termine più preciso e plurale coerente con più strumenti registrati. È accettabile perché il gruppo vive da Intermedio in su; a un principiante sarebbe stato gergo, come «campo» nella 4.0
+- **Livello «Tutto» → «Avanzato»**: descrive chi sei, come gli altri due, invece di quanto vedi. È cambiata la sola etichetta, non la chiave `tutto` salvata in `localStorage`: chi l'aveva scelta se la sarebbe vista azzerare all'aggiornamento
+
+**Via d'uscita esplicita**
+
+In fondo al menù ridotto compare l'avviso che esistono altre impostazioni e come raggiungerle. Chi ha visto una voce e non la ritrova pensa che l'app sia rotta, e nascondere senza dirlo è peggio che non nascondere.
+
+**Calibrazione obbligata all'apertura della realtà aumentata**
+
+Alla prima attivazione la calibrazione non è più un invito accanto a un'etichetta, ma il primo passo. Un cielo sovrapposto e sfalsato di quindici gradi è peggio di nessun cielo proprio per un principiante: chi è esperto si accorge che quella non è Vega, chi comincia si fida e impara una cosa sbagliata con la sicurezza che gli dà la sovrapposizione. Chi ha già calibrato non se la ritrova davanti.
+
+**Difetto trovato in verifica**
+
+La prima marcatura delle righe usava una espressione regolare non delimitata correttamente e assegnava il livello a righe sbagliate: «Stelle doppie» era finita fra le voci visibili ai principianti. Rifatta con parsing bilanciato dei blocchi anziché con regex.
+
+---
+
 ## v4.0
 
 **Realtà aumentata (beta): il cielo sopra l'immagine della fotocamera**
